@@ -1,97 +1,51 @@
-local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/FeHarixC/refs/heads/main/RayFieldUI.lua"))()
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/FeHarixC/refs/heads/main/OrionUI.lua"))()
 
-local Window = Rayfield:CreateWindow({
-    Name = "Rayfield Example Window",
-    LoadingTitle = "Rayfield Interface Suite",
-    LoadingSubtitle = "by Sirius",
-    Theme = "Default",
-
-    DisableRayfieldPrompts = false,
-    DisableBuildWarnings = false,
-
-    ConfigurationSaving = {
-        Enabled = true,
-        FolderName = nil,
-        FileName = "Big Hub"
-    },
-
-    Discord = {
-        Enabled = false,
-        Invite = "noinvitelink",
-        RememberJoins = true
-    },
-
-    KeySystem = true, -- Habilita o sistema de chave
-    KeySettings = {
-        Title = "Acesso ao Script",
-        Subtitle = "Por favor insira sua chave",
-        Note = "A chave foi fornecida a você após compra.",
-        FileName = "Key", -- Nome do arquivo da chave
-        SaveKey = true, -- Salvar a chave para o usuário
-        GrabKeyFromSite = false, -- Desabilitado, já estamos usando uma chave fixa
-        Key = {"Hello123"} -- A chave aceita (pode ser uma chave personalizada)
-    }
+-- Configurações iniciais da interface
+local Window = OrionLib:MakeWindow({
+    Name = "Key System Example",
+    HidePremium = false,
+    SaveConfig = false,
+    ConfigFolder = "OrionKeySystem"
 })
 
-local Tab = Window:CreateTab("Sistema de Chaves", 4483362458) -- Cria uma nova aba para o sistema de chaves
-local Section = Tab:CreateSection("Insira sua chave de acesso") -- Seção onde o usuário inserirá a chave
+-- Tab para o Key System
+local KeyTab = Window:MakeTab({
+    Name = "Key System",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
--- Criar um campo de entrada para o usuário inserir a chave
-local Input = Tab:CreateInput({
-    Name = "Chave de Acesso",
-    CurrentValue = "", -- Valor inicial vazio
-    PlaceholderText = "Insira sua chave aqui",
-    RemoveTextAfterFocusLost = true, -- Remover texto após o campo perder o foco
-    Flag = "KeyInput", -- Identificador único para o campo de entrada
-    Callback = function(Text)
-        -- Função chamada quando o texto é alterado
-        print("Chave inserida: " .. Text)
-        -- Aqui você pode adicionar qualquer lógica para verificar a chave inserida
-        -- Verificar se a chave fornecida é válida
-        if Text == "Hello123" then
-            Rayfield:Notify({
-                Title = "Acesso Permitido",
+-- Seção para Inserir a Chave
+KeyTab:AddSection({
+    Name = "Insira sua chave abaixo:"
+})
+
+-- Variável para armazenar a chave válida
+local validKey = "Hello123"
+
+-- Entrada de texto para a chave
+KeyTab:AddTextbox({
+    Name = "Digite sua chave",
+    Default = "",
+    TextDisappear = true,
+    Callback = function(inputKey)
+        if inputKey == validKey then
+            OrionLib:MakeNotification({
+                Name = "Acesso Permitido!",
                 Content = "Chave válida! Você tem acesso ao script.",
-                Duration = 3,
-                Image = 4483362458,
+                Image = "rbxassetid://4483345998",
+                Time = 5
             })
-            -- Aqui você pode colocar o código para liberar o acesso ao script
+            -- Código para liberar acesso ao script
         else
-            Rayfield:Notify({
-                Title = "Chave Inválida",
-                Content = "A chave fornecida é inválida. Por favor, verifique.",
-                Duration = 3,
-                Image = 4483362458,
+            OrionLib:MakeNotification({
+                Name = "Chave Inválida",
+                Content = "A chave inserida não é válida.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
             })
         end
     end
 })
 
--- Exemplo de botão para verificar a chave
-local Button = Tab:CreateButton({
-    Name = "Verificar Chave",
-    Callback = function()
-        local key = Input:Get()  -- Obtém o valor do campo de entrada
-        print("Verificando chave: " .. key)
-        -- Aqui você pode adicionar a lógica de verificação
-        if key == "Hello123" then
-            Rayfield:Notify({
-                Title = "Acesso Permitido",
-                Content = "Chave válida! Você pode usar o script.",
-                Duration = 3,
-                Image = 4483362458,
-            })
-        else
-            Rayfield:Notify({
-                Title = "Chave Inválida",
-                Content = "A chave fornecida é inválida.",
-                Duration = 3,
-                Image = 4483362458,
-            })
-        end
-    end
-})
-
-Button:Set("Verificar Chave") -- Configura o nome do botão
-
-Rayfield:Destroy()
+OrionLib:Init()
