@@ -1114,7 +1114,7 @@ local Section = Tab:AddSection({
 	Name = "Information"
 })
 
-Tab:AddParagraph("DEMONNIC HUB","Script Made By Demonnic_HarixC (@Alexg78909). Join Our Discord Server:")
+Tab:AddParagraph("DEMONNIC HUB","Script Made By Demonnic_VyrosxC (@Alexg78909). Join Our Discord Server:")
 
 Tab:AddButton({
     Name = "Click Here To See Discord Notification",
