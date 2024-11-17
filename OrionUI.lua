@@ -7,7 +7,7 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService("HttpService")
 
-local DemonnicLib = {
+local DemonnicLib = { 
 	Elements = {},
 	ThemeObjects = {},
 	Connections = {},
