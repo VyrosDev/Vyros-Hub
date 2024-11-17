@@ -255,15 +255,40 @@ end
 
 -- Function Low Graphics --
 local function optimizeFpsPing()
+    -- Loop por todos os objetos no Workspace
     for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+        -- Verifica se é um BasePart e se o objeto não tem um Humanoid (evita personagens)
         if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then
+            -- Define o material das partes para SmoothPlastic (sem texturas pesadas)
             v.Material = Enum.Material.SmoothPlastic
+
+            -- Se for um objeto de textura, destrua ele
             if v:IsA("Texture") then
                 v:Destroy()
             end
+
+            -- Remover qualquer brilho ou efeitos de materiais complexos
+            if v:IsA("MeshPart") then
+                v.TextureID = ""  -- Remove texturas
+                v.MeshId = ""     -- Remove o mesh se necessário
+            end
+        end
+
+        -- Desabilitar partículas (para melhorar FPS)
+        if v:IsA("ParticleEmitter") then
+            v.Enabled = false
+        end
+
+        -- Desabilitar luzes dinâmicas, que podem consumir muitos recursos
+        if v:IsA("PointLight") or v:IsA("SpotLight") then
+            v.Enabled = false
         end
     end
 end
+
+-- Chama a função para otimizar a cena
+optimizeFpsPing()
+
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
