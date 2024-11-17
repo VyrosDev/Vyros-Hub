@@ -42,7 +42,7 @@ local function GetIcon(IconName)
 	if Icons[IconName] ~= nil then
 		return Icons[IconName]
 	else
-		return nil
+		return nil 
 	end
 end   
 
