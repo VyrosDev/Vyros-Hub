@@ -1006,7 +1006,7 @@ Tab:AddButton({
     Name = "Auto Race - Script",  -- Nome do botão
     Callback = function() 
         -- Quando o botão for pressionado, o script será executado
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/KarameloScripts/refs/heads/main/AutoRaceKaramelo.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/VyrosxC/refs/heads/main/AutoRacePC.lua"))()
     end    
 })
 
@@ -1018,7 +1018,7 @@ Tab:AddButton({
     Name = "Auto Farm - Script",  -- Nome do botão
     Callback = function() 
         -- Quando o botão for pressionado, o script será executado
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/KarameloScripts/refs/heads/main/AutoFarmKaramelo.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/VyrosxC/refs/heads/main/AutoFarmPC.lua"))()
     end    
 })
 
