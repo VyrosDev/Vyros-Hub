@@ -1,4 +1,4 @@
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/FeHarixC/refs/heads/main/OrionUI.lua"))()
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/FeHarixC/refs/heads/main/OrionUIScript.lua"))()
 
 -- Configurações iniciais da interface
 local Window = OrionLib:MakeWindow({
@@ -11,13 +11,13 @@ local Window = OrionLib:MakeWindow({
 -- Tab para o Key System
 local KeyTab = Window:MakeTab({
     Name = "Key System",
-    Icon = "rbxassetid://4483345998",
+    Icon = "rbxassetid://101023107339989",
     PremiumOnly = false
 })
 
 -- Seção para Inserir a Chave
 KeyTab:AddSection({
-    Name = "Enter your key below:"
+    Name = "Enter your key"
 })
 
 -- Chaves válidas
@@ -47,7 +47,7 @@ KeyTab:AddTextbox({
             OrionLib:MakeNotification({
                 Name = "Access Granted!",
                 Content = "Valid key! You have access to the script.",
-                Image = "rbxassetid://4483345998",
+                Image = "rbxassetid://71378523145158",
                 Time = 5
             })
             -- Código para liberar o acesso ao script
@@ -56,7 +56,7 @@ KeyTab:AddTextbox({
             OrionLib:MakeNotification({
                 Name = "Invalid key",
                 Content = "The key entered is not valid.",
-                Image = "rbxassetid://4483345998",
+                Image = "rbxassetid://89375684433942",
                 Time = 5
             })
         end
