@@ -91,7 +91,7 @@ local function ExpandTorso()
     local torso = character:WaitForChild("UpperTorso")
 
     -- Definindo a taxa de expansão
-    local expansionRate = Vector3.new(1, 0.2, 0.5) 
+    local expansionRate = Vector3.new(2, 0.7, 1) 
 
     -- Expande o torso
     torso.Size = torso.Size + expansionRate
@@ -123,7 +123,7 @@ local function SelectCity(city)
 end
 
 -- Function Maps Teleports --
-local function SelectLocation(location)
+local function SelectMap(location)
     if location == "Desert" then
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2515.4502, 14.8412085, 4352.18652, 0.177494317, -7.93395216e-08, 0.984121799, -4.93885643e-08, 1, 8.95272407e-08, -0.984121799, -6.44949409e-08, 0.177494317)
     elseif location == "Space" then
@@ -520,7 +520,7 @@ local Section = Tab:AddSection({
 })
 
 Tab:AddButton({
-    Name = "Expand Torso (Max 6)",  -- Nome do botão que aparece na UI
+    Name = "Expand Torso",  -- Nome do botão que aparece na UI
     Callback = function()
         ExpandTorso()  -- Chama a função que expande o torso
         print("Successfully expanded torso!")
@@ -655,7 +655,7 @@ Tab:AddDropdown({
     Default = "None",
     Options = {"None","Desert", "Space"},
     Callback = function(Value)
-        SelectLocation(Value) 
+        SelectMap(Value) 
     end    
 })
 
@@ -734,7 +734,7 @@ Tab:AddToggle({
 
         while isCollecting do
             CollectOrbs()
-            wait(0.9)  -- Intervalo entre execuções (ajustável)
+            wait(1.2)  -- Intervalo entre execuções (ajustável)
         end
     end    
 })
