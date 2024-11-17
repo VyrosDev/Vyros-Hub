@@ -1,4 +1,4 @@
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/FeHarixC/refs/heads/main/OrionUIScript.lua"))()
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/VyrosxC/refs/heads/main/OrionUIKeySystem.lua"))()
 
 -- Configurações iniciais da interface
 local Window = OrionLib:MakeWindow({
