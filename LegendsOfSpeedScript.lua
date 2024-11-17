@@ -2,7 +2,7 @@ local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Demo
 
 -- Configurações iniciais da interface
 local Window = OrionLib:MakeWindow({
-    Name = "Key System Example",
+    Name = "Key System",
     HidePremium = false,
     SaveConfig = false,
     ConfigFolder = "OrionKeySystem"
