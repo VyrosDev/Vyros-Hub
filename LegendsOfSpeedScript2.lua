@@ -91,10 +91,27 @@ local function ExpandTorso()
     local torso = character:WaitForChild("UpperTorso")
 
     -- Definindo a taxa de expansão
-    local expansionRate = Vector3.new(2, 0.7, 1) 
+    local expansionRate = Vector3.new(2, 0.7, 1)
 
-    -- Expande o torso
+    -- Guardar a posição inicial do torso
+    local initialPosition = torso.Position
+
+    -- Ajustar o tamanho do torso
     torso.Size = torso.Size + expansionRate
+
+    -- Reposicionar o torso para evitar que ele "afunde" no chão
+    torso.Position = initialPosition + Vector3.new(0, expansionRate.Y / 2, 0)
+    
+    -- Ajusta as joints para manter a estabilidade do personagem
+    for _, joint in pairs(torso:GetChildren()) do
+        if joint:IsA("Motor6D") then
+            local part0 = joint.Part0
+            local part1 = joint.Part1
+            if part0 and part1 then
+                joint.C0 = joint.C0 + Vector3.new(0, expansionRate.Y / 2, 0)
+            end
+        end
+    end
 end
 
 -- Function Reset Character --
@@ -125,9 +142,9 @@ end
 -- Function Maps Teleports --
 local function SelectMap(location)
     if location == "Desert" then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2515.4502, 14.8412085, 4352.18652, 0.177494317, -7.93395216e-08, 0.984121799, -4.93885643e-08, 1, 8.95272407e-08, -0.984121799, -6.44949409e-08, 0.177494317)
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1616.82703, 14.2799845, 4330.65234, 0, 0, -1, 0, 1, 0, 1, 0, 0)
     elseif location == "Space" then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-332.546753, 3.94999981, 588.818665, 0.897745073, -1.00218884e-07, 0.44051531, 1.07871841e-07, 1, 7.66707764e-09, -0.44051531, 4.06361167e-08, 0.897745073)
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-346.1203, 3.85000086, 577.441223, 0.649530411, -5.26415e-08, 0.760335565, -2.8906797e-08, 1, 9.39287119e-08, -0.760335565, -8.29884286e-08, 0.649530411)
     end
 end
 
@@ -456,11 +473,6 @@ local function CollectOrbs()
 
     for i = 1, repetitions do
         -- Adiciona chamadas repetidas para coletar o orb
-        game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
-        game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
-        game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
-        game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
-        game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
         game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
         game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
         game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
@@ -1115,7 +1127,7 @@ local Section = Tab:AddSection({
 	Name = "Collaborators"
 })
 
-Tab:AddParagraph("THANK YOU!","Collaboration By TH_FAST1 (@ericklopes16)")
+Tab:AddParagraph("THANK YOU!","Collaboration By Demonnic_Fast (@ericklopes16)")
 
 OrionLib:MakeNotification({
 	Name = "Demonnic",
