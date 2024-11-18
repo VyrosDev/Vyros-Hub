@@ -91,7 +91,7 @@ local function ExpandTorso()
     local torso = character:WaitForChild("UpperTorso")
 
     -- Definindo a taxa de expansão
-    local expansionRate = Vector3.new(5, 5, 5) 
+    local expansionRate = Vector3.new(3, 3, 3) 
 
     -- Expande o torso
     torso.Size = torso.Size + expansionRate
