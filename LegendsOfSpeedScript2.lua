@@ -277,7 +277,7 @@ local function ToggleAutoRaces(Value)
             while AutoRaces do
                 pcall(function()
                     ReplicatedStorage.rEvents.raceEvent:FireServer("joinRace")
-                    task.wait()
+                    task.wait(0.1)
                     local part = Players.LocalPlayer.Character.HumanoidRootPart
                     for _, v in pairs(Workspace.raceMaps:GetDescendants()) do 
                         if v.Name == "Decal" and v.Parent then
@@ -498,10 +498,59 @@ local function HoopFarm()
     end
 end
 
+plus.MouseButton1Down:Connect(function()
+    speeds = speeds + 1
+    speed.Text = speeds
+    if nowe then
+        -- Atualizar o voo com nova velocidade
+        tpwalking = false
+        for i = 1, speeds do
+            spawn(function()
+                local hb = game:GetService("RunService").Heartbeat
+                tpwalking = true
+                local chr = game.Players.LocalPlayer.Character
+                local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
+                while tpwalking and hb:Wait() and chr and hum and hum.Parent do
+                    if hum.MoveDirection.Magnitude > 0 then
+                        chr:TranslateBy(hum.MoveDirection)
+                    end
+                end
+            end)
+        end
+    end
+end)
+
+mine.MouseButton1Down:Connect(function()
+    if speeds > 1 then
+        speeds = speeds - 1
+        speed.Text = speeds
+        if nowe then
+            -- Atualizar o voo com nova velocidade
+            tpwalking = false
+            for i = 1, speeds do
+                spawn(function()
+                    local hb = game:GetService("RunService").Heartbeat
+                    tpwalking = true
+                    local chr = game.Players.LocalPlayer.Character
+                    local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
+                    while tpwalking and hb:Wait() and chr and hum and hum.Parent do
+                        if hum.MoveDirection.Magnitude > 0 then
+                            chr:TranslateBy(hum.MoveDirection)
+                        end
+                    end
+                end)
+            end
+        end
+    else
+        speed.Text = "Velocidade mínima atingida!"
+        wait(1)
+        speed.Text = speeds
+    end
+end)
 
 --// Demonnic Hub UI \\--
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/DemonnicHub/VyrosxC/refs/heads/main/OrionUIScript.lua')))()
-local Window = OrionLib:MakeWindow({Name = "Demonnic Hub | Legends Of Speed ⚡", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "VyrosxC Hub | Legends Of Speed ⚡", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
 
 local Tab = Window:MakeTab({
@@ -1049,7 +1098,7 @@ Tab:AddToggle({
 })
 
 local Section = Tab:AddSection({
-	Name = "Demonnic Hub Spam"
+	Name = "VyrosxC Hub Spam"
 })
 
 Tab:AddButton({
@@ -1057,7 +1106,7 @@ Tab:AddButton({
     Callback = function()
         spawn(function()
             for i = 1, 5 do
-                sendChatMessage("Demonnic The Best Hub!")  -- Envia a mensagem desejada
+                sendChatMessage("VyrosxC The Best Hub!")  -- Envia a mensagem desejada
                 wait(0.2)  -- Aguarda 0.2 segundos antes de enviar a próxima mensagem
             end
         end)
@@ -1082,6 +1131,47 @@ Tab:AddToggle({
 	end
 })
 
+local ToggleFly = Tab:AddToggle({
+    Name = "Ativar/Desativar Fly",
+    Default = false,
+    Callback = function(Value)
+        -- Callback ativado/desativado
+        if Value then
+            -- Ativar Fly
+            nowe = true
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "Fly ativado",
+                Text = "Você está voando!",
+                Duration = 2
+            })
+            -- Ativar lógica de voo
+            tpwalking = false
+            for i = 1, speeds do
+                spawn(function()
+                    local hb = game:GetService("RunService").Heartbeat
+                    tpwalking = true
+                    local chr = game.Players.LocalPlayer.Character
+                    local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
+                    while tpwalking and hb:Wait() and chr and hum and hum.Parent do
+                        if hum.MoveDirection.Magnitude > 0 then
+                            chr:TranslateBy(hum.MoveDirection)
+                        end
+                    end
+                end)
+            end
+        else
+            -- Desativar Fly
+            nowe = false
+            tpwalking = false
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "Fly desativado",
+                Text = "Você voltou ao normal.",
+                Duration = 2
+            })
+        end
+    end
+})
+			
 local Tab = Window:MakeTab({
 	Name = "Credits",
 	Icon = "rbxassetid://96062201354965",
@@ -1092,13 +1182,13 @@ local Section = Tab:AddSection({
 	Name = "Information"
 })
 
-Tab:AddParagraph("DEMONNIC HUB","Script Made By VyrosxC (@Alexg78909). Join Our Discord Server:")
+Tab:AddParagraph("VYROSXC HUB","Script Made By VyrosxC (@Alexg78909). Join Our Discord Server:")
 
 Tab:AddButton({
     Name = "Click Here To See Discord Notification!",
     Callback = function()
         OrionLib:MakeNotification({
-            Name = "Demonnic",
+            Name = "VyrosxC",
             Content = "discord.gg/uydz6pZWMk",
             Image = "rbxassetid://101951842185056", 
             Time = 30  
