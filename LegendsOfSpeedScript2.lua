@@ -27,16 +27,15 @@ local Crystals = {}
 
 -- Auto Buy Pets --
 
--- Lista de pets
-local pets = {
-    "Hypersonic Pegasus",
-    "Dark Soul Birdie",
-    "Eternal Nebula Dragon",
-    "Shadows Edge Kitty",
-    "Soul Fusion Dog"
+-- Lista de ovos e pets
+local eggs = {
+    ["Hypersonic Pegasus"] = "Electro Legends Crystal",
+    ["Dark Soul Birdie"] = "Dark Legends Crystal",
+    ["Eternal Nebula Dragon"] = "Nebula Crystal",
+    ["Shadows Edge Kitty"] = "Shadow Crystal",
+    ["Soul Fusion Dog"] = "Fusion Crystal"
 }
 
--- Variáveis para controle
 local selectedPetBuy = "Hypersonic Pegasus"
 local selectedPetSell = "Hypersonic Pegasus"
 local selectedPetEvolve = "Hypersonic Pegasus"
@@ -923,7 +922,7 @@ Tab:AddButton({
 })
 
 local Tab = Window:MakeTab({
-	Name = "Auto Buy Pets",
+	Name = "Auto Buy Petss",
 	Icon = "rbxassetid://109705500469104",
 	PremiumOnly = false
 })
@@ -934,8 +933,8 @@ local Section = Tab:AddSection({
 
 Tab:AddDropdown({
     Name = "Select Pet to Buy",
-    Default = pets[1],
-    Options = pets,
+    Default = "Hypersonic Pegasus",
+    Options = {"Hypersonic Pegasus", "Dark Soul Birdie", "Eternal Nebula Dragon", "Shadows Edge Kitty", "Soul Fusion Dog"},
     Callback = function(Value)
         selectedPetBuy = Value
         print("Selected Pet to Buy: " .. Value)
@@ -955,8 +954,8 @@ Tab:AddToggle({
 -- Dropdown para selecionar pet a ser vendido
 Tab:AddDropdown({
     Name = "Select Pet to Auto-Sell",
-    Default = pets[1],
-    Options = pets,
+    Default = "Hypersonic Pegasus",
+    Options = {"Hypersonic Pegasus", "Dark Soul Birdie", "Eternal Nebula Dragon", "Shadows Edge Kitty", "Soul Fusion Dog"},
     Callback = function(Value)
         selectedPetSell = Value
         print("Selected Pet to Sell: " .. Value)
@@ -976,8 +975,8 @@ Tab:AddToggle({
 -- Dropdown para selecionar pet a ser evoluído
 Tab:AddDropdown({
     Name = "Select Pet to Evolve",
-    Default = pets[1],
-    Options = pets,
+    Default = "Hypersonic Pegasus",
+    Options = {"Hypersonic Pegasus", "Dark Soul Birdie", "Eternal Nebula Dragon", "Shadows Edge Kitty", "Soul Fusion Dog"},
     Callback = function(Value)
         selectedPetEvolve = Value
         print("Selected Pet to Evolve: " .. Value)
@@ -998,9 +997,12 @@ Tab:AddToggle({
 spawn(function()
     while task.wait(1) do
         if autoBuy then
-            -- Comprar o pet selecionado
-            game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal", "Electro Legends Crystal")
-            print("Buying Pet: " .. selectedPetBuy)
+            -- Compra o ovo correspondente ao pet selecionado
+            local eggToBuy = eggs[selectedPetBuy]
+            if eggToBuy then
+                game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal", eggToBuy)
+                print("Buying Egg for Pet: " .. selectedPetBuy)
+            end
         end
         
         if autoSell then
