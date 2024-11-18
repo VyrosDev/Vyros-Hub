@@ -37,13 +37,28 @@ function eggOpener()
             game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal",
                 "Electro Legends Crystal")
 
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.petEvolveEvent:FireServer("evolvePet",
-                    "Ultimate Overdrive Bunny")
+	   end)
+        end
+    end)
+end
+
+
+function eggOpener ()
+    spawn(function()
+        while task.wait() do
+            if not eggOpen1 then
+                break
+            end
+
+             game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal",
+                "Lava Crystal")			
+		 		
             end)
         end
     end)
 end
+
+
 
 local function Egg(EggName)
     task.wait()
@@ -925,7 +940,7 @@ Tab:AddButton({
 })
 
 local Tab = Window:MakeTab({
-	Name = "Auto Buy Pets1",
+	Name = "Auto Buy Pets",
 	Icon = "rbxassetid://109705500469104",
 	PremiumOnly = false
 })
@@ -935,10 +950,19 @@ local Section = Tab:AddSection({
 })
 
 Tab:AddToggle({
-	Name = "Auto Best Pet",
+	Name = "Electro Legends Crystal",
 	Default = false,
 	Callback = function(Value)
 		eggOpen = Value
+        eggOpener()
+	end    
+})
+
+Tab:AddToggle({
+	Name = "Trail Crystal",
+	Default = false,
+	Callback = function(Value)
+		eggOpen1 = Value
         eggOpener()
 	end    
 })
