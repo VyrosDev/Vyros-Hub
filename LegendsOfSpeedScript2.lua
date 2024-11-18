@@ -27,21 +27,51 @@ local Crystals = {}
 
 -- Auto Buy Pets --
 
--- Lista de ovos e pets
-local eggs = {
-    ["Hypersonic Pegasus"] = "Electro Legends Crystal",
-    ["Dark Soul Birdie"] = "Dark Legends Crystal",
-    ["Eternal Nebula Dragon"] = "Nebula Crystal",
-    ["Shadows Edge Kitty"] = "Shadow Crystal",
-    ["Soul Fusion Dog"] = "Fusion Crystal"
-}
+function eggOpener()
+    spawn(function()
+        while task.wait() do
+            if not eggOpen then
+                break
+            end
+            --Egg Open
+            game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal",
+                "Electro Legends Crystal")
 
-local selectedPetBuy = "Hypersonic Pegasus"
-local selectedPetSell = "Hypersonic Pegasus"
-local selectedPetEvolve = "Hypersonic Pegasus"
-local autoBuy = false
-local autoSell = false
-local autoEvolve = false
+            --Deletes if not Ultimate Overdrive Bunny
+            spawn(function()
+                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
+                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Hypersonic Pegasus"])
+            end)
+
+            spawn(function()
+                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
+                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Dark Soul Birdie"])
+            end)
+
+            spawn(function()
+                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
+                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Eternal Nebula Dragon"])
+            end)
+
+            spawn(function()
+                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
+                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Shadows Edge Kitty"])
+            end)
+
+            spawn(function()
+                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
+                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Soul Fusion Dog"])
+            end)
+
+            --Combines Bunnies
+
+            spawn(function()
+                game:GetService("ReplicatedStorage").rEvents.petEvolveEvent:FireServer("evolvePet",
+                    "Ultimate Overdrive Bunny")
+            end)
+        end
+    end)
+end
 
 local function Egg(EggName)
     task.wait()
@@ -922,7 +952,7 @@ Tab:AddButton({
 })
 
 local Tab = Window:MakeTab({
-	Name = "Auto Buy Petss",
+	Name = "Auto Buy Pets",
 	Icon = "rbxassetid://109705500469104",
 	PremiumOnly = false
 })
@@ -931,96 +961,14 @@ local Section = Tab:AddSection({
 	Name = "Auto Buy Pets"
 })
 
-Tab:AddDropdown({
-    Name = "Select Pet to Buy",
-    Default = "Hypersonic Pegasus",
-    Options = {"Hypersonic Pegasus", "Dark Soul Birdie", "Eternal Nebula Dragon", "Shadows Edge Kitty", "Soul Fusion Dog"},
-    Callback = function(Value)
-        selectedPetBuy = Value
-        print("Selected Pet to Buy: " .. Value)
-    end    
-})
-
--- Toggle para ativar/desativar compra automática
 Tab:AddToggle({
-    Name = "Auto Buy Pets",
-    Default = false,
-    Callback = function(Value)
-        autoBuy = Value
-        print("Auto Buy: " .. tostring(Value))
-    end
+	Name = "Auto Best Pet",
+	Default = false,
+	Callback = function(Value)
+		eggOpen = Value
+        eggOpener()
+	end    
 })
-
--- Dropdown para selecionar pet a ser vendido
-Tab:AddDropdown({
-    Name = "Select Pet to Auto-Sell",
-    Default = "Hypersonic Pegasus",
-    Options = {"Hypersonic Pegasus", "Dark Soul Birdie", "Eternal Nebula Dragon", "Shadows Edge Kitty", "Soul Fusion Dog"},
-    Callback = function(Value)
-        selectedPetSell = Value
-        print("Selected Pet to Sell: " .. Value)
-    end    
-})
-
--- Toggle para ativar/desativar venda automática
-Tab:AddToggle({
-    Name = "Auto Sell Pets",
-    Default = false,
-    Callback = function(Value)
-        autoSell = Value
-        print("Auto Sell: " .. tostring(Value))
-    end
-})
-
--- Dropdown para selecionar pet a ser evoluído
-Tab:AddDropdown({
-    Name = "Select Pet to Evolve",
-    Default = "Hypersonic Pegasus",
-    Options = {"Hypersonic Pegasus", "Dark Soul Birdie", "Eternal Nebula Dragon", "Shadows Edge Kitty", "Soul Fusion Dog"},
-    Callback = function(Value)
-        selectedPetEvolve = Value
-        print("Selected Pet to Evolve: " .. Value)
-    end    
-})
-
--- Toggle para ativar/desativar evolução automática
-Tab:AddToggle({
-    Name = "Auto Evolve Pets",
-    Default = false,
-    Callback = function(Value)
-        autoEvolve = Value
-        print("Auto Evolve: " .. tostring(Value))
-    end
-})
-
--- Função para automação
-spawn(function()
-    while task.wait(1) do
-        if autoBuy then
-            -- Compra o ovo correspondente ao pet selecionado
-            local eggToBuy = eggs[selectedPetBuy]
-            if eggToBuy then
-                game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal", eggToBuy)
-                print("Buying Egg for Pet: " .. selectedPetBuy)
-            end
-        end
-        
-        if autoSell then
-            -- Vender o pet selecionado
-            local petPath = game:GetService("Players").LocalPlayer.petsFolder.Omega[selectedPetSell]
-            if petPath then
-                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet", petPath)
-                print("Selling Pet: " .. selectedPetSell)
-            end
-        end
-
-        if autoEvolve then
-            -- Evoluir o pet selecionado
-            game:GetService("ReplicatedStorage").rEvents.petEvolveEvent:FireServer("evolvePet", selectedPetEvolve)
-            print("Evolving Pet: " .. selectedPetEvolve)
-        end
-    end
-end)
 
 local Tab = Window:MakeTab({
 	Name = "PC Exploits",
