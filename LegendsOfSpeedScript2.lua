@@ -27,51 +27,22 @@ local Crystals = {}
 
 -- Auto Buy Pets --
 
-function eggOpener()
-    spawn(function()
-        while task.wait() do
-            if not eggOpen then
-                break
-            end
-            --Egg Open
-            game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal",
-                "Electro Legends Crystal")
+-- Lista de pets
+local pets = {
+    "Hypersonic Pegasus",
+    "Dark Soul Birdie",
+    "Eternal Nebula Dragon",
+    "Shadows Edge Kitty",
+    "Soul Fusion Dog"
+}
 
-            --Deletes if not Ultimate Overdrive Bunny
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
-                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Hypersonic Pegasus"])
-            end)
-
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
-                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Dark Soul Birdie"])
-            end)
-
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
-                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Eternal Nebula Dragon"])
-            end)
-
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
-                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Shadows Edge Kitty"])
-            end)
-
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
-                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Soul Fusion Dog"])
-            end)
-
-            --Combines Bunnies
-
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.petEvolveEvent:FireServer("evolvePet",
-                    "Ultimate Overdrive Bunny")
-            end)
-        end
-    end)
-end
+-- Variáveis para controle
+local selectedPetBuy = "Hypersonic Pegasus"
+local selectedPetSell = "Hypersonic Pegasus"
+local selectedPetEvolve = "Hypersonic Pegasus"
+local autoBuy = false
+local autoSell = false
+local autoEvolve = false
 
 local function Egg(EggName)
     task.wait()
@@ -711,7 +682,7 @@ Tab:AddDropdown({
 
 -- Dropdown para selecionar a velocidade de coleta
 Tab:AddDropdown({
-    Name = "Collection Speed",
+    Name = "Select Speed",
     Default = "None",
     Options = {"None","x150", "x200", "x250", "x300", "x350"},
     Callback = function(Value)
@@ -748,7 +719,7 @@ Tab:AddToggle({
 })
 
 local Section = Tab:AddSection({
-	Name = "Hoop Farm"
+	Name = "Hoops Farm"
 })
 
 Tab:AddToggle({
@@ -961,14 +932,93 @@ local Section = Tab:AddSection({
 	Name = "Auto Buy Pets"
 })
 
-Tab:AddToggle({
-	Name = "Auto Best Pet",
-	Default = false,
-	Callback = function(Value)
-		eggOpen = Value
-        eggOpener()
-	end    
+Tab:AddDropdown({
+    Name = "Select Pet to Buy",
+    Default = pets[1],
+    Options = pets,
+    Callback = function(Value)
+        selectedPetBuy = Value
+        print("Selected Pet to Buy: " .. Value)
+    end    
 })
+
+-- Toggle para ativar/desativar compra automática
+Tab:AddToggle({
+    Name = "Auto Buy Pets",
+    Default = false,
+    Callback = function(Value)
+        autoBuy = Value
+        print("Auto Buy: " .. tostring(Value))
+    end
+})
+
+-- Dropdown para selecionar pet a ser vendido
+Tab:AddDropdown({
+    Name = "Select Pet to Auto-Sell",
+    Default = pets[1],
+    Options = pets,
+    Callback = function(Value)
+        selectedPetSell = Value
+        print("Selected Pet to Sell: " .. Value)
+    end    
+})
+
+-- Toggle para ativar/desativar venda automática
+Tab:AddToggle({
+    Name = "Auto Sell Pets",
+    Default = false,
+    Callback = function(Value)
+        autoSell = Value
+        print("Auto Sell: " .. tostring(Value))
+    end
+})
+
+-- Dropdown para selecionar pet a ser evoluído
+Tab:AddDropdown({
+    Name = "Select Pet to Evolve",
+    Default = pets[1],
+    Options = pets,
+    Callback = function(Value)
+        selectedPetEvolve = Value
+        print("Selected Pet to Evolve: " .. Value)
+    end    
+})
+
+-- Toggle para ativar/desativar evolução automática
+Tab:AddToggle({
+    Name = "Auto Evolve Pets",
+    Default = false,
+    Callback = function(Value)
+        autoEvolve = Value
+        print("Auto Evolve: " .. tostring(Value))
+    end
+})
+
+-- Função para automação
+spawn(function()
+    while task.wait(1) do
+        if autoBuy then
+            -- Comprar o pet selecionado
+            game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal", "Electro Legends Crystal")
+            print("Buying Pet: " .. selectedPetBuy)
+        end
+        
+        if autoSell then
+            -- Vender o pet selecionado
+            local petPath = game:GetService("Players").LocalPlayer.petsFolder.Omega[selectedPetSell]
+            if petPath then
+                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet", petPath)
+                print("Selling Pet: " .. selectedPetSell)
+            end
+        end
+
+        if autoEvolve then
+            -- Evoluir o pet selecionado
+            game:GetService("ReplicatedStorage").rEvents.petEvolveEvent:FireServer("evolvePet", selectedPetEvolve)
+            print("Evolving Pet: " .. selectedPetEvolve)
+        end
+    end
+end)
 
 local Tab = Window:MakeTab({
 	Name = "PC Exploits",
