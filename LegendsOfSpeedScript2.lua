@@ -498,55 +498,7 @@ local function HoopFarm()
     end
 end
 
-plus.MouseButton1Down:Connect(function()
-    speeds = speeds + 1
-    speed.Text = speeds
-    if nowe then
-        -- Atualizar o voo com nova velocidade
-        tpwalking = false
-        for i = 1, speeds do
-            spawn(function()
-                local hb = game:GetService("RunService").Heartbeat
-                tpwalking = true
-                local chr = game.Players.LocalPlayer.Character
-                local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
-                while tpwalking and hb:Wait() and chr and hum and hum.Parent do
-                    if hum.MoveDirection.Magnitude > 0 then
-                        chr:TranslateBy(hum.MoveDirection)
-                    end
-                end
-            end)
-        end
-    end
-end)
 
-mine.MouseButton1Down:Connect(function()
-    if speeds > 1 then
-        speeds = speeds - 1
-        speed.Text = speeds
-        if nowe then
-            -- Atualizar o voo com nova velocidade
-            tpwalking = false
-            for i = 1, speeds do
-                spawn(function()
-                    local hb = game:GetService("RunService").Heartbeat
-                    tpwalking = true
-                    local chr = game.Players.LocalPlayer.Character
-                    local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
-                    while tpwalking and hb:Wait() and chr and hum and hum.Parent do
-                        if hum.MoveDirection.Magnitude > 0 then
-                            chr:TranslateBy(hum.MoveDirection)
-                        end
-                    end
-                end)
-            end
-        end
-    else
-        speed.Text = "Velocidade mínima atingida!"
-        wait(1)
-        speed.Text = speeds
-    end
-end)
 
 --// Demonnic Hub UI \\--
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/DemonnicHub/VyrosxC/refs/heads/main/OrionUIScript.lua')))()
@@ -1130,48 +1082,7 @@ Tab:AddToggle({
 		teleportEnabled = state
 	end
 })
-
-local ToggleFly = Tab:AddToggle({
-    Name = "Ativar/Desativar Fly",
-    Default = false,
-    Callback = function(Value)
-        -- Callback ativado/desativado
-        if Value then
-            -- Ativar Fly
-            nowe = true
-            game:GetService("StarterGui"):SetCore("SendNotification", {
-                Title = "Fly ativado",
-                Text = "Você está voando!",
-                Duration = 2
-            })
-            -- Ativar lógica de voo
-            tpwalking = false
-            for i = 1, speeds do
-                spawn(function()
-                    local hb = game:GetService("RunService").Heartbeat
-                    tpwalking = true
-                    local chr = game.Players.LocalPlayer.Character
-                    local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
-                    while tpwalking and hb:Wait() and chr and hum and hum.Parent do
-                        if hum.MoveDirection.Magnitude > 0 then
-                            chr:TranslateBy(hum.MoveDirection)
-                        end
-                    end
-                end)
-            end
-        else
-            -- Desativar Fly
-            nowe = false
-            tpwalking = false
-            game:GetService("StarterGui"):SetCore("SendNotification", {
-                Title = "Fly desativado",
-                Text = "Você voltou ao normal.",
-                Duration = 2
-            })
-        end
-    end
-})
-			
+	
 local Tab = Window:MakeTab({
 	Name = "Credits",
 	Icon = "rbxassetid://96062201354965",
