@@ -37,34 +37,6 @@ function eggOpener()
             game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal",
                 "Electro Legends Crystal")
 
-            --Deletes if not Ultimate Overdrive Bunny
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
-                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Hypersonic Pegasus"])
-            end)
-
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
-                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Dark Soul Birdie"])
-            end)
-
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
-                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Eternal Nebula Dragon"])
-            end)
-
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
-                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Shadows Edge Kitty"])
-            end)
-
-            spawn(function()
-                game:GetService("ReplicatedStorage").rEvents.sellPetEvent:FireServer("evolvePet",
-                    game:GetService("Players").LocalPlayer.petsFolder.Omega["Soul Fusion Dog"])
-            end)
-
-            --Combines Bunnies
-
             spawn(function()
                 game:GetService("ReplicatedStorage").rEvents.petEvolveEvent:FireServer("evolvePet",
                     "Ultimate Overdrive Bunny")
@@ -953,7 +925,7 @@ Tab:AddButton({
 })
 
 local Tab = Window:MakeTab({
-	Name = "Auto Buy Pets",
+	Name = "Auto Buy Pets1",
 	Icon = "rbxassetid://109705500469104",
 	PremiumOnly = false
 })
@@ -1114,7 +1086,7 @@ local Section = Tab:AddSection({
 Tab:AddParagraph("THANK YOU!","Collaboration By Demonnic_Fast (@ericklopes16)")
 
 OrionLib:MakeNotification({
-	Name = "Demonnic",
+	Name = "VyrosxC Hub",
 	Content = "discord.gg/uydz6pZWMk",
 	Image = "rbxassetid://101951842185056",
 	Time = 30
