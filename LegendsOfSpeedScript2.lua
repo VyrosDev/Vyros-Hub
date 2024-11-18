@@ -88,47 +88,13 @@ end
 local function ExpandTorso()
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
-
-    -- Partes do corpo
     local torso = character:WaitForChild("UpperTorso")
-    local lowerTorso = character:WaitForChild("LowerTorso")
-    local leftLeg = character:WaitForChild("LeftLowerLeg")
-    local rightLeg = character:WaitForChild("RightLowerLeg")
-    local leftUpperLeg = character:WaitForChild("LeftUpperLeg")
-    local rightUpperLeg = character:WaitForChild("RightUpperLeg")
-    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
-    -- Definir escala de expansão
-    local scaleFactor = 2 -- Dobrar o tamanho padrão
+    -- Definindo a taxa de expansão
+    local expansionRate = Vector3.new(5, 5, 5) 
 
-    -- Salvar posição inicial
-    local initialPosition = humanoidRootPart.Position
-
-    -- Função para expandir e ajustar posição
-    local function ExpandAndAdjust(part)
-        local originalSize = part.Size
-        local offset = (originalSize * (scaleFactor - 1)) / 2
-        part.Size = originalSize * scaleFactor
-        part.Position = part.Position + Vector3.new(0, offset.Y, 0)
-    end
-
-    -- Expandir torso e pernas
-    ExpandAndAdjust(torso)
-    ExpandAndAdjust(lowerTorso)
-    ExpandAndAdjust(leftLeg)
-    ExpandAndAdjust(rightLeg)
-    ExpandAndAdjust(leftUpperLeg)
-    ExpandAndAdjust(rightUpperLeg)
-
-    -- Ajustar a posição da HumanoidRootPart
-    humanoidRootPart.Position = initialPosition + Vector3.new(0, torso.Size.Y / 2, 0)
-
-    -- Ajustar Motor6D para manter juntas consistentes
-    for _, joint in pairs(character:GetDescendants()) do
-        if joint:IsA("Motor6D") then
-            joint.C0 = joint.C0 * CFrame.new(0, torso.Size.Y / 2, 0)
-        end
-    end
+    -- Expande o torso
+    torso.Size = torso.Size + expansionRate
 end
 
 -- Function Reset Character --
@@ -549,11 +515,11 @@ local Section = Tab:AddSection({
 })
 
 Tab:AddButton({
-	Name = "Expand Torso!",
-	Callback = function()
-		print("Button pressed: Expanding torso...")
-		ExpandTorso()
-	end
+    Name = "Expand Torso",  -- Nome do botão que aparece na UI
+    Callback = function()
+        ExpandTorso()  -- Chama a função que expande o torso
+        print("Successfully expanded torso!")
+    end    
 })
 
 Tab:AddButton({
