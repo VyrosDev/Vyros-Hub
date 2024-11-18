@@ -88,28 +88,45 @@ end
 local function ExpandTorso()
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
+
+    -- Partes do corpo
     local torso = character:WaitForChild("UpperTorso")
+    local lowerTorso = character:WaitForChild("LowerTorso")
+    local leftLeg = character:WaitForChild("LeftLowerLeg")
+    local rightLeg = character:WaitForChild("RightLowerLeg")
+    local leftUpperLeg = character:WaitForChild("LeftUpperLeg")
+    local rightUpperLeg = character:WaitForChild("RightUpperLeg")
+    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
-    -- Definindo a taxa de expansão
-    local expansionRate = Vector3.new(2, 0.7, 1)
+    -- Definir escala de expansão
+    local scaleFactor = 2 -- Dobrar o tamanho padrão
 
-    -- Guardar a posição inicial do torso
-    local initialPosition = torso.Position
+    -- Salvar posição inicial
+    local initialPosition = humanoidRootPart.Position
 
-    -- Ajustar o tamanho do torso
-    torso.Size = torso.Size + expansionRate
+    -- Função para expandir e ajustar posição
+    local function ExpandAndAdjust(part)
+        local originalSize = part.Size
+        local offset = (originalSize * (scaleFactor - 1)) / 2
+        part.Size = originalSize * scaleFactor
+        part.Position = part.Position + Vector3.new(0, offset.Y, 0)
+    end
 
-    -- Reposicionar o torso para evitar que ele "afunde" no chão
-    torso.Position = initialPosition + Vector3.new(0, expansionRate.Y / 2, 0)
-    
-    -- Ajusta as joints para manter a estabilidade do personagem
-    for _, joint in pairs(torso:GetChildren()) do
+    -- Expandir torso e pernas
+    ExpandAndAdjust(torso)
+    ExpandAndAdjust(lowerTorso)
+    ExpandAndAdjust(leftLeg)
+    ExpandAndAdjust(rightLeg)
+    ExpandAndAdjust(leftUpperLeg)
+    ExpandAndAdjust(rightUpperLeg)
+
+    -- Ajustar a posição da HumanoidRootPart
+    humanoidRootPart.Position = initialPosition + Vector3.new(0, torso.Size.Y / 2, 0)
+
+    -- Ajustar Motor6D para manter juntas consistentes
+    for _, joint in pairs(character:GetDescendants()) do
         if joint:IsA("Motor6D") then
-            local part0 = joint.Part0
-            local part1 = joint.Part1
-            if part0 and part1 then
-                joint.C0 = joint.C0 + Vector3.new(0, expansionRate.Y / 2, 0)
-            end
+            joint.C0 = joint.C0 * CFrame.new(0, torso.Size.Y / 2, 0)
         end
     end
 end
@@ -142,7 +159,7 @@ end
 -- Function Maps Teleports --
 local function SelectMap(location)
     if location == "Desert" then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1616.82703, 14.2799845, 4330.65234, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2506.85156, 14.74121, 4353.92725, -0.0108262217, 3.44026461e-08, 0.999941409, 4.99142838e-10, 1, -3.43992568e-08, -0.999941409, 1.26699637e-10, -0.0108262217)
     elseif location == "Space" then
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-346.1203, 3.85000086, 577.441223, 0.649530411, -5.26415e-08, 0.760335565, -2.8906797e-08, 1, 9.39287119e-08, -0.760335565, -8.29884286e-08, 0.649530411)
     end
@@ -532,11 +549,11 @@ local Section = Tab:AddSection({
 })
 
 Tab:AddButton({
-    Name = "Expand Torso",  -- Nome do botão que aparece na UI
-    Callback = function()
-        ExpandTorso()  -- Chama a função que expande o torso
-        print("Successfully expanded torso!")
-    end    
+	Name = "Expand Torso!",
+	Callback = function()
+		print("Button pressed: Expanding torso...")
+		ExpandTorso()
+	end
 })
 
 Tab:AddButton({
@@ -730,7 +747,7 @@ Tab:AddDropdown({
 Tab:AddDropdown({
     Name = "Collection Speed",
     Default = "None",
-    Options = {"None","x150", "x200", "x300"},
+    Options = {"None","x150", "x200", "x250", "x300", "x350"},
     Callback = function(Value)
         SetCollectionSpeed(Value)
     end    
@@ -746,7 +763,7 @@ Tab:AddToggle({
 
         while isCollecting do
             CollectOrbs()
-            wait(1.2)  -- Intervalo entre execuções (ajustável)
+            wait(1.2) 
         end
     end    
 })
