@@ -25,52 +25,6 @@ local Crystals = {}
 
 --// Functions \\--
 
--- Auto Buy Pets --
-
-function eggOpener()
-    spawn(function()
-        while task.wait() do
-            if not eggOpen then
-                break
-            end
-            --Egg Open
-            game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal",
-                "Electro Legends Crystal")
-
-	   end)
-        end
-    end)
-end
-
-
-function eggOpener ()
-    spawn(function()
-        while task.wait() do
-            if not eggOpen1 then
-                break
-            end
-
-             game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal",
-                "Lava Crystal")			
-		 		
-            end)
-        end
-    end)
-end
-
-
-
-local function Egg(EggName)
-    task.wait()
-    local Open = "openCrystal"
-    local Name = EggName
-    game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer(Open, Name)
-end
-
-for i, v in next, game:GetService("Workspace").mapCrystalsFolder:GetChildren() do
-    table.insert(Crystals, v.Name)
-end
-
 -- Function Expand Torso --
 local function ExpandTorso()
     local player = game.Players.LocalPlayer
@@ -937,34 +891,6 @@ Tab:AddButton({
     Callback = function()
         deleteBarrier() 
     end    
-})
-
-local Tab = Window:MakeTab({
-	Name = "Auto Buy Pets",
-	Icon = "rbxassetid://109705500469104",
-	PremiumOnly = false
-})
-
-local Section = Tab:AddSection({
-	Name = "Auto Buy Pets"
-})
-
-Tab:AddToggle({
-	Name = "Electro Legends Crystal",
-	Default = false,
-	Callback = function(Value)
-		eggOpen = Value
-        eggOpener()
-	end    
-})
-
-Tab:AddToggle({
-	Name = "Trail Crystal",
-	Default = false,
-	Callback = function(Value)
-		eggOpen1 = Value
-        eggOpener()
-	end    
 })
 
 local Tab = Window:MakeTab({
