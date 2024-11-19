@@ -1154,7 +1154,7 @@ OrionLib:MakeNotification({
 OrionLib:MakeNotification({
 	Name = "SCRIPT VERSION",
 	Content = "V - 1.2.0",
-	Image = "rbxassetid://80844595611213",
+	Image = "rbxassetid://83863323756908",
 	Time = 15
 })
 
