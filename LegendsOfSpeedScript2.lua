@@ -938,8 +938,6 @@ Tab:AddButton({
     end    
 })
 
-Tab:AddParagraph("INFO","The above scripts are fully compatible with mobs, but are PC specific.")
-
 local Section = Tab:AddSection({
 	Name = "Auto Farm"
 })
@@ -951,6 +949,12 @@ Tab:AddButton({
         loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/VyrosxC/refs/heads/main/AutoFarmPC.lua"))()
     end    
 })
+
+local Section = Tab:AddSection({
+	Name = "Info"
+})
+
+Tab:AddParagraph("INFO","The above scripts are fully compatible with mob, but are PC specific.")
 
 local Tab = Window:MakeTab({
 	Name = "Chat Spam",
@@ -1063,6 +1067,8 @@ local GravityTextbox = Tab:AddTextbox({
         end
     end    
 })
+
+Tab:AddParagraph("BEST REBIRTHS","999 - +25 - Red Orb, Magma City \n1499 - +27 - Red Orb, Magma City \n1749 - +36 - Red Orb, Magma City")
 
 local Tab = Window:MakeTab({
 	Name = "Credits",
