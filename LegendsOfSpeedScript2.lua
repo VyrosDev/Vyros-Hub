@@ -1068,7 +1068,7 @@ local GravityTextbox = Tab:AddTextbox({
     end    
 })
 
-Tab:AddParagraph("BEST REBIRTHS","999 - +25 - Red Orb, Magma City \n1499 - +27 - Red Orb, Magma City \n1749 - +36 - Red Orb, Magma City")
+Tab:AddParagraph("BEST REBIRTHS","999 - +25 - Red Orb, Magma City \n1499 - +27 - Red Orb, Magma City, Advanced Pets \n1749 - +36 - Red Orb, Magma City, Unique Pets  \n2399 - +40 - Red Orb, Magma City, Epic Pets \n2999 - +48 - Red Orb, Magma City, Unique Pets \n3749 - +54 - Red Orb, Magma City, Unique Pets \n4399 - +55 - Red Orb, Magma City, Epic Pets \n5499 - +66 - Red Orb, Magma City, Unique Pets \n6499 - +72 - Red Orb, Magma City, Unique Pets \n8749 - +84 - Red Orb, Magma City, Unique Pets \n9999 - +90 - Red Orb, Magma City, Unique Pets \n12749 - +102 - Red Orb, Magma City, Unique Pets")
 
 local Tab = Window:MakeTab({
 	Name = "Credits",
