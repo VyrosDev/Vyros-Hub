@@ -1140,6 +1140,10 @@ local Section = Tab:AddSection({
 
 Tab:AddParagraph("THANK YOU!","Collaboration By Demonnic_Fast (@ericklopes16)")
 
+local Section = Tab:AddSection({
+	Name = "V - 1.2.0"
+})
+
 OrionLib:MakeNotification({
 	Name = "VyrosxC Hub",
 	Content = "discord.gg/uydz6pZWMk",
@@ -1148,10 +1152,10 @@ OrionLib:MakeNotification({
 })
 
 OrionLib:MakeNotification({
-	Name = "Bypass",
-	Content = "Bypass Activated ✅",
-	Image = "rbxassetid://71506531582407",
-	Time = 10
+	Name = "SCRIPT VERSION",
+	Content = "V - 1.2.0",
+	Image = "rbxassetid://80844595611213",
+	Time = 15
 })
 
 
