@@ -466,75 +466,6 @@ game:GetService("RunService").Stepped:Connect(function()
     end
 end)
 
--- Variáveis para o fly
-local flying = false
-local flySpeed = 50 -- Velocidade padrão do fly
-local flyForce
-local flyConnection
-
--- Função para ativar/desativar o fly
-local function toggleFly(state)
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-
-    if state then
-        flying = true
-
-        -- Adiciona BodyVelocity para movimentar
-        flyForce = Instance.new("BodyVelocity", humanoidRootPart)
-        flyForce.MaxForce = Vector3.new(1e6, 1e6, 1e6) -- Controle total
-        flyForce.Velocity = Vector3.zero -- Sem movimento inicial
-
-        -- Controla o movimento com RenderStepped
-        flyConnection = game:GetService("RunService").RenderStepped:Connect(function()
-            local moveDirection = Vector3.zero
-            local userInput = game:GetService("UserInputService")
-
-            -- Controle com teclado (PC)
-            if userInput:IsKeyDown(Enum.KeyCode.W) then
-                moveDirection = moveDirection + workspace.CurrentCamera.CFrame.LookVector
-            end
-            if userInput:IsKeyDown(Enum.KeyCode.S) then
-                moveDirection = moveDirection - workspace.CurrentCamera.CFrame.LookVector
-            end
-            if userInput:IsKeyDown(Enum.KeyCode.A) then
-                moveDirection = moveDirection - workspace.CurrentCamera.CFrame.RightVector
-            end
-            if userInput:IsKeyDown(Enum.KeyCode.D) then
-                moveDirection = moveDirection + workspace.CurrentCamera.CFrame.RightVector
-            end
-            if userInput:IsKeyDown(Enum.KeyCode.Space) then
-                moveDirection = moveDirection + Vector3.new(0, 1, 0)
-            end
-            if userInput:IsKeyDown(Enum.KeyCode.LeftShift) then
-                moveDirection = moveDirection - Vector3.new(0, 1, 0)
-            end
-
-            -- Controle com joystick (mobile)
-            local moveVector = game.Players.LocalPlayer.DevTouchMoveVector or Vector3.zero
-            if moveVector.Magnitude > 0 then
-                moveDirection = moveDirection + workspace.CurrentCamera.CFrame:VectorToWorldSpace(moveVector)
-            end
-
-            -- Atualiza a velocidade
-            if moveDirection.Magnitude > 0 then
-                flyForce.Velocity = moveDirection.Unit * flySpeed
-            else
-                flyForce.Velocity = Vector3.zero -- Para no ar
-            end
-        end)
-    else
-        flying = false
-
-        -- Remove BodyVelocity
-        if flyForce then flyForce:Destroy() end
-
-        -- Desconecta o loop de movimentação
-        if flyConnection then flyConnection:Disconnect() end
-    end
-end
-
 
 
 --// Demonnic Hub UI \\--
@@ -1109,14 +1040,28 @@ Tab:AddToggle({
     end
 })
 
-Tab:AddToggle({
-    Name = "Fly",
-    Default = false,
+local GravityTextbox = Tab:AddTextbox({
+    Name = "Gravity",
+    Default = "196.2",  -- Valor padrão da gravidade
+    TextDisappear = true,
     Callback = function(Value)
-        toggleFly(Value)
-    end
+        -- Verifica se o valor inserido é válido (um número)
+        local gravityValue = tonumber(Value)
+        if gravityValue then
+            -- Aplica a nova gravidade ao personagem
+            workspace.Gravity = gravityValue
+        else
+            -- Se não for um número válido, mantém a gravidade padrão
+            OrionLib:MakeNotification({
+                Name = "Invalid Input!",
+                Content = "Please enter a valid number for gravity.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        end
+    end    
 })
-	
+
 local Tab = Window:MakeTab({
 	Name = "Credits",
 	Icon = "rbxassetid://96062201354965",
