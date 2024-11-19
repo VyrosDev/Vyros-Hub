@@ -439,6 +439,33 @@ local function HoopFarm()
     end
 end
 
+-- Variável de estado do noclip
+local noclipEnabled = false
+
+-- Função de noclip
+local function toggleNoclip(state)
+    noclipEnabled = state
+    if noclipEnabled then
+        print("Noclip ativado")
+    else
+        print("Noclip desativado")
+    end
+end
+
+-- Ativa o noclip no personagem
+game:GetService("RunService").Stepped:Connect(function()
+    if noclipEnabled then
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            for _, part in pairs(character:GetDescendants()) do
+                if part:IsA("BasePart") and part.CanCollide then
+                    part.CanCollide = false
+                end
+            end
+        end
+    end
+end)
+
 
 
 --// Demonnic Hub UI \\--
@@ -1003,6 +1030,14 @@ Tab:AddToggle({
 	Callback = function(state)
 		teleportEnabled = state
 	end
+})
+
+Tab:AddToggle({
+    Name = "No Clip",
+    Default = false,
+    Callback = function(Value)
+        toggleNoclip(Value)
+    end
 })
 	
 local Tab = Window:MakeTab({
