@@ -1068,29 +1068,29 @@ local GravityTextbox = Tab:AddTextbox({
     end    
 })
 
-Tab:AddParagraph("BEST REBIRTHS","999 - +25 - Red Orb, Magma City")
+Tab:AddParagraph("999 | Epic Pets | Red Orb, Magma City | +25","Level 1 Glitches Instantly (FAST REBIRTH)")
 
-Tab:AddParagraph("","1499 - +27 - Red Orb, Magma City, Advanced Pets")
+Tab:AddParagraph("1499 | Advanced Pets | Red Orb, Magma City | +27","Level 1 Glitches Instantly (FAST REBIRTH)")
 
-Tab:AddParagraph("","1749 - +36 - Red Orb, Magma City, Unique Pets")
+Tab:AddParagraph("1749 | Unique Pets | Red Orb, Magma City | +36","Level 1 Glitches Instantly (FAST REBIRTH)")
 
-Tab:AddParagraph("","2399 - +40 - Red Orb, Magma City, Epic Pets")
+Tab:AddParagraph("2399 | Epi Pets | Red Orb, Magma City | +40","")
 
-Tab:AddParagraph("","2999 - +48 - Red Orb, Magma City, Unique Pets")
+Tab:AddParagraph("2999 | Unique Pets | Red Orb, Magma City | +48","Level 1 Glitches Instantly (FAST REBIRTH)")
 
-Tab:AddParagraph("","3749 - +54 - Red Orb, Magma City, Unique Pets")
+Tab:AddParagraph("3749 | Unique Pets | Red Orb, Magma City | +54","Level 1 Glitches Instantly (FAST REBIRTH)")
 
-Tab:AddParagraph("","4399 - +55 - Red Orb, Magma City, Epic Pets")
+Tab:AddParagraph("4399 | Epic Pets | Red Orb, Magma City | +55","Level 1 Glitches Instantly (FAST REBIRTH)")
 
-Tab:AddParagraph("","5499 - +66 - Red Orb, Magma City, Unique Pets")
+Tab:AddParagraph("5499 | Unique Pets | Red Orb, Magma City | +66","Level 1 Glitches Instantly (FAST REBIRTH)")
 
-Tab:AddParagraph("","6499 - +72 - Red Orb, Magma City, Unique Pets")
+Tab:AddParagraph("6499 | Unique Pets | Red Orb, Magma City | +72","Level 1 Glitches Instantly (FAST REBIRTH)")
 
-Tab:AddParagraph("","8749 - +84 - Red Orb, Magma City, Unique Pets")
+Tab:AddParagraph("8749 | Unique Pets | Red Orb, Magma City | +84","Level 1 Glitches Instantly (FAST REBIRTH)")
 
-Tab:AddParagraph("","9999 - +90 - Red Orb, Magma City, Unique Pets")
+Tab:AddParagraph("9999 | Unique Pets | Red Orb, Magma City | +90","Level 1 Glitches Instantly (FAST REBIRTH)")
 
-Tab:AddParagraph("12749 - +102 - Red Orb, Magma City, Unique Pets")
+Tab:AddParagraph("12749 | Unique Pets | Red Orb, Magma City | +102","Level 1 Glitches Instantly (FAST REBIRTH)")
 
 local Tab = Window:MakeTab({
 	Name = "Credits",
