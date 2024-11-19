@@ -468,7 +468,7 @@ local example = library:CreateWindow({
 
 
 local credits= library:CreateWindow({text='Credits'})
-credits:AddLabel("Youtube Channel: V21K")
+credits:AddLabel("VyrosxC")
 
 example:AddToggle("Auto Race Complete",function(state)
 	_G.Farm = (state and true or false)
@@ -1170,7 +1170,7 @@ game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb","Red Orb","Magma
 		
 		end
 		end)
-example:AddToggle("Karamelo",function(state)
+example:AddToggle("Auto Rebirth",function(state)
 	_G.Farmzlol = (state and true or false)
 	wait()
 	while _G.Farmzlol == true do
