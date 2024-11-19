@@ -469,34 +469,29 @@ end)
 -- Variáveis para o fly
 local flying = false
 local flySpeed = 50 -- Velocidade padrão do fly
-local bodyVelocity
-local bodyGyro
+local flyForce
 local flyConnection
 
 -- Função para ativar/desativar o fly
 local function toggleFly(state)
-    flying = state
-    local character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
     local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
 
-    if flying then
-        print("Fly ativado")
+    if state then
+        flying = true
 
-        -- Configura BodyVelocity e BodyGyro
-        bodyVelocity = Instance.new("BodyVelocity", humanoidRootPart)
-        bodyVelocity.MaxForce = Vector3.new(1e4, 1e4, 1e4)
-        bodyVelocity.Velocity = Vector3.zero
+        -- Adiciona BodyVelocity para movimentar
+        flyForce = Instance.new("BodyVelocity", humanoidRootPart)
+        flyForce.MaxForce = Vector3.new(1e6, 1e6, 1e6) -- Controle total
+        flyForce.Velocity = Vector3.zero -- Sem movimento inicial
 
-        bodyGyro = Instance.new("BodyGyro", humanoidRootPart)
-        bodyGyro.MaxTorque = Vector3.new(1e4, 1e4, 1e4)
-        bodyGyro.CFrame = humanoidRootPart.CFrame
-
-        -- Conecta o controle de movimentação
+        -- Controla o movimento com RenderStepped
         flyConnection = game:GetService("RunService").RenderStepped:Connect(function()
             local moveDirection = Vector3.zero
             local userInput = game:GetService("UserInputService")
 
-            -- Detecta teclas ou joystick no PC
+            -- Controle com teclado (PC)
             if userInput:IsKeyDown(Enum.KeyCode.W) then
                 moveDirection = moveDirection + workspace.CurrentCamera.CFrame.LookVector
             end
@@ -512,37 +507,28 @@ local function toggleFly(state)
             if userInput:IsKeyDown(Enum.KeyCode.Space) then
                 moveDirection = moveDirection + Vector3.new(0, 1, 0)
             end
-            if userInput:IsKeyDown(Enum.KeyCode.LeftControl) then
+            if userInput:IsKeyDown(Enum.KeyCode.LeftShift) then
                 moveDirection = moveDirection - Vector3.new(0, 1, 0)
             end
 
-            -- Detecta movimento no joystick virtual
-            local moveVector = game.Players.LocalPlayer.DevTouchMovementMode == Enum.DevTouchMovementMode.Dynamic and game:GetService("Players").LocalPlayer.DevTouchMoveVector or Vector3.zero
+            -- Controle com joystick (mobile)
+            local moveVector = game.Players.LocalPlayer.DevTouchMoveVector or Vector3.zero
             if moveVector.Magnitude > 0 then
-                moveDirection = moveDirection + (workspace.CurrentCamera.CFrame:VectorToWorldSpace(moveVector))
+                moveDirection = moveDirection + workspace.CurrentCamera.CFrame:VectorToWorldSpace(moveVector)
             end
 
-            -- Ajuste de pulo no joystick virtual
-            if userInput:IsKeyDown(Enum.KeyCode.ButtonA) or userInput.TouchEnabled and userInput:IsKeyPressed(Enum.KeyCode.ButtonJump) then
-                moveDirection = moveDirection + Vector3.new(0, 1, 0)
-            end
-
-            -- Aplica o movimento se houver direção
+            -- Atualiza a velocidade
             if moveDirection.Magnitude > 0 then
-                bodyVelocity.Velocity = moveDirection.Unit * flySpeed
+                flyForce.Velocity = moveDirection.Unit * flySpeed
             else
-                bodyVelocity.Velocity = Vector3.zero
+                flyForce.Velocity = Vector3.zero -- Para no ar
             end
-
-            -- Mantém o personagem estável
-            bodyGyro.CFrame = workspace.CurrentCamera.CFrame
         end)
     else
-        print("Fly desativado")
+        flying = false
 
-        -- Remove BodyVelocity e BodyGyro
-        if bodyVelocity then bodyVelocity:Destroy() end
-        if bodyGyro then bodyGyro:Destroy() end
+        -- Remove BodyVelocity
+        if flyForce then flyForce:Destroy() end
 
         -- Desconecta o loop de movimentação
         if flyConnection then flyConnection:Disconnect() end
@@ -1124,7 +1110,7 @@ Tab:AddToggle({
 })
 
 Tab:AddToggle({
-    Name = "Ativar Fly",
+    Name = "Fly",
     Default = false,
     Callback = function(Value)
         toggleFly(Value)
