@@ -446,9 +446,9 @@ local noclipEnabled = false
 local function toggleNoclip(state)
     noclipEnabled = state
     if noclipEnabled then
-        print("Noclip ativado")
+        print("Noclip activated")
     else
-        print("Noclip desativado")
+        print("Noclip disabled")
     end
 end
 
@@ -465,6 +465,67 @@ game:GetService("RunService").Stepped:Connect(function()
         end
     end
 end)
+
+-- Variáveis para o fly
+local flying = false
+local flySpeed = 50 -- Velocidade padrão do fly
+local bodyVelocity
+local bodyGyro
+
+-- Função para ativar/desativar o fly
+local function toggleFly(state)
+    flying = state
+    local character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+
+    if flying then
+        print("Fly ativado")
+
+        -- Configura BodyVelocity e BodyGyro
+        bodyVelocity = Instance.new("BodyVelocity", humanoidRootPart)
+        bodyVelocity.MaxForce = Vector3.new(1e4, 1e4, 1e4)
+        bodyVelocity.Velocity = Vector3.zero
+
+        bodyGyro = Instance.new("BodyGyro", humanoidRootPart)
+        bodyGyro.MaxTorque = Vector3.new(1e4, 1e4, 1e4)
+        bodyGyro.CFrame = humanoidRootPart.CFrame
+
+        -- Controla o movimento
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if flying then
+                local moveDirection = Vector3.zero
+                local userInput = game:GetService("UserInputService")
+
+                if userInput:IsKeyDown(Enum.KeyCode.W) then
+                    moveDirection = moveDirection + workspace.CurrentCamera.CFrame.LookVector
+                end
+                if userInput:IsKeyDown(Enum.KeyCode.S) then
+                    moveDirection = moveDirection - workspace.CurrentCamera.CFrame.LookVector
+                end
+                if userInput:IsKeyDown(Enum.KeyCode.A) then
+                    moveDirection = moveDirection - workspace.CurrentCamera.CFrame.RightVector
+                end
+                if userInput:IsKeyDown(Enum.KeyCode.D) then
+                    moveDirection = moveDirection + workspace.CurrentCamera.CFrame.RightVector
+                end
+                if userInput:IsKeyDown(Enum.KeyCode.Space) then
+                    moveDirection = moveDirection + Vector3.new(0, 1, 0)
+                end
+                if userInput:IsKeyDown(Enum.KeyCode.LeftControl) then
+                    moveDirection = moveDirection - Vector3.new(0, 1, 0)
+                end
+
+                -- Aplica a velocidade
+                bodyVelocity.Velocity = moveDirection.Unit * flySpeed
+                bodyGyro.CFrame = workspace.CurrentCamera.CFrame
+            end
+        end)
+    else
+        print("Fly desativado")
+        if bodyVelocity then bodyVelocity:Destroy() end
+        if bodyGyro then bodyGyro:Destroy() end
+    end
+end
 
 
 
@@ -1037,6 +1098,14 @@ Tab:AddToggle({
     Default = false,
     Callback = function(Value)
         toggleNoclip(Value)
+    end
+})
+
+Tab:AddToggle({
+    Name = "Fly",
+    Default = false,
+    Callback = function(Value)
+        toggleFly(Value)
     end
 })
 	
