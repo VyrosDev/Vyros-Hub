@@ -542,7 +542,7 @@ local Section = Tab:AddSection({
 
 local HipHeightTextbox = Tab:AddTextbox({
     Name = "Hip Height",
-    Default = "2",  -- valor inicial da caixa
+    Default = "2.5",  -- valor inicial da caixa
     TextDisappear = true,  -- faz o texto desaparecer quando o campo perde o foco
     Callback = function(value)
         -- Verifica se o valor inserido é um número válido
@@ -927,6 +927,12 @@ local Tab = Window:MakeTab({
 })
 
 local Section = Tab:AddSection({
+	Name = "Info"
+})
+
+Tab:AddParagraph("INFO","The above scripts are fully compatible with mob, but are PC specific.")
+
+local Section = Tab:AddSection({
 	Name = "Auto Race"
 })
 
@@ -949,12 +955,6 @@ Tab:AddButton({
         loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/VyrosxC/refs/heads/main/AutoFarmPC.lua"))()
     end    
 })
-
-local Section = Tab:AddSection({
-	Name = "Info"
-})
-
-Tab:AddParagraph("INFO","The above scripts are fully compatible with mob, but are PC specific.")
 
 local Tab = Window:MakeTab({
 	Name = "Chat Spam",
@@ -1126,7 +1126,7 @@ Tab:AddButton({
     Name = "Click Here To See Discord Notification!",
     Callback = function()
         OrionLib:MakeNotification({
-            Name = "VyrosxC",
+            Name = "VyrosxC Hub",
             Content = "discord.gg/uydz6pZWMk",
             Image = "rbxassetid://101951842185056", 
             Time = 30  
