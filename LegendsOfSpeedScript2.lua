@@ -1021,6 +1021,48 @@ Tab:AddButton({
 })
 
 local Tab = Window:MakeTab({
+	Name = "Rebirths",
+	Icon = "rbxassetid://99813545305255",
+	PremiumOnly = false
+})
+
+Tab:AddParagraph("GLITCHABLE REBIRTHS","The Best Legends Of Speed ​​Rebirths, From 1K To 12K 💀⚡")
+
+local Section = Tab:AddSection({
+	Name = "Rebirth Amount - Pet Rarity"
+})
+
+Tab:AddParagraph("999 | Epic Pets | Red Orb, Magma City | +25","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+Tab:AddParagraph("1499 | Advanced Pets | Red Orb, Magma City | +27","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+Tab:AddParagraph("1749 | Unique Pets | Red Orb, Magma City | +36","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+Tab:AddParagraph("2399 | Epic Pets | Red Orb, Magma City | +40","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+Tab:AddParagraph("2999 | Unique Pets | Red Orb, Magma City | +48","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+Tab:AddParagraph("3749 | Unique Pets | Red Orb, Magma City | +54","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+Tab:AddParagraph("4399 | Epic Pets | Red Orb, Magma City | +55","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+Tab:AddParagraph("5499 | Unique Pets | Red Orb, Magma City | +66","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+Tab:AddParagraph("6499 | Unique Pets | Red Orb, Magma City | +72","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+Tab:AddParagraph("8749 | Unique Pets | Red Orb, Magma City | +84","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+Tab:AddParagraph("9999 | Unique Pets | Red Orb, Magma City | +90","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+Tab:AddParagraph("12749 | Unique Pets | Red Orb, Magma City | +102","Level 1 Glitches Instantly (FAST REBIRTH)")
+
+local Section = Tab:AddSection({
+	Name = "Note"
+})
+
+Tab:AddParagraph("READ","All The Mentioned Rebirths Require a Game Pass, That Is, It Will Only Work Properly If You Have Some Passes Like: Infinite Level, 2x Level, 2x Rebirths, +2 Pet Slots. Good Luck!")
+
+local Tab = Window:MakeTab({
 	Name = "Extra",
 	Icon = "rbxassetid://89185070084837",
 	PremiumOnly = false
@@ -1064,33 +1106,9 @@ local GravityTextbox = Tab:AddTextbox({
                 Image = "rbxassetid://89375684433942",
                 Time = 5
             })
-        end
+        end  
     end    
 })
-
-Tab:AddParagraph("999 | Epic Pets | Red Orb, Magma City | +25","Level 1 Glitches Instantly (FAST REBIRTH)")
-
-Tab:AddParagraph("1499 | Advanced Pets | Red Orb, Magma City | +27","Level 1 Glitches Instantly (FAST REBIRTH)")
-
-Tab:AddParagraph("1749 | Unique Pets | Red Orb, Magma City | +36","Level 1 Glitches Instantly (FAST REBIRTH)")
-
-Tab:AddParagraph("2399 | Epi Pets | Red Orb, Magma City | +40","")
-
-Tab:AddParagraph("2999 | Unique Pets | Red Orb, Magma City | +48","Level 1 Glitches Instantly (FAST REBIRTH)")
-
-Tab:AddParagraph("3749 | Unique Pets | Red Orb, Magma City | +54","Level 1 Glitches Instantly (FAST REBIRTH)")
-
-Tab:AddParagraph("4399 | Epic Pets | Red Orb, Magma City | +55","Level 1 Glitches Instantly (FAST REBIRTH)")
-
-Tab:AddParagraph("5499 | Unique Pets | Red Orb, Magma City | +66","Level 1 Glitches Instantly (FAST REBIRTH)")
-
-Tab:AddParagraph("6499 | Unique Pets | Red Orb, Magma City | +72","Level 1 Glitches Instantly (FAST REBIRTH)")
-
-Tab:AddParagraph("8749 | Unique Pets | Red Orb, Magma City | +84","Level 1 Glitches Instantly (FAST REBIRTH)")
-
-Tab:AddParagraph("9999 | Unique Pets | Red Orb, Magma City | +90","Level 1 Glitches Instantly (FAST REBIRTH)")
-
-Tab:AddParagraph("12749 | Unique Pets | Red Orb, Magma City | +102","Level 1 Glitches Instantly (FAST REBIRTH)")
 
 local Tab = Window:MakeTab({
 	Name = "Credits",
