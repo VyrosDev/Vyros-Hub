@@ -1090,7 +1090,7 @@ Tab:AddParagraph("","8749 - +84 - Red Orb, Magma City, Unique Pets")
 
 Tab:AddParagraph("","9999 - +90 - Red Orb, Magma City, Unique Pets")
 
-Tab:AddParagraph("","12749 - +102 - Red Orb, Magma City, Unique Pets")
+Tab:AddParagraph("12749 - +102 - Red Orb, Magma City, Unique Pets")
 
 local Tab = Window:MakeTab({
 	Name = "Credits",
