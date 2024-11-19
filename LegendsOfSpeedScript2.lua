@@ -938,6 +938,8 @@ Tab:AddButton({
     end    
 })
 
+Tab:AddParagraph("INFO","The above scripts are fully compatible with mobs, but are PC specific.")
+
 local Section = Tab:AddSection({
 	Name = "Auto Farm"
 })
@@ -1055,7 +1057,7 @@ local GravityTextbox = Tab:AddTextbox({
             OrionLib:MakeNotification({
                 Name = "Invalid Input!",
                 Content = "Please enter a valid number for gravity.",
-                Image = "rbxassetid://4483345998",
+                Image = "rbxassetid://89375684433942",
                 Time = 5
             })
         end
