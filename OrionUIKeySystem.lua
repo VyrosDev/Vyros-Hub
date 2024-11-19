@@ -35,7 +35,7 @@ local Success, Response = pcall(function()
 end)
 
 if not Success then
-	warn("\nDemonnic Hub |  Key System 🔑 - Failed to load Feather Icons. Error code: " .. Response .. "\n")
+	warn("\nVyrosxC Hub |  Key System 🔑 - Failed to load Feather Icons. Error code: " .. Response .. "\n")
 end	
 
 local function GetIcon(IconName)
@@ -224,7 +224,7 @@ local function LoadCfg(Config)
 				end    
 			end)
 		else
-			warn("Demonnic Hub |  Key System 🔑 Config Loader - Could not find ", a ,b)
+			warn("VyrosxC Hub |  Key System 🔑 Config Loader - Could not find ", a ,b)
 		end
 	end)
 end
@@ -470,14 +470,14 @@ function DemonnicLib:MakeWindow(WindowConfig)
 	local UIHidden = false
 
 	WindowConfig = WindowConfig or {}
-	WindowConfig.Name = WindowConfig.Name or "Demonnic Hub |  Key System 🔑"
+	WindowConfig.Name = WindowConfig.Name or "VyrosxC Hub |  Key System 🔑"
 	WindowConfig.ConfigFolder = WindowConfig.ConfigFolder or WindowConfig.Name
 	WindowConfig.SaveConfig = WindowConfig.SaveConfig or false
 	WindowConfig.HidePremium = WindowConfig.HidePremium or false
 	if WindowConfig.IntroEnabled == nil then
 		WindowConfig.IntroEnabled = true
 	end
-	WindowConfig.IntroText = WindowConfig.IntroText or "Demonnic Hub |  Key System 🔑"
+	WindowConfig.IntroText = WindowConfig.IntroText or "VyrosxC Hub |  Key System 🔑"
 	WindowConfig.CloseCallback = WindowConfig.CloseCallback or function() end
 	WindowConfig.ShowIcon = WindowConfig.ShowIcon or false
 	WindowConfig.Icon = WindowConfig.Icon or "rbxassetid://8834748103"
