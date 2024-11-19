@@ -35,7 +35,7 @@ local Success, Response = pcall(function()
 end)
 
 if not Success then
-	warn("\nDemonnic Hub |  Legends Of Speed ⚡ - Failed to load Feather Icons. Error code: " .. Response .. "\n")
+	warn("\nVyrosxC Hub |  Legends Of Speed ⚡ - Failed to load Feather Icons. Error code: " .. Response .. "\n")
 end	
 
 local function GetIcon(IconName)
@@ -224,7 +224,7 @@ local function LoadCfg(Config)
 				end    
 			end)
 		else
-			warn("Demonnic Hub |  Legends Of Speed ⚡ Config Loader - Could not find ", a ,b)
+			warn("VyrosxC Hub |  Legends Of Speed ⚡ Config Loader - Could not find ", a ,b)
 		end
 	end)
 end
@@ -470,14 +470,14 @@ function DemonnicLib:MakeWindow(WindowConfig)
 	local UIHidden = false
 
 	WindowConfig = WindowConfig or {}
-	WindowConfig.Name = WindowConfig.Name or "Demonnic Hub |  Legends Of Speed ⚡"
+	WindowConfig.Name = WindowConfig.Name or "VyrosxC Hub |  Legends Of Speed ⚡"
 	WindowConfig.ConfigFolder = WindowConfig.ConfigFolder or WindowConfig.Name
 	WindowConfig.SaveConfig = WindowConfig.SaveConfig or false
 	WindowConfig.HidePremium = WindowConfig.HidePremium or false
 	if WindowConfig.IntroEnabled == nil then
 		WindowConfig.IntroEnabled = true
 	end
-	WindowConfig.IntroText = WindowConfig.IntroText or "Demonnic Hub |  Legends Of Speed ⚡"
+	WindowConfig.IntroText = WindowConfig.IntroText or "VyrosxC Hub |  Legends Of Speed ⚡"
 	WindowConfig.CloseCallback = WindowConfig.CloseCallback or function() end
 	WindowConfig.ShowIcon = WindowConfig.ShowIcon or false
 	WindowConfig.Icon = WindowConfig.Icon or "rbxassetid://8834748103"
