@@ -479,22 +479,8 @@ local Tab = Window:MakeTab({
     PremiumOnly = false
 })
 
-local StatusSection = Tab:AddSection({
-    Name = "UserID"
-})
-
 local userID = Tab:AddLabel("UserID: ")
-
-local StatusSection = Tab:AddSection({
-    Name = "Status"
-})
-
 local playerStatus = Tab:AddLabel("Status: ")
-
-local StatusSection = Tab:AddSection({
-    Name = "Key"
-})
-
 local playerKey = Tab:AddLabel("Key: ")
 
 -- Função para atualizar os stats do jogador
@@ -505,7 +491,7 @@ local playerKey = Tab:AddLabel("Key: ")
 
 -- Atualiza as informações do jogador a cada 5 segundos
 while true do
-    wait(5)  -- A cada 5 segundos
+    wait(1)  -- A cada 1 segundos
     UpdatePlayerStats()  -- Atualiza os "stats" do jogador
 end
 
