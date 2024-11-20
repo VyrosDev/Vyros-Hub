@@ -365,12 +365,12 @@ local isCollecting = false
 local speedMap = {
     ["x50"] = 50, 
     ["x75"] = 75, 	
-    ["x100"] = 100,
-    ["x125"] = 125,	
+    ["x100"] = 100,	
     ["x150"] = 150,
     ["x175"] = 175,
     ["x200"] = 200,	
     ["x250"] = 250,
+    ["x275"] = 275,	
     ["x300"] = 300	
 }
 
@@ -706,7 +706,7 @@ Tab:AddDropdown({
 Tab:AddDropdown({
     Name = "Select Speed",
     Default = "None",
-    Options = {"None","x50", "x75", "x100", "x125", "x175", "x200", "x250", "x300"},
+    Options = {"None","x50", "x75", "x100", "x150", "x175", "x200", "x250", "x275", "x300"},
     Callback = function(Value)
         SetCollectionSpeed(Value)
     end    
