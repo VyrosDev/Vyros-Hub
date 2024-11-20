@@ -491,13 +491,13 @@ local StatusLabel = Tab:AddLabel("Status: Online 🟢")
 local function UpdatePlayerStats()
     local player = game.Players.LocalPlayer
     local userID = player.UserId
-    local playerKey = "Valid ✅"  -- Chave sempre válida
     local playerStatus = "Online 🟢"  -- Status sempre online
+    local playerKey = "Valid ✅"  -- Chave sempre válida
 
     -- Atualizar os Labels com os valores
     UserIDLabel:Set("UserID: " .. userID)
-    KeyLabel:Set("Key: " .. playerKey)
     StatusLabel:Set("Status: " .. playerStatus)
+    KeyLabel:Set("Key: " .. playerKey)
 end
 
 -- Atualizar as estatísticas a cada 5 segundos
