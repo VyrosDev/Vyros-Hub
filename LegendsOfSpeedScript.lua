@@ -4,9 +4,10 @@ local Window = OrionLib:MakeWindow({Name = "VyrosxC | Key System 🔑", HidePrem
 -- Banco de dados local de chaves com UserID manualmente atribuídos
 local KeyDatabase = {
     -- Adicione as chaves manualmente com UserID correspondente
-    ["VyrosxC-99999"] = 1396119116,  -- @Alexg78909
-    ["VyrosxC-43456"] = 1762542484,  -- @ericklopes16 
-    ["VyrosxC-43824"] = 1980119628,  -- @CRXM_CRXM 
+    ["VyrosxC"] = 1396119116,  -- @Alexg78909 (Eu)
+    ["VyrosxC-Premium94384"] = 1762542484,  -- @ericklopes16 (Erick)
+    ["VyrosxC-Premium01"] = 1980119628,  -- @CRXM_CRXM (Will)
+    ["M4-Users008"] = 2628834524,  -- @M4N0TUE641 (Matue)
 }
 
 -- Função para verificar se a chave é válida e associada ao jogador
