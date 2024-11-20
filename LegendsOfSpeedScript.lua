@@ -4,8 +4,8 @@ local Window = OrionLib:MakeWindow({Name = "VyrosxC | Key System 🔑", HidePrem
 -- Banco de dados local de chaves com UserID manualmente atribuídos
 local KeyDatabase = {
     -- Adicione as chaves manualmente com UserID correspondente
-    ["VyrosxC-43456"] = 1762542484,  -- Exemplo: "chave" -> UserID
-    ["VyrosxC-82384"] = 1396119116,  -- Outro exemplo de chave com outro UserID
+    ["VyrosxC-82384"] = 1396119116,  -- @Alexg78909
+    ["VyrosxC-43456"] = 1762542484,  -- @ericklopes16
 }
 
 -- Função para verificar se a chave é válida e associada ao jogador
@@ -80,7 +80,7 @@ local Textbox = Tab:AddTextbox({
 -- Função para adicionar novas chaves manualmente
 local function AddNewKey()
     local newKey = "VyrosxC-84393"  -- Altere aqui para adicionar uma nova chave
-    local userID = 1234567890  -- Substitua pelo UserID manualmente do jogador (exemplo)
+    local userID = "XXXXXXXXXX"  -- Substitua pelo UserID manualmente do jogador (exemplo)
     AddKey(newKey, userID)
 end
 
@@ -128,49 +128,6 @@ while true do
     UpdatePlayerStats()  -- Atualiza os "stats" do jogador
 end
 
-local CreditsTab = Window:MakeTab({
-    Name = "Credits",
-    Icon = "rbxassetid://96062201354965",
-    PremiumOnly = false
-})
-
--- Seção de Informações
-local InfoSection = CreditsTab:AddSection({
-    Name = "Information"
-})
-
-CreditsTab:AddParagraph("VYROSXC HUB","Script Made By VyrosxC (@Alexg78909). Join Our Discord Server:")
-
-CreditsTab:AddButton({
-    Name = "Click Here To See Discord Notification!",
-    Callback = function()
-        OrionLib:MakeNotification({
-            Name = "VyrosxC Hub",
-            Content = "discord.gg/uydz6pZWMk",
-            Image = "rbxassetid://101951842185056", 
-            Time = 30  
-        })
-    end
-})
-
--- Seção de Colaboradores
-local CollaboratorsSection = CreditsTab:AddSection({
-    Name = "Collaborators"
-})
-
-CreditsTab:AddParagraph("THANK YOU!","Collaboration By Demonnic_Fast (@ericklopes16)")
-
--- Seção de Versão
-local VersionSection = CreditsTab:AddSection({
-    Name = "V - 1.2.0"
-})
-
-OrionLib:MakeNotification({
-    Name = "VyrosxC Hub",
-    Content = "discord.gg/uydz6pZWMk",
-    Image = "rbxassetid://101951842185056",
-    Time = 30
-})
 
 -- Finaliza a inicialização da UI
 OrionLib:Init()
