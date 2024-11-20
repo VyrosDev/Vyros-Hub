@@ -774,11 +774,25 @@ local Tab = Window:MakeTab({
     PremiumOnly = false
 })
 
--- Seções e labels para as estatísticas
-local StepsLabel = Tab:AddLabel("Steps: 0")
-local RebirthsLabel = Tab:AddLabel("Rebirths: 0")
-local HoopsLabel = Tab:AddLabel("Hoops: 0")
-local RacesLabel = Tab:AddLabel("Races: 0")
+-- Seções para cada estatística
+local StepsSection = Tab:AddSection({
+    Name = "Steps"
+})
+local RebirthsSection = Tab:AddSection({
+    Name = "Rebirths"
+})
+local HoopsSection = Tab:AddSection({
+    Name = "Hoops"
+})
+local RacesSection = Tab:AddSection({
+    Name = "Races"
+})
+
+-- Labels para mostrar os valores
+local StepsLabel = StepsSection:AddLabel("Steps: 0")
+local RebirthsLabel = RebirthsSection:AddLabel("Rebirths: 0")
+local HoopsLabel = HoopsSection:AddLabel("Hoops: 0")
+local RacesLabel = RacesSection:AddLabel("Races: 0")
 
 -- Função para atualizar os valores das estatísticas
 local function UpdateStats()
@@ -797,17 +811,16 @@ local function UpdateStats()
     RacesLabel:Set("Races: " .. races)
 end
 
--- Conectar eventos Changed dos valores leaderstats para atualizar as estatísticas apenas quando necessário
+-- Atualizar as estatísticas sempre que um valor mudar
 local player = game.Players.LocalPlayer
 local leaderstats = player:WaitForChild("leaderstats")
 
--- Atualiza sempre que qualquer valor de leaderstats mudar
-leaderstats:WaitForChild("Steps").Changed:Connect(UpdateStats)
-leaderstats:WaitForChild("Rebirths").Changed:Connect(UpdateStats)
-leaderstats:WaitForChild("Hoops").Changed:Connect(UpdateStats)
-leaderstats:WaitForChild("Races").Changed:Connect(UpdateStats)
+leaderstats.Steps.Changed:Connect(UpdateStats)
+leaderstats.Rebirths.Changed:Connect(UpdateStats)
+leaderstats.Hoops.Changed:Connect(UpdateStats)
+leaderstats.Races.Changed:Connect(UpdateStats)
 
--- Também chama UpdateStats inicialmente para definir os valores ao carregar o script
+-- Atualizar as estatísticas imediatamente ao rodar o script
 UpdateStats()
 
 local Tab = Window:MakeTab({
