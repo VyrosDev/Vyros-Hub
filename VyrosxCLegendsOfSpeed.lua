@@ -301,7 +301,7 @@ local function deleteBarrier()
         local boundaries = {
             game:GetService("Workspace").raceMaps.Grassland.boundaryParts,
             game:GetService("Workspace").raceMaps.Desert.boundaryParts,
-            game:GetService("Workspace").raceMaps.Magma.boundaryParts
+            game:GetService("Workspace").raceMaps.Magma.boundaryParts,
 	    game:GetService("Workspace").raceMaps.Starway.boundaryParts			
         }
 
@@ -473,7 +473,7 @@ local Window = OrionLib:MakeWindow({Name = "VyrosxC Hub | Legends Of Speed ⚡",
 
 -- Criando a Tab Principal
 local Tab = Window:MakeTab({
-    Name = "Main",
+    Name = "Main1",
     Icon = "rbxassetid://100789040568622",
     PremiumOnly = false
 })
