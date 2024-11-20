@@ -505,6 +505,10 @@ game:GetService("RunService").Heartbeat:Connect(function()
     UpdatePlayerStats()
 end)
 
+local Section = Tab:AddSection({
+    Name = "Main"
+})
+
 Tab:AddButton({
     Name = "Expand Torso",  -- Nome do botão que aparece na UI
     Callback = function()
