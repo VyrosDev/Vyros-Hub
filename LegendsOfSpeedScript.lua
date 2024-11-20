@@ -1,13 +1,13 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/OrionUIKeySystem.lua')))()
-local Window = OrionLib:MakeWindow({Name = "VyrosxC | Key System 🔑", HidePremium = false, SaveConfig = true, ConfigFolder = "KeySystemConfig"})
+local Window = OrionLib:MakeWindow({Name = "VyrosxC | Key System", HidePremium = false, SaveConfig = true, ConfigFolder = "KeySystemConfig"})
 
 -- Banco de dados local de chaves com UserID manualmente atribuídos
 local KeyDatabase = {
     -- Adicione as chaves manualmente com UserID correspondente
-    ["VyrosxC-95483"] = 1396119116,  -- @Alexg78909 (Eu)
-    ["VyrosxC-Premium94384"] = 1762542484,  -- @ericklopes16 (Erick)
-    ["VyrosxC-Premium01"] = 1980119628,  -- @CRXM_CRXM (Will)
-    ["M4-Users008"] = 2628834524,  -- @M4N0TUE641 (Matue)
+    ["VyrosxC-89542"] = 1396119116,  -- @Alexg78909 (Eu)
+    ["VyrosxC-85482"] = 1762542484,  -- @ericklopes16 (Erick)
+    ["VyrosxC-54523"] = 1980119628,  -- @CRXM_CRXM (Will)
+    ["VyrosxC-65623"] = 2628834524,  -- @M4N0TUE641 (Matue)
 }
 
 -- Função para verificar se a chave é válida e associada ao jogador
