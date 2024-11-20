@@ -369,7 +369,9 @@ local speedMap = {
     ["x125"] = 125,	
     ["x150"] = 150,
     ["x175"] = 175,
-    ["x200"] = 200
+    ["x200"] = 200,	
+    ["x250"] = 250,
+    ["x300"] = 300	
 }
 
 local function SetLocation(location)
@@ -704,7 +706,7 @@ Tab:AddDropdown({
 Tab:AddDropdown({
     Name = "Select Speed",
     Default = "None",
-    Options = {"None","x50", "x75", "x100", "x125", "x175", "x200"},
+    Options = {"None","x50", "x75", "x100", "x125", "x175", "x200", "x250", "x300"},
     Callback = function(Value)
         SetCollectionSpeed(Value)
     end    
@@ -767,33 +769,15 @@ Tab:AddToggle({
 })
 
 local Tab = Window:MakeTab({
-	Name = "Stats",
-	Icon = "rbxassetid://113927674495690",
-	PremiumOnly = false
+    Name = "Stats",
+    Icon = "rbxassetid://113927674495690",
+    PremiumOnly = false
 })
 
-local StatsSection = Tab:AddSection({
-    Name = "Steps"
-})
-
+-- Seções e labels para as estatísticas
 local StepsLabel = Tab:AddLabel("Steps: 0")
-
-local StatsSection = Tab:AddSection({
-    Name = "Rebirths"
-})
-
 local RebirthsLabel = Tab:AddLabel("Rebirths: 0")
-
-local StatsSection = Tab:AddSection({
-    Name = "Hoops"
-})
-
 local HoopsLabel = Tab:AddLabel("Hoops: 0")
-
-local StatsSection = Tab:AddSection({
-    Name = "Races"
-})
-
 local RacesLabel = Tab:AddLabel("Races: 0")
 
 -- Função para atualizar os valores das estatísticas
@@ -813,10 +797,18 @@ local function UpdateStats()
     RacesLabel:Set("Races: " .. races)
 end
 
--- Atualizar as estatísticas a cada 1 segundo
-game:GetService("RunService").Heartbeat:Connect(function()
-    UpdateStats()
-end)
+-- Conectar eventos Changed dos valores leaderstats para atualizar as estatísticas apenas quando necessário
+local player = game.Players.LocalPlayer
+local leaderstats = player:WaitForChild("leaderstats")
+
+-- Atualiza sempre que qualquer valor de leaderstats mudar
+leaderstats:WaitForChild("Steps").Changed:Connect(UpdateStats)
+leaderstats:WaitForChild("Rebirths").Changed:Connect(UpdateStats)
+leaderstats:WaitForChild("Hoops").Changed:Connect(UpdateStats)
+leaderstats:WaitForChild("Races").Changed:Connect(UpdateStats)
+
+-- Também chama UpdateStats inicialmente para definir os valores ao carregar o script
+UpdateStats()
 
 local Tab = Window:MakeTab({
 	Name = "Auto Rebirth",
