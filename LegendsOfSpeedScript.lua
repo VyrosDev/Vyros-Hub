@@ -23,8 +23,8 @@ local function AddKey(key, userID)
     -- Verifica se a chave já está no banco
     if KeyDatabase[key] then
         OrionLib:MakeNotification({
-            Name = "Key Already Used",
-            Content = "This Key Has Already Been Used In The System.",
+            Name = "Key Already Exists",
+            Content = "This Key Already Exists In The System.",
             Image = "rbxassetid://89375684433942",
             Time = 5
         })
@@ -58,7 +58,7 @@ local Textbox = Tab:AddTextbox({
         if IsKeyValid(Value, player) then
             OrionLib:MakeNotification({
                 Name = "Key Validated",
-                Content = "Key is valid and accepted!",
+                Content = "Key Is Valid And Accepted!",
                 Image = "rbxassetid://4483345998",
                 Time = 5
             })
@@ -69,7 +69,7 @@ local Textbox = Tab:AddTextbox({
         else
             OrionLib:MakeNotification({
                 Name = "Invalid Key",
-                Content = "This key is either invalid or already used.",
+                Content = "This Key Is Either Invalid Or Already Used.",
                 Image = "rbxassetid://4483345998",
                 Time = 5
             })
@@ -98,35 +98,32 @@ local StatsTab = Window:MakeTab({
 })
 
 -- Adicionando Label para exibir as informações do jogador
-
-local TabSection = Tab:AddSection({
-    Name = "Your UserID"  -- Altere o nome para o que desejar
-})
-
 local UserIDLabel = StatsTab:AddLabel("UserID: Loading...")
-
-local TabSection = Tab:AddSection({
-    Name = "Your Status"  -- Altere o nome para o que desejar
-})
-
 local StatusLabel = StatsTab:AddLabel("Status: Loading...")
-
-local TabSection = Tab:AddSection({
-    Name = "Your Key Status"  -- Altere o nome para o que desejar
-})
-
 local KeyStatusLabel = StatsTab:AddLabel("Key Status: Loading...")
 
 -- Função para atualizar as informações do jogador
 local function UpdatePlayerStats()
     local player = game.Players.LocalPlayer  -- Obtém o jogador local
 
+local TabSection = Tab:AddSection({
+    Name = "Your UserID"  -- Altere o nome para o que desejar
+})	
+
     -- Atualiza o UserID
     UserIDLabel:Set("UserID: " .. player.UserId)
+
+local TabSection = Tab:AddSection({
+    Name = "Your Status"  -- Altere o nome para o que desejar
+})	
 
     -- Verifica se o jogador está online (sempre estará para o jogador local, mas serve para outros jogadores)
     local isOnline = (player.Character and player.Character:FindFirstChild("HumanoidRootPart")) and "🟢 Online" or "🔴 Offline"
     StatusLabel:Set("Status: " .. isOnline)
+
+local TabSection = Tab:AddSection({
+    Name = "Your Key Status"  -- Altere o nome para o que desejar
+})
 
     -- Atualiza o status da chave
     local key = Textbox:Get()  -- Pega a chave inserida no Textbox
