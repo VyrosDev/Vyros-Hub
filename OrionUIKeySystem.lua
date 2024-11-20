@@ -7,7 +7,7 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService("HttpService")
 
-local DemonnicLib = {
+local VyrosxCLib = {
 	Elements = {},
 	ThemeObjects = {},
 	Connections = {},
@@ -46,53 +46,53 @@ local function GetIcon(IconName)
 	end
 end   
 
-local Demonnic = Instance.new("ScreenGui")
-Demonnic.Name = "Demonnic"
+local VyrosxC = Instance.new("ScreenGui")
+VyrosxC.Name = "VyrosxC"
 if syn then
-	syn.protect_gui(Demonnic)
-	Demonnic.Parent = game.CoreGui
+	syn.protect_gui(VyrosxC)
+	VyrosxC.Parent = game.CoreGui
 else
-	Demonnic.Parent = gethui() or game.CoreGui
+	VyrosxC.Parent = gethui() or game.CoreGui
 end
 
 if gethui then
 	for _, Interface in ipairs(gethui():GetChildren()) do
-		if Interface.Name == Demonnic.Name and Interface ~= Demonnic then
+		if Interface.Name == VyrosxC.Name and Interface ~= VyrosxC then
 			Interface:Destroy()
 		end
 	end
 else
 	for _, Interface in ipairs(game.CoreGui:GetChildren()) do
-		if Interface.Name == Demonnic.Name and Interface ~= Demonnic then
+		if Interface.Name == VyrosxC.Name and Interface ~= VyrosxC then
 			Interface:Destroy()
 		end
 	end
 end
 
-function DemonnicLib:IsRunning()
+function VyrosxCLib:IsRunning()
 	if gethui then
-		return Demonnic.Parent == gethui()
+		return VyrosxC.Parent == gethui()
 	else
-		return Demonnic.Parent == game:GetService("CoreGui")
+		return VyrosxC.Parent == game:GetService("CoreGui")
 	end
 
 end
 
 local function AddConnection(Signal, Function)
-	if (not DemonnicLib:IsRunning()) then
+	if (not VyrosxCLib:IsRunning()) then
 		return
 	end
 	local SignalConnect = Signal:Connect(Function)
-	table.insert(DemonnicLib.Connections, SignalConnect)
+	table.insert(VyrosxCLib.Connections, SignalConnect)
 	return SignalConnect
 end
 
 task.spawn(function()
-	while (DemonnicLib:IsRunning()) do
+	while (VyrosxCLib:IsRunning()) do
 		wait()
 	end
 
-	for _, Connection in next, DemonnicLib.Connections do
+	for _, Connection in next, VyrosxCLib.Connections do
 		Connection:Disconnect()
 	end
 end)
@@ -139,13 +139,13 @@ local function Create(Name, Properties, Children)
 end
 
 local function CreateElement(ElementName, ElementFunction)
-	DemonnicLib.Elements[ElementName] = function(...)
+	VyrosxCLib.Elements[ElementName] = function(...)
 		return ElementFunction(...)
 	end
 end
 
 local function MakeElement(ElementName, ...)
-	local NewElement = DemonnicLib.Elements[ElementName](...)
+	local NewElement = VyrosxCLib.Elements[ElementName](...)
 	return NewElement
 end
 
@@ -188,18 +188,18 @@ local function ReturnProperty(Object)
 end
 
 local function AddThemeObject(Object, Type)
-	if not DemonnicLib.ThemeObjects[Type] then
-		DemonnicLib.ThemeObjects[Type] = {}
+	if not VyrosxCLib.ThemeObjects[Type] then
+		VyrosxCLib.ThemeObjects[Type] = {}
 	end    
-	table.insert(DemonnicLib.ThemeObjects[Type], Object)
-	Object[ReturnProperty(Object)] = DemonnicLib.Themes[DemonnicLib.SelectedTheme][Type]
+	table.insert(VyrosxCLib.ThemeObjects[Type], Object)
+	Object[ReturnProperty(Object)] = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme][Type]
 	return Object
 end    
 
 local function SetTheme()
-	for Name, Type in pairs(DemonnicLib.ThemeObjects) do
+	for Name, Type in pairs(VyrosxCLib.ThemeObjects) do
 		for _, Object in pairs(Type) do
-			Object[ReturnProperty(Object)] = DemonnicLib.Themes[DemonnicLib.SelectedTheme][Name]
+			Object[ReturnProperty(Object)] = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme][Name]
 		end    
 	end    
 end
@@ -215,12 +215,12 @@ end
 local function LoadCfg(Config)
 	local Data = HttpService:JSONDecode(Config)
 	table.foreach(Data, function(a,b)
-		if DemonnicLib.Flags[a] then
+		if VyrosxCLib.Flags[a] then
 			spawn(function() 
-				if DemonnicLib.Flags[a].Type == "Colorpicker" then
-					DemonnicLib.Flags[a]:Set(UnpackColor(b))
+				if VyrosxCLib.Flags[a].Type == "Colorpicker" then
+					VyrosxCLib.Flags[a]:Set(UnpackColor(b))
 				else
-					DemonnicLib.Flags[a]:Set(b)
+					VyrosxCLib.Flags[a]:Set(b)
 				end    
 			end)
 		else
@@ -231,7 +231,7 @@ end
 
 local function SaveCfg(Name)
 	local Data = {}
-	for i,v in pairs(DemonnicLib.Flags) do
+	for i,v in pairs(VyrosxCLib.Flags) do
 		if v.Save then
 			if v.Type == "Colorpicker" then
 				Data[i] = PackColor(v.Value)
@@ -240,7 +240,7 @@ local function SaveCfg(Name)
 			end
 		end	
 	end
-	writefile(DemonnicLib.Folder .. "/" .. Name .. ".txt", tostring(HttpService:JSONEncode(Data)))
+	writefile(VyrosxCLib.Folder .. "/" .. Name .. ".txt", tostring(HttpService:JSONEncode(Data)))
 end
 
 local WhitelistedMouse = {Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2,Enum.UserInputType.MouseButton3}
@@ -384,10 +384,10 @@ local NotificationHolder = SetProps(SetChildren(MakeElement("TFrame"), {
 	Position = UDim2.new(1, -25, 1, -25),
 	Size = UDim2.new(0, 300, 1, -25),
 	AnchorPoint = Vector2.new(1, 1),
-	Parent = Demonnic
+	Parent = VyrosxC
 })
 
-function DemonnicLib:MakeNotification(NotificationConfig)
+function VyrosxCLib:MakeNotification(NotificationConfig)
 	spawn(function()
 		NotificationConfig.Name = NotificationConfig.Name or "Notification"
 		NotificationConfig.Content = NotificationConfig.Content or "Test"
@@ -448,12 +448,12 @@ function DemonnicLib:MakeNotification(NotificationConfig)
 	end)
 end    
 
-function DemonnicLib:Init()
-	if DemonnicLib.SaveCfg then	
+function VyrosxCLib:Init()
+	if VyrosxCLib.SaveCfg then	
 		pcall(function()
-			if isfile(DemonnicLib.Folder .. "/" .. game.GameId .. ".txt") then
-				LoadCfg(readfile(DemonnicLib.Folder .. "/" .. game.GameId .. ".txt"))
-				DemonnicLib:MakeNotification({
+			if isfile(VyrosxCLib.Folder .. "/" .. game.GameId .. ".txt") then
+				LoadCfg(readfile(VyrosxCLib.Folder .. "/" .. game.GameId .. ".txt"))
+				VyrosxCLib:MakeNotification({
 					Name = "Configuration",
 					Content = "Auto-loaded configuration for the game " .. game.GameId .. ".",
 					Time = 5
@@ -463,7 +463,7 @@ function DemonnicLib:Init()
 	end	
 end	
 
-function DemonnicLib:MakeWindow(WindowConfig)
+function VyrosxCLib:MakeWindow(WindowConfig)
 	local FirstTab = true
 	local Minimized = false
 	local Loaded = false
@@ -482,8 +482,8 @@ function DemonnicLib:MakeWindow(WindowConfig)
 	WindowConfig.ShowIcon = WindowConfig.ShowIcon or false
 	WindowConfig.Icon = WindowConfig.Icon or "rbxassetid://8834748103"
 	WindowConfig.IntroIcon = WindowConfig.IntroIcon or "rbxassetid://8834748103"
-	DemonnicLib.Folder = WindowConfig.ConfigFolder
-	DemonnicLib.SaveCfg = WindowConfig.SaveConfig
+	VyrosxCLib.Folder = WindowConfig.ConfigFolder
+	VyrosxCLib.SaveCfg = WindowConfig.SaveConfig
 
 	if WindowConfig.SaveConfig then
 		if not isfolder(WindowConfig.ConfigFolder) then
@@ -600,7 +600,7 @@ function DemonnicLib:MakeWindow(WindowConfig)
 	}), "Stroke")
 
 	local MainWindow = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 10), {
-		Parent = Demonnic,
+		Parent = VyrosxC,
 		Position = UDim2.new(0.5, -307, 0.5, -172),
 		Size = UDim2.new(0, 615, 0, 344),
 		ClipsDescendants = true
@@ -649,7 +649,7 @@ function DemonnicLib:MakeWindow(WindowConfig)
 	AddConnection(CloseBtn.MouseButton1Up, function()
 		MainWindow.Visible = false
 		UIHidden = true
-		DemonnicLib:MakeNotification({
+		VyrosxCLib:MakeNotification({
 			Name = "Interface Hidden",
 			Content = "Tap RightShift to reopen the interface",
 			Time = 5
@@ -686,7 +686,7 @@ function DemonnicLib:MakeWindow(WindowConfig)
 	local function LoadSequence()
 		MainWindow.Visible = false
 		local LoadSequenceLogo = SetProps(MakeElement("Image", WindowConfig.IntroIcon), {
-			Parent = Demonnic,
+			Parent = VyrosxC,
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			Position = UDim2.new(0.5, 0, 0.4, 0),
 			Size = UDim2.new(0, 28, 0, 28),
@@ -695,7 +695,7 @@ function DemonnicLib:MakeWindow(WindowConfig)
 		})
 
 		local LoadSequenceText = SetProps(MakeElement("Label", WindowConfig.IntroText, 14), {
-			Parent = Demonnic,
+			Parent = VyrosxC,
 			Size = UDim2.new(1, 0, 1, 0),
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			Position = UDim2.new(0.5, 19, 0.5, 0),
@@ -885,22 +885,22 @@ function DemonnicLib:MakeWindow(WindowConfig)
 				}), "Second")
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 					spawn(function()
 						ButtonConfig.Callback()
 					end)
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 6, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 6, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 
 				function Button:Set(ButtonText)
@@ -960,8 +960,8 @@ function DemonnicLib:MakeWindow(WindowConfig)
 
 				function Toggle:Set(Value)
 					Toggle.Value = Value
-					TweenService:Create(ToggleBox, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Toggle.Value and ToggleConfig.Color or DemonnicLib.Themes.Default.Divider}):Play()
-					TweenService:Create(ToggleBox.Stroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = Toggle.Value and ToggleConfig.Color or DemonnicLib.Themes.Default.Stroke}):Play()
+					TweenService:Create(ToggleBox, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Toggle.Value and ToggleConfig.Color or VyrosxCLib.Themes.Default.Divider}):Play()
+					TweenService:Create(ToggleBox.Stroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = Toggle.Value and ToggleConfig.Color or VyrosxCLib.Themes.Default.Stroke}):Play()
 					TweenService:Create(ToggleBox.Ico, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {ImageTransparency = Toggle.Value and 0 or 1, Size = Toggle.Value and UDim2.new(0, 20, 0, 20) or UDim2.new(0, 8, 0, 8)}):Play()
 					ToggleConfig.Callback(Toggle.Value)
 				end    
@@ -969,25 +969,25 @@ function DemonnicLib:MakeWindow(WindowConfig)
 				Toggle:Set(Toggle.Value)
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 					SaveCfg(game.GameId)
 					Toggle:Set(not Toggle.Value)
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 6, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 6, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 
 				if ToggleConfig.Flag then
-					DemonnicLib.Flags[ToggleConfig.Flag] = Toggle
+					VyrosxCLib.Flags[ToggleConfig.Flag] = Toggle
 				end	
 				return Toggle
 			end  
@@ -1082,7 +1082,7 @@ function DemonnicLib:MakeWindow(WindowConfig)
 
 				Slider:Set(Slider.Value)
 				if SliderConfig.Flag then				
-					DemonnicLib.Flags[SliderConfig.Flag] = Slider
+					VyrosxCLib.Flags[SliderConfig.Flag] = Slider
 				end
 				return Slider
 			end  
@@ -1237,7 +1237,7 @@ function DemonnicLib:MakeWindow(WindowConfig)
 				Dropdown:Refresh(Dropdown.Options, false)
 				Dropdown:Set(Dropdown.Value)
 				if DropdownConfig.Flag then				
-					DemonnicLib.Flags[DropdownConfig.Flag] = Dropdown
+					VyrosxCLib.Flags[DropdownConfig.Flag] = Dropdown
 				end
 				return Dropdown
 			end
@@ -1335,19 +1335,19 @@ function DemonnicLib:MakeWindow(WindowConfig)
 				end)
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 6, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 6, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 
 				function Bind:Set(Key)
@@ -1359,7 +1359,7 @@ function DemonnicLib:MakeWindow(WindowConfig)
 
 				Bind:Set(BindConfig.Default)
 				if BindConfig.Flag then				
-					DemonnicLib.Flags[BindConfig.Flag] = Bind
+					VyrosxCLib.Flags[BindConfig.Flag] = Bind
 				end
 				return Bind
 			end  
@@ -1426,20 +1426,20 @@ function DemonnicLib:MakeWindow(WindowConfig)
 				TextboxActual.Text = TextboxConfig.Default
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 3, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 					TextboxActual:CaptureFocus()
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.R * 255 + 6, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.G * 255 + 6, DemonnicLib.Themes[DemonnicLib.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 			end 
 			function ElementFunction:AddColorpicker(ColorpickerConfig)
@@ -1623,7 +1623,7 @@ function DemonnicLib:MakeWindow(WindowConfig)
 
 				Colorpicker:Set(Colorpicker.Value)
 				if ColorpickerConfig.Flag then				
-					DemonnicLib.Flags[ColorpickerConfig.Flag] = Colorpicker
+					VyrosxCLib.Flags[ColorpickerConfig.Flag] = Colorpicker
 				end
 				return Colorpicker
 			end  
@@ -1715,8 +1715,8 @@ function DemonnicLib:MakeWindow(WindowConfig)
 	return TabFunction
 end   
 
-function DemonnicLib:Destroy()
-	Demonnic:Destroy()
+function VyrosxCLib:Destroy()
+	VyrosxC:Destroy()
 end
 
-return DemonnicLib
+return VyrosxCLib
