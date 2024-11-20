@@ -119,10 +119,10 @@ local function teleportToSpace()
     while _G.Farm do
         pcall(function()
             -- Teleporte para o ponto de início do Space
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4901.11426, 28.5000706, -4817.87402, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4970.01709, 36.0000916, -4805.07861, 0, 0, 1, 0, 1, -0, -1, 0, 0)
             wait(0.3)
             -- Teleporte para o ponto de vitória do Space
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4495.59961, 28.0000038, -14005.5361, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4945.31689, 36.0000916, -4805.07861, 0, 0, 1, 0, 1, -0, -1, 0, 0)
             wait(0.3)
         end)
     end
@@ -301,8 +301,7 @@ local function deleteBarrier()
         local boundaries = {
             game:GetService("Workspace").raceMaps.Grassland.boundaryParts,
             game:GetService("Workspace").raceMaps.Desert.boundaryParts,
-            game:GetService("Workspace").raceMaps.Magma.boundaryParts,
-	    game:GetService("Workspace").raceMaps.Starway.boundaryParts			
+            game:GetService("Workspace").raceMaps.Magma.boundaryParts		
         }
 
         for _, boundary in ipairs(boundaries) do
@@ -473,7 +472,7 @@ local Window = OrionLib:MakeWindow({Name = "VyrosxC Hub | Legends Of Speed ⚡",
 
 -- Criando a Tab Principal
 local Tab = Window:MakeTab({
-    Name = "Main1",
+    Name = "Main",
     Icon = "rbxassetid://100789040568622",
     PremiumOnly = false
 })
