@@ -1148,14 +1148,21 @@ OrionLib:MakeNotification({
 	Name = "VyrosxC Hub",
 	Content = "discord.gg/uydz6pZWMk",
 	Image = "rbxassetid://101951842185056",
-	Time = 30
+	Time = 20
 })
 
 OrionLib:MakeNotification({
-	Name = "SCRIPT VERSION",
+	Name = "Premium User",
+	Content = "Your Key Is Validated!",
+	Image = "rbxassetid://101023107339989",
+	Time = 15
+})
+
+OrionLib:MakeNotification({
+	Name = "Script Version",
 	Content = "V - 1.2.0",
 	Image = "rbxassetid://83863323756908",
-	Time = 15
+	Time = 10
 })
 
 
