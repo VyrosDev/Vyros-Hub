@@ -712,7 +712,7 @@ Tab:AddDropdown({
 
 -- Toggle para ativar/desativar o Auto Farm
 Tab:AddToggle({
-    Name = "Auto Farm1",
+    Name = "Auto Farm",
     Default = false,
     Callback = function(state)
         isCollecting = state
@@ -720,7 +720,7 @@ Tab:AddToggle({
 
         while isCollecting do
             CollectOrbs()
-            wait(0.5) 
+            wait(0.1) 
         end
     end    
 })
