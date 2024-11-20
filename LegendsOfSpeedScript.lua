@@ -1,12 +1,5 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-
--- Criando a janela da UI
-local Window = OrionLib:MakeWindow({
-    Name = "Key System V",
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "KeySystemConfig"
-})
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/OrionUIKeySystem.lua')))()
+local Window = OrionLib:MakeWindow({Name = "VyrosxC | Key System 🔑", HidePremium = false, SaveConfig = true, ConfigFolder = "KeySystemConfig"})
 
 -- Banco de dados local de chaves com UserID manualmente atribuídos
 local KeyDatabase = {
@@ -30,9 +23,9 @@ local function AddKey(key, userID)
     -- Verifica se a chave já está no banco
     if KeyDatabase[key] then
         OrionLib:MakeNotification({
-            Name = "Key Already Exists",
-            Content = "This key already exists in the system.",
-            Image = "rbxassetid://4483345998",
+            Name = "Key Already Used",
+            Content = "This Key Has Already Been Used In The System.",
+            Image = "rbxassetid://89375684433942",
             Time = 5
         })
     else
@@ -40,8 +33,8 @@ local function AddKey(key, userID)
         KeyDatabase[key] = userID
         OrionLib:MakeNotification({
             Name = "Key Added",
-            Content = "Key successfully added for UserID " .. userID,
-            Image = "rbxassetid://4483345998",
+            Content = "Key Successfully Added For UserID! " .. userID,
+            Image = "rbxassetid://71378523145158",
             Time = 5
         })
     end
@@ -50,12 +43,12 @@ end
 -- Criando a interface para inserir a chave
 local Tab = Window:MakeTab({
     Name = "Key Validation",
-    Icon = "rbxassetid://4483345998",
+    Icon = "rbxassetid://101023107339989",
     PremiumOnly = false
 })
 
 local Textbox = Tab:AddTextbox({
-    Name = "Enter Key",
+    Name = "Enter Your Premium Key",
     Default = "",
     TextDisappear = true,
     Callback = function(Value)
@@ -69,6 +62,10 @@ local Textbox = Tab:AddTextbox({
                 Image = "rbxassetid://4483345998",
                 Time = 5
             })
+
+            -- Carregar o script adicional quando a chave for validada
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/VyrosxCLegendsOfSpeed.lua"))()
+
         else
             OrionLib:MakeNotification({
                 Name = "Invalid Key",
@@ -83,32 +80,41 @@ local Textbox = Tab:AddTextbox({
 -- Função para adicionar novas chaves manualmente
 local function AddNewKey()
     local newKey = "VyrosxC-84393"  -- Altere aqui para adicionar uma nova chave
-    local userID = 1762542484  -- Substitua pelo UserID manualmente do jogador (exemplo)
-    AddKey(newKey, userID)
-end
-
-local function AddNewKey()
-    local newKey = "VyrosxC-82384"  -- Altere aqui para adicionar uma nova chave
-    local userID = 1396119116  -- Substitua pelo UserID manualmente do jogador (exemplo)
+    local userID = 1234567890  -- Substitua pelo UserID manualmente do jogador (exemplo)
     AddKey(newKey, userID)
 end
 
 -- Criando botão para adicionar uma chave manualmente ao script
 local Button = Tab:AddButton({
-    Name = "Add New Key",
+    Name = "Verify Key",
     Callback = AddNewKey
 })
 
 -- Adicionando uma nova aba para exibir o "stats" do jogador
 local StatsTab = Window:MakeTab({
     Name = "Player Stats",
-    Icon = "rbxassetid://4483345998",
+    Icon = "rbxassetid://113927674495690",
     PremiumOnly = false
 })
 
 -- Adicionando Label para exibir as informações do jogador
+
+local TabSection = Tab:AddSection({
+    Name = "Your UserID"  -- Altere o nome para o que desejar
+})
+
 local UserIDLabel = StatsTab:AddLabel("UserID: Loading...")
+
+local TabSection = Tab:AddSection({
+    Name = "Your Status"  -- Altere o nome para o que desejar
+})
+
 local StatusLabel = StatsTab:AddLabel("Status: Loading...")
+
+local TabSection = Tab:AddSection({
+    Name = "Your Key Status"  -- Altere o nome para o que desejar
+})
+
 local KeyStatusLabel = StatsTab:AddLabel("Key Status: Loading...")
 
 -- Função para atualizar as informações do jogador
@@ -136,6 +142,47 @@ while true do
     wait(5)  -- A cada 5 segundos
     UpdatePlayerStats()  -- Atualiza os "stats" do jogador
 end
+
+local Tab = Window:MakeTab({
+	Name = "Credits",
+	Icon = "rbxassetid://96062201354965",
+	PremiumOnly = false
+})
+
+local Section = Tab:AddSection({
+	Name = "Information"
+})
+
+Tab:AddParagraph("VYROSXC HUB","Script Made By VyrosxC (@Alexg78909). Join Our Discord Server:")
+
+Tab:AddButton({
+    Name = "Click Here To See Discord Notification!",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "VyrosxC Hub",
+            Content = "discord.gg/uydz6pZWMk",
+            Image = "rbxassetid://101951842185056", 
+            Time = 30  
+        })
+    end
+})
+
+local Section = Tab:AddSection({
+	Name = "Collaborators"
+})
+
+Tab:AddParagraph("THANK YOU!","Collaboration By Demonnic_Fast (@ericklopes16)")
+
+local Section = Tab:AddSection({
+	Name = "V - 1.2.0"
+})
+
+OrionLib:MakeNotification({
+	Name = "VyrosxC Hub",
+	Content = "discord.gg/uydz6pZWMk",
+	Image = "rbxassetid://101951842185056",
+	Time = 30
+})
 
 -- Finaliza a inicialização da UI
 OrionLib:Init()
