@@ -466,21 +466,18 @@ game:GetService("RunService").Stepped:Connect(function()
     end
 end)
 
+-- Função para atualizar os stats do jogador
+local function UpdatePlayerStats()
+    local player = game.Players.LocalPlayer
+    local userID = player.UserId
+    local playerKey = "Valid ✅"  -- A chave é sempre válida
+    local playerStatus = "Online 🟢"  -- Status sempre online
+
 
 
 --// Demonnic Hub UI \\--
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/OrionUILegendsOfSpeed.lua')))()
 local Window = OrionLib:MakeWindow({Name = "VyrosxC Hub | Legends Of Speed ⚡", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
-
-
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-
-local Window = OrionLib:MakeWindow({
-    Name = "Player Stats",
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "PlayerStatsConfig"
-})
 
 -- Criando a Tab Principal
 local Tab = Window:MakeTab({
@@ -490,17 +487,10 @@ local Tab = Window:MakeTab({
 })
 
 local Section = Tab:AddSection({
-    Name = "Main1"
+    Name = "Main"
 })
 
--- Função para atualizar os stats do jogador
-local function UpdatePlayerStats()
-    local player = game.Players.LocalPlayer
-    local userID = player.UserId
-    local playerKey = "Valid ✅"  -- A chave é sempre válida
-    local playerStatus = "Online 🟢"  -- Status sempre online
-
-    -- Atualizando as informações na UI
+     -- Atualizando as informações na UI
     Tab:AddLabel("UserID: " .. userID)
     Tab:AddLabel("Status: " .. playerStatus)
     Tab:AddLabel("Key: " .. playerKey)
