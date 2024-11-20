@@ -479,21 +479,31 @@ local Tab = Window:MakeTab({
     PremiumOnly = false
 })
 
-local userID = Tab:AddLabel("UserID: ")
-local playerStatus = Tab:AddLabel("Status: ")
-local playerKey = Tab:AddLabel("Key: ")
+local StatsSection = Tab:AddSection({
+    Name = "Player Info"
+})
 
--- Função para atualizar os stats do jogador
+local UserIDLabel = Tab:AddLabel("UserID: " .. game.Players.LocalPlayer.UserId)
+local KeyLabel = Tab:AddLabel("Key: Valid ✅")
+local StatusLabel = Tab:AddLabel("Status: Online 🟢")
+
+-- Função para atualizar os valores das estatísticas
+local function UpdatePlayerStats()
     local player = game.Players.LocalPlayer
     local userID = player.UserId
-    local playerKey = "Valid ✅"  -- A chave é sempre válida
+    local playerKey = "Valid ✅"  -- Chave sempre válida
     local playerStatus = "Online 🟢"  -- Status sempre online
 
--- Atualiza as informações do jogador a cada 5 segundos
-while true do
-    wait(1)  -- A cada 1 segundos
-    UpdatePlayerStats()  -- Atualiza os "stats" do jogador
+    -- Atualizar os Labels com os valores
+    UserIDLabel:Set("UserID: " .. userID)
+    KeyLabel:Set("Key: " .. playerKey)
+    StatusLabel:Set("Status: " .. playerStatus)
 end
+
+-- Atualizar as estatísticas a cada 5 segundos
+game:GetService("RunService").Heartbeat:Connect(function()
+    UpdatePlayerStats()
+end)
 
 Tab:AddButton({
     Name = "Expand Torso",  -- Nome do botão que aparece na UI
