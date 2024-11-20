@@ -210,31 +210,29 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
--- Function Auto Race  V2 --
-local function ToggleAutoRaces(Value)
-    AutoRaces = Value
-    if AutoRaces then
-        spawn(function()
-            while AutoRaces do
-                pcall(function()
-                    ReplicatedStorage.rEvents.raceEvent:FireServer("joinRace")
-                    task.wait(0.1)
-                    local part = Players.LocalPlayer.Character.HumanoidRootPart
-                    for _, v in pairs(Workspace.raceMaps:GetDescendants()) do 
-                        if v.Name == "Decal" and v.Parent then
-                            firetouchinterest(part, v.Parent, 0)
-                            wait()
-                            firetouchinterest(part, v.Parent, 1)
-                        end
-                    end
-                end)
-                task.wait()
-            end
-        end)
-    end
-end 
 
-local AutoRaces = false
+-- Function Auto Race V2 --
+game:GetService('ReplicatedStorage').raceInProgress.Changed:Connect(function()
+    if AutoRaceToggle then  -- Verifica se o Auto Race está ativado
+        if game:GetService('ReplicatedStorage').raceInProgress.Value == true then
+            game:GetService('ReplicatedStorage').rEvents.raceEvent:FireServer("joinRace")  -- Envia o evento para o servidor para entrar na corrida
+        end
+    end
+end)
+
+game:GetService('ReplicatedStorage').raceStarted.Changed:Connect(function()
+    if AutoRaceToggle then  -- Verifica se o Auto Race está ativado
+        if game:GetService('ReplicatedStorage').raceStarted.Value == true then
+            -- Teleporta o jogador para a posição de corrida quando a corrida começar
+            for i, v in pairs(game:GetService('Workspace').raceMaps:GetChildren()) do
+                local OldFinishPosition = v.finishPart.CFrame
+                v.finishPart.CFrame = Player.Character.HumanoidRootPart.CFrame
+                wait()
+                v.finishPart.CFrame = OldFinishPosition
+            end
+        end
+    end
+end)
 
 -- Function Hip Height --
 local function setHipHeight(value)
@@ -484,8 +482,8 @@ local StatsSection = Tab:AddSection({
 })
 
 local UserIDLabel = Tab:AddLabel("UserID: " .. game.Players.LocalPlayer.UserId)
-local KeyLabel = Tab:AddLabel("Key: Valid ✅")
 local StatusLabel = Tab:AddLabel("Status: Online 🟢")
+local KeyLabel = Tab:AddLabel("Key: Valid ✅")
 
 -- Função para atualizar os valores das estatísticas
 local function UpdatePlayerStats()
@@ -906,10 +904,11 @@ Tab:AddToggle({
 
 Tab:AddToggle({
     Name = "Auto Race V2",
-    Default = false,
+    Default = false,  -- Define como desativado por padrão
     Callback = function(Value)
-        ToggleAutoRaces(Value)
-    end    
+        AutoRaceToggle = Value  -- Atualiza o estado do toggle para AutoRace
+        print("Auto Race:", Value)
+    end
 })
 
 local Section = Tab:AddSection({
@@ -953,10 +952,10 @@ local Tab = Window:MakeTab({
 })
 
 local Section = Tab:AddSection({
-	Name = "Information"
+	Name = "Note"
 })
 
-Tab:AddParagraph("INFO","The above scripts are fully compatible with mob, but are PC specific.")
+Tab:AddParagraph("READ","The above scripts are fully compatible with mob, but are PC specific.")
 
 local Section = Tab:AddSection({
 	Name = "Auto Race"
