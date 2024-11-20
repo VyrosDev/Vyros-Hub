@@ -358,11 +358,13 @@ local isCollecting = false
 
 -- Mapear velocidades para o número de repetições explícitas
 local speedMap = {
-    ["x150"] = 100,  
-    ["x200"] = 150,
-    ["x250"] = 172,
-    ["x300"] = 250,
-    ["x350"] = 300
+    ["x50"] = 50, 
+    ["x75"] = 75, 	
+    ["x100"] = 100,
+    ["x125"] = 125,	
+    ["x150"] = 150,
+    ["x175"] = 175,
+    ["x200"] = 200
 }
 
 -- Função para selecionar a localização
@@ -395,10 +397,6 @@ local function CollectOrbs()
 
     for i = 1, repetitions do
         -- Adiciona chamadas repetidas para coletar o orb
-        game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
-        game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
-        game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
-        game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
         game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
     end
 end
@@ -706,7 +704,7 @@ Tab:AddDropdown({
 Tab:AddDropdown({
     Name = "Select Speed",
     Default = "None",
-    Options = {"None","x150", "x200", "x250", "x300", "x350"},
+    Options = {"None","x50", "x75", "x100", "x125", "x175", "x200"},
     Callback = function(Value)
         SetCollectionSpeed(Value)
     end    
@@ -714,7 +712,7 @@ Tab:AddDropdown({
 
 -- Toggle para ativar/desativar o Auto Farm
 Tab:AddToggle({
-    Name = "Auto Farm",
+    Name = "Auto Farm1",
     Default = false,
     Callback = function(state)
         isCollecting = state
@@ -722,7 +720,7 @@ Tab:AddToggle({
 
         while isCollecting do
             CollectOrbs()
-            wait(1.2) 
+            wait(0.5) 
         end
     end    
 })
