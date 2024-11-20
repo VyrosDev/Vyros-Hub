@@ -952,7 +952,7 @@ Tab:AddButton({
     Name = "Auto Farm - Script",  -- Nome do botão
     Callback = function() 
         -- Quando o botão for pressionado, o script será executado
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/DemonnicHub/VyrosxC/refs/heads/main/AutoFarmPC.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/AutoFarmPC.lua"))()
     end    
 })
 
