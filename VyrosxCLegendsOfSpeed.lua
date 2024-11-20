@@ -2,10 +2,6 @@
 
 getgenv().HoopFarm = false
 
-getgenv().OpenEgg = false -- Fixo
-
-getgenv().eggOpen = false -- Temporário
-
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
@@ -19,9 +15,17 @@ local ChrHead = Chr.Head
 local Humanoid = Chr.Humanoid
 local Root = Chr.HumanoidRootPart
 
+
+
+
+
 --// Tables \\--
 
 local Crystals = {}
+
+
+
+
 
 --// Functions \\--
 
@@ -31,24 +35,26 @@ local function ExpandTorso()
     local character = player.Character or player.CharacterAdded:Wait()
     local torso = character:WaitForChild("UpperTorso")
 
-    -- Definindo a taxa de expansão
     local expansionRate = Vector3.new(2, 2, 2) 
 
-    -- Expande o torso
     torso.Size = torso.Size + expansionRate
 end
+
+
+
 
 -- Function Reset Character --
 local function ResetCharacter()
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
 
-    -- Destrói a estrutura atual do personagem (quebrando os joints)
     character:BreakJoints()
-
-    -- O Roblox vai automaticamente gerar um novo personagem, retornando ao seu estado inicial
+	
     print("The character has been reset to its original state!")
 end
+
+
+
 
 -- Function City Teleports --
 local function SelectCity(city)
@@ -63,6 +69,9 @@ local function SelectCity(city)
     end
 end
 
+
+
+
 -- Function Maps Teleports --
 local function SelectMap(location)
     if location == "Desert" then
@@ -71,6 +80,9 @@ local function SelectMap(location)
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-346.1203, 3.85000086, 577.441223, 0.649530411, -5.26415e-08, 0.760335565, -2.8906797e-08, 1, 9.39287119e-08, -0.760335565, -8.29884286e-08, 0.649530411)
     end
 end
+
+
+
 
 -- Function Chest Teleports --
 local function SelectChest(chest)
@@ -83,6 +95,9 @@ local function SelectChest(chest)
     end
 end
 
+
+
+
 -- Function Spawn Teleports --
 local function SelectLocation(location)
     if location == "Main City" then
@@ -94,60 +109,71 @@ local function SelectLocation(location)
     end
 end
 
+
+
+
 -- Function Auto Race V1 --
 _G.Farm = false
 
--- Função para teletransportar-se para os 3 mapas (exemplo original)
+-- Function Teleport Race V1 Main City --
 local function teleportToMaps()
     while _G.Farm do
         pcall(function()
-            -- Teleporte para Grassland
+          
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(48.311, 36.315, -8680.453)
             wait(0.3)
-            -- Teleporte para Magma
+        
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1686.075, 36.315, -5946.634)
             wait(0.3)
-            -- Teleporte para Desert
+          
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1001.331, 36.315, -10986.218)
             wait(0.3)
         end)
     end
 end
 
--- Função para teletransportar-se para o Space
+
+
+
+-- Function Teleport Race V1 Space --
 local function teleportToSpace()
     while _G.Farm do
         pcall(function()
-            -- Teleporte para o ponto de início do Space
+        
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4970.01709, 36.0000916, -4805.07861, 0, 0, 1, 0, 1, -0, -1, 0, 0)
             wait(0.3)
-            -- Teleporte para o ponto de vitória do Space
+
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4945.31689, 36.0000916, -4805.07861, 0, 0, 1, 0, 1, -0, -1, 0, 0)
             wait(0.3)
         end)
     end
 end
 
--- Função para teletransportar-se para o Desert
+
+
+
+-- Fuction Teleport Race V1 Desert --
 local function teleportToDesert()
     while _G.Farm do
         pcall(function()
-            -- Teleporte para o ponto de início do Desert
+          
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(636.770996, 161.306763, 9718.75, -0.999040902, 0.000210345868, -0.043785546, 0.00021885868, 0.99999994, -0.000189627055, 0.043785505, -0.000199028043, -0.999040961)
             wait(0.3)
-            -- Teleporte para o ponto de vitória do Desert
+     
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2061.12476, 219.799164, 17953.8984, 0.949868321, -9.90087301e-09, 0.312650263, 5.16601206e-10, 1, 3.00980716e-08, -0.312650263, -2.84276886e-08, 0.949868321)
             wait(0.3)
         end)
     end
 end
 
--- Função para parar o auto farm
 local function stopAutoFarm()
     _G.Farm = false
 end
 
--- Função Auto Race
+
+
+
+-- Function Auto Race V1 --
 local function toggleAutoRaces(state)
     _G.Farm = state
     if state then
@@ -157,7 +183,6 @@ local function toggleAutoRaces(state)
                     -- Participar da corrida
                     game:GetService("ReplicatedStorage").rEvents.raceEvent:FireServer("joinRace")
                     wait(0.1)
-                    -- Interagir com checkpoints na corrida
                     local part = game.Players.LocalPlayer.Character.HumanoidRootPart
                     for _, v in pairs(game:GetService("Workspace").raceMaps:GetDescendants()) do
                         if v.Name == "Decal" and v.Parent then
@@ -171,18 +196,20 @@ local function toggleAutoRaces(state)
             end
         end)
         
-        -- Chama o teleporte conforme o mapa selecionado
         if _G.SelectedTeleport == "Space" then
-            teleportToSpace() -- Teleporte para o Space
+            teleportToSpace() 
         elseif _G.SelectedTeleport == "Main City" then
-            teleportToMaps() -- Teleporte para os 3 mapas originais
+            teleportToMaps()
         elseif _G.SelectedTeleport == "Desert" then
-            teleportToDesert() -- Teleporte para o Desert
+            teleportToDesert() 
         end
     else
         stopAutoFarm()
     end
 end
+
+
+
 
 -- Function Anti-Kick --
 local function AntiKick()
@@ -193,6 +220,9 @@ local function AntiKick()
         vu:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
     end)
 end
+
+
+
 
 -- Function Low Graphics --
 local function optimizeFpsPing()
@@ -206,24 +236,30 @@ local function optimizeFpsPing()
     end
 end
 
+
+
+
+-- Variables --
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 
+
+
+
 -- Function Auto Race V2 --
 game:GetService('ReplicatedStorage').raceInProgress.Changed:Connect(function()
-    if AutoRaceToggle then  -- Verifica se o Auto Race está ativado
+    if AutoRaceToggle then 
         if game:GetService('ReplicatedStorage').raceInProgress.Value == true then
-            game:GetService('ReplicatedStorage').rEvents.raceEvent:FireServer("joinRace")  -- Envia o evento para o servidor para entrar na corrida
+            game:GetService('ReplicatedStorage').rEvents.raceEvent:FireServer("joinRace") 
         end
     end
 end)
 
 game:GetService('ReplicatedStorage').raceStarted.Changed:Connect(function()
-    if AutoRaceToggle then  -- Verifica se o Auto Race está ativado
+    if AutoRaceToggle then 
         if game:GetService('ReplicatedStorage').raceStarted.Value == true then
-            -- Teleporta o jogador para a posição de corrida quando a corrida começar
             for i, v in pairs(game:GetService('Workspace').raceMaps:GetChildren()) do
                 local OldFinishPosition = v.finishPart.CFrame
                 v.finishPart.CFrame = Player.Character.HumanoidRootPart.CFrame
@@ -234,6 +270,10 @@ game:GetService('ReplicatedStorage').raceStarted.Changed:Connect(function()
     end
 end)
 
+
+
+
+
 -- Function Hip Height --
 local function setHipHeight(value)
     local player = game.Players.LocalPlayer
@@ -242,58 +282,59 @@ local function setHipHeight(value)
     humanoid.HipHeight = value
 end
 
--- Function WalkSpeed e JumpPower --
+
+
+
+
+-- Function WalkSpeed And JumpPower --
 local function setPlayerStats(walkSpeed, jumpPower)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
     local humanoid = character:WaitForChild("Humanoid")
     
-    -- Ajusta a velocidade
     humanoid.WalkSpeed = walkSpeed
     print("Speed ​​adjusted to: " .. walkSpeed)
-    
-    -- Ajusta o poder de pulo
+
     humanoid.JumpPower = jumpPower
     print("Jump power adjusted to: " .. jumpPower)
 end
 
--- Function Rebirths Stopping Point"
-local targetRebirth = 99999  -- Valor alvo de rebirths (inicialmente definido como 999)
-local currentRebirths = 0  -- Número atual de rebirths (vai ser atualizado com base no jogo)
 
--- Função para realizar o rebirth
+
+
+
+-- Function Rebirths Stopping Point --
+local targetRebirth = 99999  
+local currentRebirths = 0  
+
 local function Rebirth()
     task.wait()
     local ohString1 = "rebirthRequest"
     game:GetService("ReplicatedStorage").rEvents.rebirthEvent:FireServer(ohString1)
 end
 
--- Monitorando o número atual de renascimentos (rebirths)
 local function getCurrentRebirths()
-    -- Aqui você vai acessar a informação de rebirths do jogador
-    -- Como não tenho acesso exato à variável no seu jogo, vou simular com uma variável fictícia
     return game.Players.LocalPlayer:WaitForChild("leaderstats"):WaitForChild("Rebirths").Value
 end
 
--- Função que realiza o rebirth automaticamente enquanto o número de rebirths não atingir o alvo
 local function autoRebirth()
     while true do
-        -- Atualiza o número atual de renascimentos
         currentRebirths = getCurrentRebirths()
         
-        -- Se atingiu o número alvo de rebirths, para a execução
         if currentRebirths >= targetRebirth then
             print("Rebirth target reached: " .. currentRebirths)
             break
         end
         
-        -- Realiza o rebirth
         Rebirth()
-        
-        -- Aguardar algum tempo entre os rebirths (ajuste conforme necessário)
-        task.wait(0.1)  -- Aguarda 2 segundos entre os rebirths
+  
+        task.wait(0.1)  
     end
 end
+
+
+
+
 
 -- Function Delete Barrier --
 local function deleteBarrier()
@@ -306,32 +347,42 @@ local function deleteBarrier()
 
         for _, boundary in ipairs(boundaries) do
             for _, part in pairs(boundary:GetChildren()) do
-                part:Destroy()  -- Remove a barreira (parte)
+                part:Destroy()  
             end
         end
         print("Barriers removed!")
     end)
 end
 
--- Function Chat Flood --
+
+
+
+
+-- Function Chat Spam --
 local function sendChatMessage(message)
     game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(message, "All")
 end
 
--- Variáveis globais para controle
 _G.SendMessages = false  
 _G.Interval = 1          
 _G.Message = ""  
 
--- Function Demonnic The Best Hub --
+
+
+
+
+-- Function VyrosxC The Best Hub --
 local function sendChatMessage(message)
     game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(message, "All")
 end
 
--- Variável para controlar o estado do Toggle
+
+
+
+
+-- Function Teleports --
 local teleportEnabled = false
 
--- Função para detectar cliques e teleportar
 local function setupClickTeleport()
     local player = game.Players.LocalPlayer
     local mouse = player:GetMouse()
@@ -348,15 +399,18 @@ local function setupClickTeleport()
     end)
 end
 
--- Inicializa o listener de cliques
 setupClickTeleport()
 
+
+
+
+
+-- Function Auto Farm --
 local selectedLocation = "None"
 local selectedOrb = "None"
 local collectionSpeed = "x150"
 local isCollecting = false
 
--- Mapear velocidades para o número de repetições explícitas
 local speedMap = {
     ["x50"] = 50, 
     ["x75"] = 75, 	
@@ -367,50 +421,52 @@ local speedMap = {
     ["x200"] = 200
 }
 
--- Função para selecionar a localização
 local function SetLocation(location)
     selectedLocation = location
     print("Selected location: " .. location)
 end
 
--- Função para selecionar o Orb
 local function SetOrb(orb)
     selectedOrb = orb
     print("Orb selected: " .. orb)
 end
 
--- Função para selecionar a velocidade de coleta
 local function SetCollectionSpeed(speed)
     collectionSpeed = speed
     print("Selected collection speed: " .. speed)
 end
 
--- Função de coleta automática
 local function CollectOrbs()
     if selectedLocation == "None" or selectedOrb == "None" then
         print("Select a location and an Orb before collecting.")
         return
     end
 
-    local repetitions = speedMap[collectionSpeed] or 100  -- Pega o valor da velocidade ou usa 75 como padrão para x150
+    local repetitions = speedMap[collectionSpeed] or 100 
     print("Collecting " .. selectedOrb .. " in " .. selectedLocation .. " with " .. repetitions .. " repetitions.")
 
     for i = 1, repetitions do
-        -- Adiciona chamadas repetidas para coletar o orb
         game.ReplicatedStorage.rEvents.orbEvent:FireServer("collectOrb", selectedOrb, selectedLocation)
     end
 end
 
--- Função para ativar o "noPing"
+
+
+
+
+-- Function No Ping --
 local function NoPing()
     while noPingEnabled do
-        -- Enviar um evento para o servidor para tentar estabilizar o ping
-        game:GetService("ReplicatedStorage").rEvents.someEvent:FireServer("pingCheck")  -- Aqui você envia um evento fictício
-        wait(0.1)  -- Espera de 100ms, pode ajustar conforme necessário
+        game:GetService("ReplicatedStorage").rEvents.someEvent:FireServer("pingCheck") 
+        wait(0.1)  
     end
 end
 
--- Hoop V2
+
+
+
+
+-- Function Hoops V2 --
 local function HoopFarmV2()
     local Chr = game.Players.LocalPlayer.Character
     if Chr and Chr.Parent and Chr:FindFirstChild("HumanoidRootPart") then
@@ -422,7 +478,12 @@ local function HoopFarmV2()
         end
     end
 end
--- Hoop V1
+
+
+
+
+
+-- Function Hoops V1 --
 local function HoopFarm()
     if Chr and Chr.Parent and Chr:FindFirstChild("Head") then
         for i, v in next, game:GetService("Workspace").Hoops:GetDescendants() do
@@ -435,10 +496,12 @@ local function HoopFarm()
     end
 end
 
--- Variável de estado do noclip
+
+
+
+-- Function No Clip --
 local noclipEnabled = false
 
--- Função de noclip
 local function toggleNoclip(state)
     noclipEnabled = state
     if noclipEnabled then
@@ -448,7 +511,6 @@ local function toggleNoclip(state)
     end
 end
 
--- Ativa o noclip no personagem
 game:GetService("RunService").Stepped:Connect(function()
     if noclipEnabled then
         local character = game.Players.LocalPlayer.Character
@@ -464,11 +526,12 @@ end)
 
 
 
+
+
 --// Demonnic Hub UI \\--
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/OrionUILegendsOfSpeed.lua')))()
 local Window = OrionLib:MakeWindow({Name = "VyrosxC Hub | Legends Of Speed ⚡", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
--- Criando a Tab Principal
 local Tab = Window:MakeTab({
     Name = "Main",
     Icon = "rbxassetid://100789040568622",
@@ -483,20 +546,17 @@ local UserIDLabel = Tab:AddLabel("UserID: " .. game.Players.LocalPlayer.UserId)
 local StatusLabel = Tab:AddLabel("Status: Online 🟢")
 local KeyLabel = Tab:AddLabel("Key: Valid ✅")
 
--- Função para atualizar os valores das estatísticas
 local function UpdatePlayerStats()
     local player = game.Players.LocalPlayer
     local userID = player.UserId
-    local playerStatus = "Online 🟢"  -- Status sempre online
-    local playerKey = "Valid ✅"  -- Chave sempre válida
+    local playerStatus = "Online 🟢" 
+    local playerKey = "Valid ✅"  
 
-    -- Atualizar os Labels com os valores
     UserIDLabel:Set("UserID: " .. userID)
     StatusLabel:Set("Status: " .. playerStatus)
     KeyLabel:Set("Key: " .. playerKey)
 end
 
--- Atualizar as estatísticas a cada 5 segundos
 game:GetService("RunService").Heartbeat:Connect(function()
     UpdatePlayerStats()
 end)
@@ -506,17 +566,17 @@ local Section = Tab:AddSection({
 })
 
 Tab:AddButton({
-    Name = "Expand Torso",  -- Nome do botão que aparece na UI
+    Name = "Expand Torso",  
     Callback = function()
-        ExpandTorso()  -- Chama a função que expande o torso
+        ExpandTorso()  
         print("Successfully expanded torso!")
     end    
 })
 
 Tab:AddButton({
-    Name = "Reset Character",  -- Nome do botão que aparece na UI
+    Name = "Reset Character",  
     Callback = function()
-        ResetCharacter()  -- Chama a função para resetar o personagem
+        ResetCharacter() 
         print("The character has been reset to normal size!")
     end    
 })
@@ -526,11 +586,11 @@ local Section = Tab:AddSection({
 })	
 
 local WalkSpeedTextbox = Tab:AddTextbox({
-    Name = "Walk Speed",  -- Nome antes do valor
-    Default = "500",  -- valor inicial da caixa
-    TextDisappear = true,  -- faz o texto desaparecer quando o campo perde o foco
+    Name = "Walk Speed", 
+    Default = "500",
+    TextDisappear = true,  
     Callback = function(value)
-        -- Verifica se o valor inserido é um número válido
+       
         local newWalkSpeed = tonumber(value)
         if newWalkSpeed then
             local currentJumpPower = game.Players.LocalPlayer.Character.Humanoid.JumpPower
@@ -541,13 +601,11 @@ local WalkSpeedTextbox = Tab:AddTextbox({
     end    
 })
 
--- Adicionar um Textbox para digitar o JumpPower
 local JumpPowerTextbox = Tab:AddTextbox({
-    Name = "Jump Power",  -- Nome antes do valor
-    Default = "200",  -- valor inicial da caixa
-    TextDisappear = true,  -- faz o texto desaparecer quando o campo perde o foco
+    Name = "Jump Power", 
+    Default = "200",
+    TextDisappear = true, 
     Callback = function(value)
-        -- Verifica se o valor inserido é um número válido
         local newJumpPower = tonumber(value)
         if newJumpPower then
             local currentWalkSpeed = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed
@@ -564,10 +622,10 @@ local Section = Tab:AddSection({
 
 local HipHeightTextbox = Tab:AddTextbox({
     Name = "Hip Height",
-    Default = "2.5",  -- valor inicial da caixa
-    TextDisappear = true,  -- faz o texto desaparecer quando o campo perde o foco
+    Default = "2.5",  
+    TextDisappear = true,  
     Callback = function(value)
-        -- Verifica se o valor inserido é um número válido
+    
         local newValue = tonumber(value)
         if newValue then
             setHipHeight(newValue)
@@ -593,7 +651,7 @@ Tab:AddButton({
 Tab:AddButton({
     Name = "Low Graphics",
     Callback = function()
-        optimizeFpsPing()  -- Chama a função de otimização
+        optimizeFpsPing()  
         print("Optimized graphics for better performance!")
     end    
 })
@@ -603,16 +661,19 @@ local Section = Tab:AddSection({
 })
 
 Tab:AddButton({
-    Name = "Re-join The Game",  -- Nome do botão
-    Callback = function()  -- Função chamada quando o botão for pressionado
-        -- Teleporta o jogador de volta para o mesmo lugar onde ele está
+    Name = "Re-join The Game", 
+    Callback = function()  
         local teleportService = game:GetService("TeleportService")
         local player = game:GetService("Players").LocalPlayer
-        teleportService:Teleport(game.PlaceId, player)  -- Teleporta para o PlaceId atual
-        print("Trying to get into the game...")  -- Mensagem para confirmar que a ação foi executada
+        teleportService:Teleport(game.PlaceId, player)  
+        print("Trying to get into the game...")  
     end
 })
 
+
+
+
+-- Tab Teleports --
 local Tab = Window:MakeTab({
 	Name = "Teleports",
 	Icon = "rbxassetid://103168823763561",
@@ -671,6 +732,10 @@ Tab:AddDropdown({
     end    
 })
 
+
+
+
+-- Tab Auto Farm --
 local Tab = Window:MakeTab({
 	Name = "Auto Farm",
 	Icon = "rbxassetid://78744214847458",
@@ -690,7 +755,6 @@ Tab:AddDropdown({
     end    
 })
 
--- Dropdown para selecionar o Orb
 Tab:AddDropdown({
     Name = "Select Orb",
     Default = "None",
@@ -700,7 +764,6 @@ Tab:AddDropdown({
     end    
 })
 
--- Dropdown para selecionar a velocidade de coleta
 Tab:AddDropdown({
     Name = "Select Speed",
     Default = "None",
@@ -710,30 +773,29 @@ Tab:AddDropdown({
     end    
 })
 
--- Toggle para ativar/desativar o Auto Farm
 Tab:AddToggle({
-    Name = "Auto Farm 0.5",
+    Name = "Auto Farm",
     Default = false,
     Callback = function(state)
         isCollecting = state
-        print("Auto Farm Status: " .. (isCollecting and "Ativado" or "Desativado"))
+        print("Auto Farm Status: " .. (isCollecting and "Enabled" or "Disabled"))
 
         while isCollecting do
             CollectOrbs()
-            wait(0.5) 
+            wait(0.3) 
         end
     end    
 })
+
 Tab:AddToggle({
     Name = "No Ping",
     Default = false,
     Callback = function(state)
-        noPingEnabled = state  -- Atualiza o estado de noPing
-        print("No Ping " .. (noPingEnabled and "Ativado" or "Desativado"))
+        noPingEnabled = state 
+        print("No Ping " .. (noPingEnabled and "Enabled" or "Disabled"))
         
-        -- Inicia o NoPing ou para dependendo do toggle
         if noPingEnabled then
-            NoPing()  -- Inicia o noPing
+            NoPing() 
         end
     end    
 })
@@ -766,6 +828,10 @@ Tab:AddToggle({
 	end    
 })
 
+
+
+
+-- Tab Stats --
 local Tab = Window:MakeTab({
 	Name = "Stats",
 	Icon = "rbxassetid://113927674495690",
@@ -796,7 +862,6 @@ local StatsSection = Tab:AddSection({
 
 local RacesLabel = Tab:AddLabel("Races: 0")
 
--- Função para atualizar os valores das estatísticas
 local function UpdateStats()
     local player = game.Players.LocalPlayer
     local leaderstats = player:WaitForChild("leaderstats")
@@ -806,18 +871,20 @@ local function UpdateStats()
     local hoops = leaderstats:WaitForChild("Hoops").Value
     local races = leaderstats:WaitForChild("Races").Value
 
-    -- Atualizar os Labels com os valores
     StepsLabel:Set("Steps: " .. steps)
     RebirthsLabel:Set("Rebirths: " .. rebirths)
     HoopsLabel:Set("Hoops: " .. hoops)
     RacesLabel:Set("Races: " .. races)
 end
 
--- Atualizar as estatísticas a cada 1 segundo
 game:GetService("RunService").Heartbeat:Connect(function()
     UpdateStats()
 end)
 
+
+
+
+-- Tab Auto Rebirth --
 local Tab = Window:MakeTab({
 	Name = "Auto Rebirth",
 	Icon = "rbxassetid://124658295933505",
@@ -830,10 +897,9 @@ local Section = Tab:AddSection({
 
 Tab:AddTextbox({
     Name = "Put Rebirth",
-    Default = "0",  -- valor padrão
+    Default = "0",
     TextDisappear = true,
     Callback = function(value)
-        -- Atualizar o valor do targetRebirth baseado no que o jogador digitou
         local target = tonumber(value)
         if target then
             targetRebirth = target
@@ -872,6 +938,10 @@ Tab:AddToggle({
 	end    
 })
 
+
+
+
+-- Tab Auto Race --
 local Tab = Window:MakeTab({
 	Name = "Auto Race",
 	Icon = "rbxassetid://97860628277392",
@@ -902,9 +972,9 @@ Tab:AddToggle({
 
 Tab:AddToggle({
     Name = "Auto Race V2",
-    Default = false,  -- Define como desativado por padrão
+    Default = false, 
     Callback = function(Value)
-        AutoRaceToggle = Value  -- Atualiza o estado do toggle para AutoRace
+        AutoRaceToggle = Value  
         print("Auto Race:", Value)
     end
 })
@@ -914,18 +984,15 @@ local Section = Tab:AddSection({
 })
 
 Tab:AddToggle({
-    Name = "Auto Fill Race",  -- Nome do botão
+    Name = "Auto Fill Race",  
     Callback = function(value) 
-        -- A variável 'value' recebe o estado atual do toggle (true ou false)
-        autoFillRaceActive = value  -- Atualiza o estado de ativação do toggle
+        autoFillRaceActive = value 
         
-        -- Se o toggle for ativado, começa a executar a função
         if autoFillRaceActive then
-            -- Inicia a ação de preencher a corrida
             spawn(function()
-                while autoFillRaceActive do  -- O loop continua enquanto o toggle estiver ativado
+                while autoFillRaceActive do  
                     game:GetService("ReplicatedStorage").rEvents.raceEvent:FireServer("joinRace", true)
-                    wait()  -- Intervalo entre as tentativas para evitar sobrecarregar o servidor
+                    wait()  
                 end
             end)
         end
@@ -943,6 +1010,10 @@ Tab:AddButton({
     end    
 })
 
+
+
+
+-- Tab PC Exploits --
 local Tab = Window:MakeTab({
 	Name = "PC Exploits",
 	Icon = "rbxassetid://92103740798042",
@@ -953,16 +1024,15 @@ local Section = Tab:AddSection({
 	Name = "Note"
 })
 
-Tab:AddParagraph("READ","The above scripts are fully compatible with mob, but are PC specific.")
+Tab:AddParagraph("READ","The Above Acripts Are Fully Compatible With Mob, But Are PC Specific.")
 
 local Section = Tab:AddSection({
 	Name = "Auto Race"
 })
 
 Tab:AddButton({
-    Name = "Auto Race - Script",  -- Nome do botão
+    Name = "Auto Race - Script", 
     Callback = function() 
-        -- Quando o botão for pressionado, o script será executado
         loadstring(game:HttpGet("https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/AutoRacePC.lua"))()
     end    
 })
@@ -972,13 +1042,16 @@ local Section = Tab:AddSection({
 })
 
 Tab:AddButton({
-    Name = "Auto Farm - Script",  -- Nome do botão
+    Name = "Auto Farm - Script",  
     Callback = function() 
-        -- Quando o botão for pressionado, o script será executado
         loadstring(game:HttpGet("https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/AutoFarmPC.lua"))()
     end    
 })
 
+
+
+
+-- Tab Chat Spam --
 local Tab = Window:MakeTab({
 	Name = "Chat Spam",
 	Icon = "rbxassetid://112552741196505",
@@ -994,33 +1067,31 @@ Tab:AddTextbox({
     Default = "Here",
     TextDisappear = false,
     Callback = function(Value)
-        _G.Message = Value  -- Armazena a mensagem digitada
-    end
+        _G.Message = Value  
 })
 
--- Adicionando um Textbox para o intervalo de envio
 Tab:AddTextbox({
     Name = "Interval",
-    Default = "1",  -- Intervalo padrão de 1 segundo
+    Default = "1", 
     TextDisappear = false,
     Callback = function(Value)
-        _G.Interval = tonumber(Value) or 1  -- Armazena o intervalo, garantindo que seja um número
+        _G.Interval = tonumber(Value) or 1  
     end
 })
 
--- Adicionando o Toggle para ativar ou desativar o envio de mensagens
+
 Tab:AddToggle({
     Name = "Send Spam",
     Default = false,
     Callback = function(Value)
-        _G.SendMessages = Value  -- Habilita ou desabilita o envio das mensagens
+        _G.SendMessages = Value 
         if Value then
-            spawn(function()  -- Usando spawn para rodar o envio de forma assíncrona
+            spawn(function() 
                 while _G.SendMessages do
-                    if _G.Message ~= "" then  -- Verifica se a mensagem não está vazia
-                        sendChatMessage(_G.Message)  -- Envia a mensagem
+                    if _G.Message ~= "" then  
+                        sendChatMessage(_G.Message)  
                     end
-                    wait(_G.Interval)  -- Aguarda o intervalo antes de enviar novamente
+                    wait(_G.Interval)  
                 end
             end)
         end
@@ -1036,13 +1107,17 @@ Tab:AddButton({
     Callback = function()
         spawn(function()
             for i = 1, 5 do
-                sendChatMessage("VyrosxC The Best Hub!")  -- Envia a mensagem desejada
-                wait(0.2)  -- Aguarda 0.2 segundos antes de enviar a próxima mensagem
+                sendChatMessage("VyrosxC The Best Hub!") 
+                wait(0.2)  
             end
         end)
     end
 })
 
+
+
+
+-- Tab Rebirths --
 local Tab = Window:MakeTab({
 	Name = "Rebirths",
 	Icon = "rbxassetid://99813545305255",
@@ -1085,6 +1160,10 @@ local Section = Tab:AddSection({
 
 Tab:AddParagraph("READ","All The Mentioned Rebirths Require a Game Pass, That Is, It Will Only Work Properly If You Have Some Passes Like: Infinite Level, 2x Level, 2x Rebirths, +2 Pet Slots. Good Luck!")
 
+
+
+
+-- Tab Extra --
 local Tab = Window:MakeTab({
 	Name = "Extra",
 	Icon = "rbxassetid://89185070084837",
@@ -1113,16 +1192,16 @@ Tab:AddToggle({
 
 local GravityTextbox = Tab:AddTextbox({
     Name = "Gravity",
-    Default = "196.2",  -- Valor padrão da gravidade
+    Default = "196.2", 
     TextDisappear = true,
     Callback = function(Value)
-        -- Verifica se o valor inserido é válido (um número)
+    
         local gravityValue = tonumber(Value)
         if gravityValue then
-            -- Aplica a nova gravidade ao personagem
+    
             workspace.Gravity = gravityValue
         else
-            -- Se não for um número válido, mantém a gravidade padrão
+          
             OrionLib:MakeNotification({
                 Name = "Invalid Input!",
                 Content = "Please enter a valid number for gravity.",
@@ -1133,6 +1212,10 @@ local GravityTextbox = Tab:AddTextbox({
     end    
 })
 
+
+
+
+-- Tab Credits --
 local Tab = Window:MakeTab({
 	Name = "Credits",
 	Icon = "rbxassetid://96062201354965",
