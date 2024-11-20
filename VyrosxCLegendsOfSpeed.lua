@@ -927,7 +927,7 @@ local Tab = Window:MakeTab({
 })
 
 local Section = Tab:AddSection({
-	Name = "Info"
+	Name = "Information"
 })
 
 Tab:AddParagraph("INFO","The above scripts are fully compatible with mob, but are PC specific.")
