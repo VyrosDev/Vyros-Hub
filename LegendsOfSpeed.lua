@@ -1,5 +1,5 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/OrionUIKeySystem.lua')))()
-local Window = OrionLib:MakeWindow({Name = "VyrosxC | Key System", HidePremium = false, SaveConfig = true, ConfigFolder = "KeySystemConfig"})
+local Window = OrionLib:MakeWindow({Name = "VyrosxC | Key System 🔑", HidePremium = false, SaveConfig = true, ConfigFolder = "KeySystemConfig"})
 
 -- Banco de dados local de chaves com UserID manualmente atribuídos
 local KeyDatabase = {
@@ -92,45 +92,6 @@ local Button = Tab:AddButton({
     Name = "Verify Key",
     Callback = AddNewKey
 })
-
--- Adicionando uma nova aba para exibir o "stats" do jogador
-local StatsTab = Window:MakeTab({
-    Name = "Player Stats",
-    Icon = "rbxassetid://113927674495690",
-    PremiumOnly = false
-})
-
--- Adicionando Label para exibir as informações do jogador
-local UserIDLabel = StatsTab:AddLabel("UserID: Loading...")
-local StatusLabel = StatsTab:AddLabel("Status: Loading...")
-local KeyStatusLabel = StatsTab:AddLabel("Key Status: Loading...")
-
--- Função para atualizar as informações do jogador
-local function UpdatePlayerStats()
-    local player = game.Players.LocalPlayer  -- Obtém o jogador local
-
-    -- Atualiza o UserID
-    UserIDLabel:Set("UserID: " .. player.UserId)
-
-    -- Verifica se o jogador está online (sempre estará para o jogador local, mas serve para outros jogadores)
-    local isOnline = (player.Character and player.Character:FindFirstChild("HumanoidRootPart")) and "🟢 Online" or "🔴 Offline"
-    StatusLabel:Set("Status: " .. isOnline)
-
-    -- Atualiza o status da chave
-    local key = Textbox:Get()  -- Pega a chave inserida no Textbox
-    if IsKeyValid(key, player) then
-        KeyStatusLabel:Set("Key Status: ✅ Valid")
-    else
-        KeyStatusLabel:Set("Key Status: ❌ Invalid")
-    end
-end
-
--- Atualiza as informações do jogador a cada 5 segundos
-while true do
-    wait(5)  -- A cada 5 segundos
-    UpdatePlayerStats()  -- Atualiza os "stats" do jogador
-end
-
 
 -- Finaliza a inicialização da UI
 OrionLib:Init()
