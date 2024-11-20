@@ -472,6 +472,12 @@ end)
     local playerKey = "Valid ✅"  -- A chave é sempre válida
     local playerStatus = "Online 🟢"  -- Status sempre online
 
+-- Atualiza as informações do jogador a cada 5 segundos
+while true do
+    wait(5)  -- A cada 5 segundos
+    UpdatePlayerStats()  -- Atualiza os "stats" do jogador
+end
+
 
 --// Demonnic Hub UI \\--
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/OrionUILegendsOfSpeed.lua')))()
@@ -484,13 +490,24 @@ local Tab = Window:MakeTab({
     PremiumOnly = false
 })
 
-local Section = Tab:AddSection({
-    Name = "Main1"
+local StatsSection = Tab:AddSection({
+    Name = "UserID"
 })
-    Tab:AddLabel("UserID: " .. userID)
-    Tab:AddLabel("Status: " .. playerStatus)
-    Tab:AddLabel("Key: " .. playerKey)
-end
+
+local userID = Tab:AddLabel("UserID: ")
+
+local StatsSection = Tab:AddSection({
+    Name = "Status"
+})
+
+local playerStatus = Tab:AddLabel("Status: ")
+
+local StatsSection = Tab:AddSection({
+    Name = "Key"
+})
+
+local playerKey = Tab:AddLabel("Key: ")
+    end
 
 Tab:AddButton({
     Name = "Expand Torso",  -- Nome do botão que aparece na UI
