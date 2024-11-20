@@ -106,24 +106,12 @@ local KeyStatusLabel = StatsTab:AddLabel("Key Status: Loading...")
 local function UpdatePlayerStats()
     local player = game.Players.LocalPlayer  -- Obtém o jogador local
 
-local TabSection = Tab:AddSection({
-    Name = "Your UserID"  -- Altere o nome para o que desejar
-})	
-
     -- Atualiza o UserID
     UserIDLabel:Set("UserID: " .. player.UserId)
-
-local TabSection = Tab:AddSection({
-    Name = "Your Status"  -- Altere o nome para o que desejar
-})	
 
     -- Verifica se o jogador está online (sempre estará para o jogador local, mas serve para outros jogadores)
     local isOnline = (player.Character and player.Character:FindFirstChild("HumanoidRootPart")) and "🟢 Online" or "🔴 Offline"
     StatusLabel:Set("Status: " .. isOnline)
-
-local TabSection = Tab:AddSection({
-    Name = "Your Key Status"  -- Altere o nome para o que desejar
-})
 
     -- Atualiza o status da chave
     local key = Textbox:Get()  -- Pega a chave inserida no Textbox
@@ -140,19 +128,20 @@ while true do
     UpdatePlayerStats()  -- Atualiza os "stats" do jogador
 end
 
-local Tab = Window:MakeTab({
-	Name = "Credits",
-	Icon = "rbxassetid://96062201354965",
-	PremiumOnly = false
+local CreditsTab = Window:MakeTab({
+    Name = "Credits",
+    Icon = "rbxassetid://96062201354965",
+    PremiumOnly = false
 })
 
-local Section = Tab:AddSection({
-	Name = "Information"
+-- Seção de Informações
+local InfoSection = CreditsTab:AddSection({
+    Name = "Information"
 })
 
-Tab:AddParagraph("VYROSXC HUB","Script Made By VyrosxC (@Alexg78909). Join Our Discord Server:")
+CreditsTab:AddParagraph("VYROSXC HUB","Script Made By VyrosxC (@Alexg78909). Join Our Discord Server:")
 
-Tab:AddButton({
+CreditsTab:AddButton({
     Name = "Click Here To See Discord Notification!",
     Callback = function()
         OrionLib:MakeNotification({
@@ -164,21 +153,23 @@ Tab:AddButton({
     end
 })
 
-local Section = Tab:AddSection({
-	Name = "Collaborators"
+-- Seção de Colaboradores
+local CollaboratorsSection = CreditsTab:AddSection({
+    Name = "Collaborators"
 })
 
-Tab:AddParagraph("THANK YOU!","Collaboration By Demonnic_Fast (@ericklopes16)")
+CreditsTab:AddParagraph("THANK YOU!","Collaboration By Demonnic_Fast (@ericklopes16)")
 
-local Section = Tab:AddSection({
-	Name = "V - 1.2.0"
+-- Seção de Versão
+local VersionSection = CreditsTab:AddSection({
+    Name = "V - 1.2.0"
 })
 
 OrionLib:MakeNotification({
-	Name = "VyrosxC Hub",
-	Content = "discord.gg/uydz6pZWMk",
-	Image = "rbxassetid://101951842185056",
-	Time = 30
+    Name = "VyrosxC Hub",
+    Content = "discord.gg/uydz6pZWMk",
+    Image = "rbxassetid://101951842185056",
+    Time = 30
 })
 
 -- Finaliza a inicialização da UI
