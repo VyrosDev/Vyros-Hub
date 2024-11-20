@@ -2,7 +2,7 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shl
 
 -- Criando a janela da UI
 local Window = OrionLib:MakeWindow({
-    Name = "Key System",
+    Name = "Key System V",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "KeySystemConfig"
@@ -11,8 +11,8 @@ local Window = OrionLib:MakeWindow({
 -- Banco de dados local de chaves com UserID manualmente atribuídos
 local KeyDatabase = {
     -- Adicione as chaves manualmente com UserID correspondente
-    ["VyrosxC-43456"] = 1234567890,  -- Exemplo: "chave" -> UserID
-    ["VyrosxC-82384"] = 9876543210,  -- Outro exemplo de chave com outro UserID
+    ["VyrosxC-43456"] = 1762542484,  -- Exemplo: "chave" -> UserID
+    ["VyrosxC-82384"] = 1396119116,  -- Outro exemplo de chave com outro UserID
 }
 
 -- Função para verificar se a chave é válida e associada ao jogador
@@ -83,7 +83,13 @@ local Textbox = Tab:AddTextbox({
 -- Função para adicionar novas chaves manualmente
 local function AddNewKey()
     local newKey = "VyrosxC-84393"  -- Altere aqui para adicionar uma nova chave
-    local userID = 1234567890  -- Substitua pelo UserID manualmente do jogador (exemplo)
+    local userID = 1762542484  -- Substitua pelo UserID manualmente do jogador (exemplo)
+    AddKey(newKey, userID)
+end
+
+local function AddNewKey()
+    local newKey = "VyrosxC-82384"  -- Altere aqui para adicionar uma nova chave
+    local userID = 1396119116  -- Substitua pelo UserID manualmente do jogador (exemplo)
     AddKey(newKey, userID)
 end
 
