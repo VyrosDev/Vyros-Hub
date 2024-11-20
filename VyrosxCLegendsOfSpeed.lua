@@ -467,12 +467,10 @@ game:GetService("RunService").Stepped:Connect(function()
 end)
 
 -- Função para atualizar os stats do jogador
-local function UpdatePlayerStats()
     local player = game.Players.LocalPlayer
     local userID = player.UserId
     local playerKey = "Valid ✅"  -- A chave é sempre válida
     local playerStatus = "Online 🟢"  -- Status sempre online
-
 
 
 --// Demonnic Hub UI \\--
@@ -487,19 +485,11 @@ local Tab = Window:MakeTab({
 })
 
 local Section = Tab:AddSection({
-    Name = "Main"
+    Name = "Main1"
 })
-
-     -- Atualizando as informações na UI
     Tab:AddLabel("UserID: " .. userID)
     Tab:AddLabel("Status: " .. playerStatus)
     Tab:AddLabel("Key: " .. playerKey)
-end
-
--- Atualiza as informações do jogador a cada 5 segundos
-while true do
-    wait(5)  -- A cada 5 segundos
-    UpdatePlayerStats()  -- Atualiza os "stats" do jogador
 end
 
 Tab:AddButton({
