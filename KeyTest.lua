@@ -12,34 +12,24 @@ local KeyDatabase = {
     ["VyrosxC-Premium-81237"] = 5097989830,  -- @FX_BAHIANOOO (Alt Erick)
     ["VyrosxC-Premium-96934"] = 1980119628,  -- @CRXM_CRXM (Will)
     ["M4-Users008"] = 2628834524,  -- @M4N0TUE641 (Matue)
-    -- ... (restante do banco de dados)
+    -- (restante do banco de dados...)
 }
 
-local savedKey = ""  -- Variável para armazenar a key carregada
+local CONFIG_FILE = "VyrosxC_KeyConfig.json"  -- Nome do arquivo para salvar a key
 
 -- Função para carregar a key salva
 local function LoadSavedKey()
-    local folder = Window.Flags.ConfigFolder
-    local configFile = folder .. "/SavedKey.json"
-
-    if isfile(configFile) then
-        local savedData = game:GetService("HttpService"):JSONDecode(readfile(configFile))
+    if isfile(CONFIG_FILE) then
+        local savedData = game:GetService("HttpService"):JSONDecode(readfile(CONFIG_FILE))
         return savedData.key
     end
-
     return nil
 end
 
 -- Função para salvar a key localmente
 local function SaveKeyLocally(key)
-    local folder = Window.Flags.ConfigFolder
-    local configFile = folder .. "/SavedKey.json"
-
-    if not isfolder(folder) then
-        makefolder(folder)
-    end
-
-    writefile(configFile, game:GetService("HttpService"):JSONEncode({ key = key }))
+    local data = { key = key }
+    writefile(CONFIG_FILE, game:GetService("HttpService"):JSONEncode(data))
     print("Key salva localmente:", key)
 end
 
@@ -61,7 +51,7 @@ local Tab = Window:MakeTab({
 
 local player = game.Players.LocalPlayer  -- Jogador local
 
--- Função de callback para validar e salvar key
+-- Função para validar e carregar o script
 local function ValidateKey(Value)
     if IsKeyValid(Value, player) then
         OrionLib:MakeNotification({
@@ -91,11 +81,28 @@ local Textbox = Tab:AddTextbox({
     Callback = ValidateKey
 })
 
--- Tentar carregar uma key salva automaticamente
-savedKey = LoadSavedKey()
+-- Tentar carregar e validar key salva automaticamente
+local savedKey = LoadSavedKey()
 
 if savedKey then
-    ValidateKey(savedKey)  -- Validar key salva automaticamente
+    if IsKeyValid(savedKey, player) then
+        OrionLib:MakeNotification({
+            Name = "Auto Validation",
+            Content = "Key Loaded and Validated Automatically.",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+
+        -- Carregar script automaticamente
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/VyrosxCLegendsOfSpeed.lua"))()
+    else
+        OrionLib:MakeNotification({
+            Name = "Invalid Saved Key",
+            Content = "Saved Key is Invalid. Please Enter Again.",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end
 else
     OrionLib:MakeNotification({
         Name = "No Saved Key",
