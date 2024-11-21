@@ -5,10 +5,15 @@ local Window = OrionLib:MakeWindow({Name = "VyrosxC | Key System 🔑", HidePrem
 local KeyDatabase = {
     -- Adicione as chaves manualmente com UserID correspondente
     ["VyrosxC"] = 1396119116,  -- @Alexg78909 (Eu)
-    ["VyrosxC-Premium94384"] = 1762542484,  -- @ericklopes16 (Erick)
-    ["VyrosxC-Premium95843"] = 5097989830,  -- @FX_BAHIANOOO (Alt Erick)
-    ["VyrosxC-Premium01"] = 1980119628,  -- @CRXM_CRXM (Will)
+    ["VyrosxC"] = 7532410585,  -- @zClarkyy (Eu)
+    ["VyrosxC"] = 5818980336,  -- @HA_FeHariAlt (Eu)
+    ["VyrosxC"] = 4933028875,  -- @Gabezinn_12 (Eu)  
+    ["VyrosxC"] = 4374535723,  -- @janiszewskiblox (Eu) 
+    ["VyrosxC-Premium"] = 1762542484,  -- @ericklopes16 (Erick)
+    ["VyrosxC-Premium"] = 5097989830,  -- @FX_BAHIANOOO (Alt Erick)
+    ["VyrosxC-Premium"] = 1980119628,  -- @CRXM_CRXM (Will)
     ["M4-Users008"] = 2628834524,  -- @M4N0TUE641 (Matue)
+    ["VyrosxC-943823"] = 2852012097,  -- @Felpszin777 (AzureDarknessXs7) - 1 Dia Key, 21/11 - 23:00
 }
 
 -- Função para verificar se a chave é válida e associada ao jogador
