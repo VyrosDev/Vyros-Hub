@@ -4,14 +4,14 @@ local Window = OrionLib:MakeWindow({Name = "VyrosxC | Key System 🔑", HidePrem
 -- Banco de dados local de chaves com UserID manualmente atribuídos
 local KeyDatabase = {
     -- Adicione as chaves manualmente com UserID correspondente
-    ["VyrosxC"] = 1396119116,  -- @Alexg78909 (Eu)
-    ["VyrosxC"] = 7532410585,  -- @zClarkyy (Eu)
-    ["VyrosxC"] = 5818980336,  -- @HA_FeHariAlt (Eu)
-    ["VyrosxC"] = 4933028875,  -- @Gabezinn_12 (Eu)  
-    ["VyrosxC"] = 4374535723,  -- @janiszewskiblox (Eu) 
-    ["VyrosxC-Premium"] = 1762542484,  -- @ericklopes16 (Erick)
-    ["VyrosxC-Premium"] = 5097989830,  -- @FX_BAHIANOOO (Alt Erick)
-    ["VyrosxC-Premium"] = 1980119628,  -- @CRXM_CRXM (Will)
+    ["VyrosxC-Alexg"] = 1396119116,  -- @Alexg78909 (Eu)
+    ["VyrosxC-Clarkyy"] = 7532410585,  -- @zClarkyy (Eu)
+    ["VyrosxC-FeHari"] = 5818980336,  -- @HA_FeHariAlt (Eu)
+    ["VyrosxC-Gabezinn"] = 4933028875,  -- @Gabezinn_12 (Eu)  
+    ["VyrosxC-janiszewskiblox"] = 4374535723,  -- @janiszewskiblox (Eu) 
+    ["VyrosxC-Premium-94384"] = 1762542484,  -- @ericklopes16 (Erick)
+    ["VyrosxC-Premium-81237"] = 5097989830,  -- @FX_BAHIANOOO (Alt Erick)
+    ["VyrosxC-Premium-96934"] = 1980119628,  -- @CRXM_CRXM (Will)
     ["M4-Users008"] = 2628834524,  -- @M4N0TUE641 (Matue)
     ["VyrosxC-943823"] = 2852012097,  -- @Felpszin777 (AzureDarknessXs7) - 1 Dia Key, 21/11 - 23:00
 }
