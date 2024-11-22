@@ -3,7 +3,6 @@ local Window = OrionLib:MakeWindow({Name = "VyrosxC | Key System 🔑", HidePrem
 
 -- Banco de dados local de chaves com UserID manualmente atribuídos
 local KeyDatabase = {
-    -- Adicione as chaves manualmente com UserID correspondente
     ["VyrosxC-Alexg"] = 1396119116,  -- @Alexg78909 (Eu)
     ["VyrosxC-Clarkyy"] = 7532410585,  -- @zClarkyy (Eu)
     ["VyrosxC-FeHari"] = 5818980336,  -- @HA_FeHariAlt (Eu)
@@ -11,41 +10,36 @@ local KeyDatabase = {
     ["VyrosxC-janiszewskiblox"] = 4374535723,  -- @janiszewskiblox (Eu) 
     ["VyrosxC-Premium-94384"] = 1762542484,  -- @ericklopes16 (Erick)
     ["VyrosxC-Premium-81237"] = 5097989830,  -- @FX_BAHIANOOO (Alt Erick)
-    ["VyrosxC-Premium-96934"] = 1980119628,  -- @CRXM_CRXM (Will)
+    ["VyrosxC-Premium-9999"] = 1980119628,  -- @CRXM_CRXM (Will)
     ["M4-Users008"] = 2628834524,  -- @M4N0TUE641 (Matue)
-    ["VyrosxC-943823"] = 2852012097,  -- @Felpszin777 (AzureDarknessXs7) - 1 Dia Key, 21/11 - 23:00
+    -- (restante do banco de dados...)
 }
 
--- Função para verificar se a chave é válida e associada ao jogador
+local CONFIG_FILE = "VyrosxC_KeyConfig.json"  -- Nome do arquivo para salvar a key
+
+-- Função para carregar a key salva
+local function LoadSavedKey()
+    if isfile(CONFIG_FILE) then
+        local savedData = game:GetService("HttpService"):JSONDecode(readfile(CONFIG_FILE))
+        return savedData.key
+    end
+    return nil
+end
+
+-- Função para salvar a key localmente
+local function SaveKeyLocally(key)
+    local data = { key = key }
+    writefile(CONFIG_FILE, game:GetService("HttpService"):JSONEncode(data))
+    print("Key saved locally:", key)
+end
+
+-- Função para validar key
 local function IsKeyValid(key, player)
     local storedUserID = KeyDatabase[key]
-    -- Verifica se a chave está no banco e se o UserID corresponde ao jogador
     if storedUserID and storedUserID == player.UserId then
         return true
     end
     return false
-end
-
--- Função para adicionar novas chaves manualmente com UserID
-local function AddKey(key, userID)
-    -- Verifica se a chave já está no banco
-    if KeyDatabase[key] then
-        OrionLib:MakeNotification({
-            Name = "Key Already Exists",
-            Content = "This Key Already Exists In The System.",
-            Image = "rbxassetid://89375684433942",
-            Time = 5
-        })
-    else
-        -- Adiciona a chave associada ao UserID
-        KeyDatabase[key] = userID
-        OrionLib:MakeNotification({
-            Name = "Key Added",
-            Content = "Key Successfully Added For UserID! " .. userID,
-            Image = "rbxassetid://71378523145158",
-            Time = 5
-        })
-    end
 end
 
 -- Criando a interface para inserir a chave
@@ -55,48 +49,68 @@ local Tab = Window:MakeTab({
     PremiumOnly = false
 })
 
+local player = game.Players.LocalPlayer  -- Jogador local
+
+-- Função para validar e carregar o script
+local function ValidateKey(Value)
+    if IsKeyValid(Value, player) then
+        OrionLib:MakeNotification({
+            Name = "Valid Key",
+            Content = "Enjoy!",
+            Image = "rbxassetid://71378523145158",
+            Time = 5
+        })
+
+        SaveKeyLocally(Value)  -- Salvar key localmente
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/VyrosxCLegendsOfSpeed.lua"))()
+    else
+        OrionLib:MakeNotification({
+            Name = "Invalid Key",
+            Content = "Invalid or Already Used Key.",
+            Image = "rbxassetid://89375684433942",
+            Time = 5
+        })
+    end
+end
+
+-- Input para inserir a key
 local Textbox = Tab:AddTextbox({
     Name = "Enter Your Premium Key",
     Default = "",
     TextDisappear = true,
-    Callback = function(Value)
-        local player = game.Players.LocalPlayer  -- Obtém o jogador local
-
-        -- Verifica se a chave inserida é válida e associada ao jogador
-        if IsKeyValid(Value, player) then
-            OrionLib:MakeNotification({
-                Name = "Key Validated",
-                Content = "Key Is Valid And Accepted!",
-                Image = "rbxassetid://4483345998",
-                Time = 5
-            })
-
-            -- Carregar o script adicional quando a chave for validada
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/VyrosxCLegendsOfSpeed.lua"))()
-
-        else
-            OrionLib:MakeNotification({
-                Name = "Invalid Key",
-                Content = "This Key Is Either Invalid Or Already Used.",
-                Image = "rbxassetid://4483345998",
-                Time = 5
-            })
-        end
-    end
+    Callback = ValidateKey
 })
 
--- Função para adicionar novas chaves manualmente
-local function AddNewKey()
-    local newKey = "VyrosxC-84393"  -- Altere aqui para adicionar uma nova chave
-    local userID = "XXXXXXXXXX"  -- Substitua pelo UserID manualmente do jogador (exemplo)
-    AddKey(newKey, userID)
+-- Tentar carregar e validar key salva automaticamente
+local savedKey = LoadSavedKey()
+
+if savedKey then
+    if IsKeyValid(savedKey, player) then
+        OrionLib:MakeNotification({
+            Name = "Checking",
+            Content = "Key Loaded And Validated!",
+            Image = "rbxassetid://71378523145158",
+            Time = 5
+        })
+
+        -- Carregar script automaticamente
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/VyrosxCLegendsOfSpeed.lua"))()
+    else
+        OrionLib:MakeNotification({
+            Name = "Invalid Saved Key",
+            Content = "Get A New Key!",
+            Image = "rbxassetid://89375684433942",
+            Time = 5
+        })
+    end
+else
+    OrionLib:MakeNotification({
+        Name = "No Saved Key",
+        Content = "Please Enter Your Key Manually.",
+        Image = "rbxassetid://89375684433942",
+        Time = 5
+    })
 end
 
--- Criando botão para adicionar uma chave manualmente ao script
-local Button = Tab:AddButton({
-    Name = "Verify Key",
-    Callback = AddNewKey
-})
-
--- Finaliza a inicialização da UI
+-- Finaliza a UI
 OrionLib:Init()
