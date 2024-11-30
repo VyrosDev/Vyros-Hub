@@ -1,7 +1,7 @@
-local Library = loadstring(game:HttpGet("https://pastebin.com/raw/vff1bQ9F"))() --This Will Load The Script Code
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/VyrosxCLegendsOfSpeed.lua"))() --This Will Load The Script Code
 local Window = Library.CreateLib("EXAMPLE HOW TO MAKE A KEY SYSTEM FOR MOBILE OR PC", "DarkTheme") --This Will Make The Script Hub
 
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))() 
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/OrionUILegendsOfSpeed.lua')))() 
 
 local Player = game.Players.LocalPlayer
 
