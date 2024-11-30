@@ -1,15 +1,12 @@
-Local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/VyrosHubUI.lua')))() --This Will Load The Script Code
-local Player = game.Players.LocalPlayer --This Will Reveal The Player Name
-  local Window = OrionLib:MakeWindow({
-		Name = "Vyros Hub | Key System",
-		HidePremium = false,
-		SaveConfig = true,
-		ConfigFolder = "OrionTest",
-        IntroText = "Loading Script..."       
-}) --This Will Load The Script Hub
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))() --This Will Load The Script Code
+local Window = Library.CreateLib("EXAMPLE HOW TO MAKE A KEY SYSTEM FOR MOBILE OR PC", "DarkTheme") --This Will Make The Script Hub
 
-function MakeScriptHub()
-         loadstring(game:HttpGet('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/VyrosxCLegendsOfSpeed.lua'))() --Put The Script That Will Load If The Key Is Correct Here
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/OrionUIKeySystem.lua')))() 
+
+local Player = game.Players.LocalPlayer
+
+function CorrectKeyAndLoadTheScript()
+         loadstring(game:HttpGet('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/VyrosxCLegendsOfSpeed.lua'))() --This Where You Put The Script That Will Be Loaded If The Key Is Correct
 end
 
 OrionLib:MakeNotification({
@@ -19,28 +16,19 @@ OrionLib:MakeNotification({
 	Time = 5
 }) --Notification
 
-getgenv().Key = "grw076eiwy7" --Put The Correct Key Here
-getgenv().KeyInput = "string" --Require For The Key To Work
+getgenv().Key = "AnyKey" --Put The Correct Key Here
+getgenv().KeyInput = "string" --KeyInput Require To Make The Key Work
 
-local Tab = Window:MakeTab({
-	Name = "Key",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-}) --Making A Tab
+local Tab = Window:NewTab("KEY SYSTEM") --This Will Make A Tab
 
-Tab:AddTextbox({
-	Name = "Key",
-	Default = "Enter Key.",
-	TextDisappear = true,
-	Callback = function(Value)
+local Section = Tab:NewSection("Key System") --This Will Make A Section
+
+Section:NewTextBox("Enter Key", "Key", function(Value)
 		getgenv().KeyInput = Value
-	end	  
-}) --You Will Enter The Key Here
+end) 
 
-Tab:AddButton({
-    Name = "Check Key",
-    Callback = function()
-        if getgenv().KeyInput == getgenv().Key then
+Section:NewButton("Check Key", "This Will Check The Key You Enter", function()
+            if getgenv().KeyInput == getgenv().Key then
             OrionLib:MakeNotification({
                 Name = "Checking Key",
                 Content = "Checking The Key You Entered",
@@ -50,14 +38,12 @@ Tab:AddButton({
             wait(2)
             OrionLib:MakeNotification({
                 Name = "Correct Key!",
-                Content = "The key you entered is Correct.",
+                Content = "The key you entered is Valid.",
                 Image = "rbxassetid://4483345998",
                 Time = 5
             })
-            wait(1)
-            OrionLib:Destroy()
             wait(.3)
-            MakeScriptHub()
+            CorrectKeyAndLoadTheScript()
         else
            OrionLib:MakeNotification({
                 Name = "Checking Key",
@@ -68,19 +54,22 @@ Tab:AddButton({
             wait(2)
             OrionLib:MakeNotification({
                 Name = "Incorrect Key!",
-                Content = "The key you entered is incorrect.",
+                Content = "The key you entered is invalid.",
                 Image = "rbxassetid://4483345998",
                 Time = 5
             })
         end
-    end
-}) --This Will Check The Key You Entered
+end)  
 
-Tab:AddButton({
-	Name = "Copy Key",
-	Callback = function()
-      		setclipboard("Put The Link Here") --This Will Copy The Link Of The Key
-  	end    
-}) 
-    
-OrionLib:Init() --Require If The Script Is Done
+Section:NewButton("Copy Link", "ButtonInfo", function()
+          		setclipboard("Bota o link rapaize") --Put The Link Here
+          OrionLib:MakeNotification({
+                Name = "Copied Link!",
+                Content = "Success Copied Link.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+end)
+
+
+OrionLib:Init()
