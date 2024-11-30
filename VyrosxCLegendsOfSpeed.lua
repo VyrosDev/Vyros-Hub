@@ -467,7 +467,7 @@ end)
 
 
 --// VyrosxC Hub \\--
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/OrionUILegendsOfSpeed.lua')))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/refs/heads/main/VyrosHub.lua')))()
 local Window = OrionLib:MakeWindow({Name = "VyrosxC Hub | Legends Of Speed ⚡", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
 -- Criando a Tab Principal
