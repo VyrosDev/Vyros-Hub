@@ -466,9 +466,9 @@ end)
 
 
 
---// VyrosxC Hub \\--
+--// Vyros Hub \\--
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub-UI/refs/heads/main/VyrosHubUI.lua')))()
-local Window = OrionLib:MakeWindow({Name = "VyrosxC Hub | Legends Of Speed ⚡", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "Vyros Hub | Legends Of Speed", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
 -- Criando a Tab Principal
 local Tab = Window:MakeTab({
@@ -498,9 +498,41 @@ local function UpdatePlayerStats()
     KeyLabel:Set("Key: " .. playerKey)
 end
 
--- Atualizar as estatísticas a cada 5 segundos
+-- Função para formatar a hora com base no usuário (AM/PM)
+local function getCurrentTimeFormatted()
+    local time = os.date("*t")  -- Obtém a data e hora atual
+    local hour = time.hour
+    local minute = time.min
+    local ampm = "AM"
+
+    -- Converte para formato 12 horas
+    if hour >= 12 then
+        ampm = "PM"
+        if hour > 12 then
+            hour = hour - 12
+        end
+    elseif hour == 0 then
+        hour = 12
+    end
+
+    -- Ajusta para minutos com dois dígitos
+    minute = string.format("%02d", minute)
+
+    return string.format("%02d:%s %s", hour, minute, ampm)
+end
+
+-- Adicionar o Label para exibir o horário
+local TimeLabel = Tab:AddLabel("Time: " .. getCurrentTimeFormatted())
+
+-- Função para atualizar a hora a cada segundo
+local function UpdateTime()
+    TimeLabel:Set("Time: " .. getCurrentTimeFormatted())
+end
+
+-- Atualiza as estatísticas a cada 5 segundos
 game:GetService("RunService").Heartbeat:Connect(function()
     UpdatePlayerStats()
+    UpdateTime()  -- Atualiza o horário também
 end)
 
 local Section = Tab:AddSection({
@@ -1148,47 +1180,50 @@ local Section = Tab:AddSection({
 	Name = "Information"
 })
 
-Tab:AddParagraph("VYROSXC HUB","Script Made By VyrosxC (@Alexg78909). Join Our Discord Server:")
+Tab:AddParagraph("VYROS HUB","Script Made By Ck_Vyros (@Alexg78909). Join Our Discord Server:")
 
 Tab:AddButton({
-    Name = "Click Here To See Discord Notification!",
+    Name = "Click Here To Copy Discord Link",
     Callback = function()
+        setclipboard("discord.gg/uydz6pZWMk") -- Link para obter a key
+        linkCopied = true -- Define o sinalizador como verdadeiro
         OrionLib:MakeNotification({
-            Name = "VyrosxC Hub",
-            Content = "discord.gg/uydz6pZWMk",
-            Image = "rbxassetid://101951842185056", 
-            Time = 30  
+            Name = "Link Copied",
+            Content = "Paste the link into your browser to get your key.",
+            Image = "rbxassetid://71378523145158",
+            Time = 5
         })
     end
 })
+
 
 local Section = Tab:AddSection({
 	Name = "Collaborators"
 })
 
-Tab:AddParagraph("THANK YOU!","Collaboration By Demonnic_Fast (@ericklopes16)")
+Tab:AddParagraph("MY HONEY!","Collaboration By Clarkyy (@zClarkyy)")
 
 local Section = Tab:AddSection({
-	Name = "V - 1.2.0"
+	Name = "V - 1.5"
 })
 
 OrionLib:MakeNotification({
-	Name = "VyrosxC Hub",
-	Content = "discord.gg/uydz6pZWMk",
-	Image = "rbxassetid://101951842185056",
-	Time = 20
-})
-
-OrionLib:MakeNotification({
-	Name = "Premium User",
+	Name = "Welcome to Vyros Hub",
 	Content = "Your Key Is Validated!",
 	Image = "rbxassetid://101023107339989",
 	Time = 15
 })
 
 OrionLib:MakeNotification({
+	Name = "Vyros Hub",
+	Content = "discord.gg/uydz6pZWMk",
+	Image = "rbxassetid://101951842185056",
+	Time = 20
+})
+
+OrionLib:MakeNotification({
 	Name = "Script Version",
-	Content = "V - 1.2.0",
+	Content = "V - 1.5",
 	Image = "rbxassetid://83863323756908",
 	Time = 10
 })
