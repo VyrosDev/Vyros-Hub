@@ -1,5 +1,5 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/VyrosxCLegendsOfSpeed.lua"))() --This Will Load The Script Code
-local Window = Library.CreateLib("EXAMPLE HOW TO MAKE A KEY SYSTEM FOR MOBILE OR PC", "DarkTheme") --This Will Make The Script Hub
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))() --This Will Load The Script Code
+local Window = Library.CreateLib("Vyros Hub | Key System", "DarkTheme") --This Will Make The Script Hub
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/OrionUILegendsOfSpeed.lua')))() 
 
@@ -70,3 +70,5 @@ Section:NewButton("Copy Link", "ButtonInfo", function()
                 Time = 5
             })
 end)
+
+OrionLib:Init()
