@@ -37,8 +37,20 @@ local Tab = Window:MakeTab({
     PremiumOnly = false
 })
 
+-- Identificar automaticamente o nome do jogador
+local playerName = game.Players.LocalPlayer.Name
+
+-- Exibir mensagem de boas-vindas com o nome do jogador
+OrionLib:MakeNotification({
+    Name = "Logged In!",
+    Content = "Welcome, " .. playerName .. "!", -- Inclui o nome do jogador na mensagem
+    Image = "rbxassetid://101023107339989",
+    Time = 5
+})
+
 -- Função para validar e carregar o script
-local function ValidateKey(Value)
+local function ValidateKey()
+    local key = getgenv().KeyInput  -- Pega a key inserida
     if not linkCopied then
         OrionLib:MakeNotification({
             Name = "Error",
@@ -49,14 +61,14 @@ local function ValidateKey(Value)
         return
     end
 
-    if IsKeyValid(Value) then
+    if IsKeyValid(key) then
         OrionLib:MakeNotification({
             Name = "Valid Key",
             Content = "Key validated successfully!",
             Image = "rbxassetid://71378523145158",
             Time = 5
         })
-        SaveKeyLocally(Value) -- Salva a key localmente
+        SaveKeyLocally(key) -- Salva a key localmente
         wait(1)
         OrionLib:Destroy() -- Fecha a interface
         wait(0.5)
@@ -76,14 +88,16 @@ Tab:AddTextbox({
     Name = "Enter Your Key",
     Default = "",
     TextDisappear = true,
-    Callback = ValidateKey
+    Callback = function(Value)
+        getgenv().KeyInput = Value -- Salva a key inserida em uma variável global
+    end
 })
 
 -- Adicionar botão "Get Key"
 Tab:AddButton({
     Name = "Get Key",
     Callback = function()
-        setclipboard("get-key") -- Link para obter a key
+        setclipboard("get-keyy") -- Link para obter a key
         linkCopied = true -- Define o sinalizador como verdadeiro
         OrionLib:MakeNotification({
             Name = "Link Copied",
@@ -92,6 +106,12 @@ Tab:AddButton({
             Time = 5
         })
     end
+})
+
+-- Adicionar botão "Submit" para validar a key
+Tab:AddButton({
+    Name = "Submit",
+    Callback = ValidateKey
 })
 
 -- Verificar se há uma key salva localmente e validá-la automaticamente
@@ -112,7 +132,7 @@ if savedKey then
     else
         OrionLib:MakeNotification({
             Name = "Invalid Saved Key",
-            Content = "Please enter the key.",
+            Content = "You need a key.",
             Image = "rbxassetid://89375684433942",
             Time = 5
         })
@@ -120,7 +140,7 @@ if savedKey then
 else
     OrionLib:MakeNotification({
         Name = "No Saved Key",
-        Content = "Please enter your key manually.",
+        Content = "You need a key.",
         Image = "rbxassetid://89375684433942",
         Time = 5
     })
