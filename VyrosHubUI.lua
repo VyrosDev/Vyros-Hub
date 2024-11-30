@@ -7,7 +7,7 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService("HttpService")
 
-local VyrosxCLib = { 
+local VyrosLib = { 
 	Elements = {},
 	ThemeObjects = {},
 	Connections = {},
@@ -46,53 +46,53 @@ local function GetIcon(IconName)
 	end
 end   
 
-local VyrosxC = Instance.new("ScreenGui")
-VyrosxC.Name = "VyrosxC"
+local Vyros = Instance.new("ScreenGui")
+Vyros.Name = "Vyros"
 if syn then
-	syn.protect_gui(VyrosxC)
-	VyrosxC.Parent = game.CoreGui
+	syn.protect_gui(Vyros)
+	Vyros.Parent = game.CoreGui
 else
-	VyrosxC.Parent = gethui() or game.CoreGui
+	Vyros.Parent = gethui() or game.CoreGui
 end
 
 if gethui then
 	for _, Interface in ipairs(gethui():GetChildren()) do
-		if Interface.Name == VyrosxC.Name and Interface ~= VyrosxC then
+		if Interface.Name == Vyros.Name and Interface ~= Vyros then
 			Interface:Destroy()
 		end
 	end
 else
 	for _, Interface in ipairs(game.CoreGui:GetChildren()) do
-		if Interface.Name == VyrosxC.Name and Interface ~= VyrosxC then
+		if Interface.Name == Vyros.Name and Interface ~= Vyros then
 			Interface:Destroy()
 		end
 	end
 end
 
-function VyrosxCLib:IsRunning()
+function VyrosLib:IsRunning()
 	if gethui then
-		return VyrosxC.Parent == gethui()
+		return Vyros.Parent == gethui()
 	else
-		return VyrosxC.Parent == game:GetService("CoreGui")
+		return Vyros.Parent == game:GetService("CoreGui")
 	end
 
 end
 
 local function AddConnection(Signal, Function)
-	if (not VyrosxCLib:IsRunning()) then
+	if (not VyrosLib:IsRunning()) then
 		return
 	end
 	local SignalConnect = Signal:Connect(Function)
-	table.insert(VyrosxCLib.Connections, SignalConnect)
+	table.insert(VyrosLib.Connections, SignalConnect)
 	return SignalConnect
 end
 
 task.spawn(function()
-	while (VyrosxCLib:IsRunning()) do
+	while (VyrosLib:IsRunning()) do
 		wait()
 	end
 
-	for _, Connection in next, VyrosxCLib.Connections do
+	for _, Connection in next, VyrosLib.Connections do
 		Connection:Disconnect()
 	end
 end)
@@ -139,13 +139,13 @@ local function Create(Name, Properties, Children)
 end
 
 local function CreateElement(ElementName, ElementFunction)
-	VyrosxCLib.Elements[ElementName] = function(...)
+	VyrosLib.Elements[ElementName] = function(...)
 		return ElementFunction(...)
 	end
 end
 
 local function MakeElement(ElementName, ...)
-	local NewElement = VyrosxCLib.Elements[ElementName](...)
+	local NewElement = VyrosLib.Elements[ElementName](...)
 	return NewElement
 end
 
@@ -188,18 +188,18 @@ local function ReturnProperty(Object)
 end
 
 local function AddThemeObject(Object, Type)
-	if not VyrosxCLib.ThemeObjects[Type] then
-		VyrosxCLib.ThemeObjects[Type] = {}
+	if not VyrosLib.ThemeObjects[Type] then
+		VyrosLib.ThemeObjects[Type] = {}
 	end    
-	table.insert(VyrosxCLib.ThemeObjects[Type], Object)
-	Object[ReturnProperty(Object)] = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme][Type]
+	table.insert(VyrosLib.ThemeObjects[Type], Object)
+	Object[ReturnProperty(Object)] = VyrosLib.Themes[VyrosLib.SelectedTheme][Type]
 	return Object
 end    
 
 local function SetTheme()
-	for Name, Type in pairs(VyrosxCLib.ThemeObjects) do
+	for Name, Type in pairs(VyrosLib.ThemeObjects) do
 		for _, Object in pairs(Type) do
-			Object[ReturnProperty(Object)] = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme][Name]
+			Object[ReturnProperty(Object)] = VyrosLib.Themes[VyrosLib.SelectedTheme][Name]
 		end    
 	end    
 end
@@ -215,12 +215,12 @@ end
 local function LoadCfg(Config)
 	local Data = HttpService:JSONDecode(Config)
 	table.foreach(Data, function(a,b)
-		if VyrosxCLib.Flags[a] then
+		if VyrosLib.Flags[a] then
 			spawn(function() 
-				if VyrosxCLib.Flags[a].Type == "Colorpicker" then
-					VyrosxCLib.Flags[a]:Set(UnpackColor(b))
+				if VyrosLib.Flags[a].Type == "Colorpicker" then
+					VyrosLib.Flags[a]:Set(UnpackColor(b))
 				else
-					VyrosxCLib.Flags[a]:Set(b)
+					VyrosLib.Flags[a]:Set(b)
 				end    
 			end)
 		else
@@ -231,7 +231,7 @@ end
 
 local function SaveCfg(Name)
 	local Data = {}
-	for i,v in pairs(VyrosxCLib.Flags) do
+	for i,v in pairs(VyrosLib.Flags) do
 		if v.Save then
 			if v.Type == "Colorpicker" then
 				Data[i] = PackColor(v.Value)
@@ -240,7 +240,7 @@ local function SaveCfg(Name)
 			end
 		end	
 	end
-	writefile(VyrosxCLib.Folder .. "/" .. Name .. ".txt", tostring(HttpService:JSONEncode(Data)))
+	writefile(VyrosLib.Folder .. "/" .. Name .. ".txt", tostring(HttpService:JSONEncode(Data)))
 end
 
 local WhitelistedMouse = {Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2,Enum.UserInputType.MouseButton3}
@@ -384,10 +384,10 @@ local NotificationHolder = SetProps(SetChildren(MakeElement("TFrame"), {
 	Position = UDim2.new(1, -25, 1, -25),
 	Size = UDim2.new(0, 300, 1, -25),
 	AnchorPoint = Vector2.new(1, 1),
-	Parent = VyrosxC
+	Parent = Vyros
 })
 
-function VyrosxCLib:MakeNotification(NotificationConfig)
+function VyrosLib:MakeNotification(NotificationConfig)
 	spawn(function()
 		NotificationConfig.Name = NotificationConfig.Name or "Notification"
 		NotificationConfig.Content = NotificationConfig.Content or "Test"
@@ -448,12 +448,12 @@ function VyrosxCLib:MakeNotification(NotificationConfig)
 	end)
 end    
 
-function VyrosxCLib:Init()
-	if VyrosxCLib.SaveCfg then	
+function VyrosLib:Init()
+	if VyrosLib.SaveCfg then	
 		pcall(function()
-			if isfile(VyrosxCLib.Folder .. "/" .. game.GameId .. ".txt") then
-				LoadCfg(readfile(VyrosxCLib.Folder .. "/" .. game.GameId .. ".txt"))
-				VyrosxCLib:MakeNotification({
+			if isfile(VyrosLib.Folder .. "/" .. game.GameId .. ".txt") then
+				LoadCfg(readfile(VyrosLib.Folder .. "/" .. game.GameId .. ".txt"))
+				VyrosLib:MakeNotification({
 					Name = "Configuration",
 					Content = "Auto-loaded configuration for the game " .. game.GameId .. ".",
 					Time = 5
@@ -463,7 +463,7 @@ function VyrosxCLib:Init()
 	end	
 end	
 
-function VyrosxCLib:MakeWindow(WindowConfig)
+function VyrosLib:MakeWindow(WindowConfig)
 	local FirstTab = true
 	local Minimized = false
 	local Loaded = false
@@ -482,8 +482,8 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 	WindowConfig.ShowIcon = WindowConfig.ShowIcon or false
 	WindowConfig.Icon = WindowConfig.Icon or "rbxassetid://8834748103"
 	WindowConfig.IntroIcon = WindowConfig.IntroIcon or "rbxassetid://8834748103"
-	VyrosxCLib.Folder = WindowConfig.ConfigFolder
-	VyrosxCLib.SaveCfg = WindowConfig.SaveConfig
+	VyrosLib.Folder = WindowConfig.ConfigFolder
+	VyrosLib.SaveCfg = WindowConfig.SaveConfig
 
 	if WindowConfig.SaveConfig then
 		if not isfolder(WindowConfig.ConfigFolder) then
@@ -600,7 +600,7 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 	}), "Stroke")
 
 	local MainWindow = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 10), {
-		Parent = VyrosxC,
+		Parent = Vyros,
 		Position = UDim2.new(0.5, -307, 0.5, -172),
 		Size = UDim2.new(0, 615, 0, 344),
 		ClipsDescendants = true
@@ -649,7 +649,7 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 	AddConnection(CloseBtn.MouseButton1Up, function()
 		MainWindow.Visible = false
 		UIHidden = true
-		VyrosxCLib:MakeNotification({
+		VyrosLib:MakeNotification({
 			Name = "Interface Hidden",
 			Content = "Tap RightShift to reopen the interface",
 			Time = 5
@@ -686,7 +686,7 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 	local function LoadSequence()
 		MainWindow.Visible = false
 		local LoadSequenceLogo = SetProps(MakeElement("Image", WindowConfig.IntroIcon), {
-			Parent = VyrosxC,
+			Parent = Vyros,
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			Position = UDim2.new(0.5, 0, 0.4, 0),
 			Size = UDim2.new(0, 28, 0, 28),
@@ -695,7 +695,7 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 		})
 
 		local LoadSequenceText = SetProps(MakeElement("Label", WindowConfig.IntroText, 14), {
-			Parent = VyrosxC,
+			Parent = Vyros,
 			Size = UDim2.new(1, 0, 1, 0),
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			Position = UDim2.new(0.5, 19, 0.5, 0),
@@ -885,22 +885,22 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 				}), "Second")
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosLib.Themes[VyrosLib.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 					spawn(function()
 						ButtonConfig.Callback()
 					end)
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 6, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 6, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 
 				function Button:Set(ButtonText)
@@ -960,8 +960,8 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 
 				function Toggle:Set(Value)
 					Toggle.Value = Value
-					TweenService:Create(ToggleBox, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Toggle.Value and ToggleConfig.Color or VyrosxCLib.Themes.Default.Divider}):Play()
-					TweenService:Create(ToggleBox.Stroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = Toggle.Value and ToggleConfig.Color or VyrosxCLib.Themes.Default.Stroke}):Play()
+					TweenService:Create(ToggleBox, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Toggle.Value and ToggleConfig.Color or VyrosLib.Themes.Default.Divider}):Play()
+					TweenService:Create(ToggleBox.Stroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = Toggle.Value and ToggleConfig.Color or VyrosLib.Themes.Default.Stroke}):Play()
 					TweenService:Create(ToggleBox.Ico, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {ImageTransparency = Toggle.Value and 0 or 1, Size = Toggle.Value and UDim2.new(0, 20, 0, 20) or UDim2.new(0, 8, 0, 8)}):Play()
 					ToggleConfig.Callback(Toggle.Value)
 				end    
@@ -969,25 +969,25 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 				Toggle:Set(Toggle.Value)
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosLib.Themes[VyrosLib.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 					SaveCfg(game.GameId)
 					Toggle:Set(not Toggle.Value)
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 6, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 6, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 
 				if ToggleConfig.Flag then
-					VyrosxCLib.Flags[ToggleConfig.Flag] = Toggle
+					VyrosLib.Flags[ToggleConfig.Flag] = Toggle
 				end	
 				return Toggle
 			end  
@@ -1082,7 +1082,7 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 
 				Slider:Set(Slider.Value)
 				if SliderConfig.Flag then				
-					VyrosxCLib.Flags[SliderConfig.Flag] = Slider
+					VyrosLib.Flags[SliderConfig.Flag] = Slider
 				end
 				return Slider
 			end  
@@ -1237,7 +1237,7 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 				Dropdown:Refresh(Dropdown.Options, false)
 				Dropdown:Set(Dropdown.Value)
 				if DropdownConfig.Flag then				
-					VyrosxCLib.Flags[DropdownConfig.Flag] = Dropdown
+					VyrosLib.Flags[DropdownConfig.Flag] = Dropdown
 				end
 				return Dropdown
 			end
@@ -1335,19 +1335,19 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 				end)
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosLib.Themes[VyrosLib.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 6, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 6, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 
 				function Bind:Set(Key)
@@ -1359,7 +1359,7 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 
 				Bind:Set(BindConfig.Default)
 				if BindConfig.Flag then				
-					VyrosxCLib.Flags[BindConfig.Flag] = Bind
+					VyrosLib.Flags[BindConfig.Flag] = Bind
 				end
 				return Bind
 			end  
@@ -1426,20 +1426,20 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 				TextboxActual.Text = TextboxConfig.Default
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = VyrosLib.Themes[VyrosLib.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 3, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 3, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 					TextboxActual:CaptureFocus()
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.R * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.G * 255 + 6, VyrosxCLib.Themes[VyrosxCLib.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(VyrosLib.Themes[VyrosLib.SelectedTheme].Second.R * 255 + 6, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.G * 255 + 6, VyrosLib.Themes[VyrosLib.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 			end 
 			function ElementFunction:AddColorpicker(ColorpickerConfig)
@@ -1623,7 +1623,7 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 
 				Colorpicker:Set(Colorpicker.Value)
 				if ColorpickerConfig.Flag then				
-					VyrosxCLib.Flags[ColorpickerConfig.Flag] = Colorpicker
+					VyrosLib.Flags[ColorpickerConfig.Flag] = Colorpicker
 				end
 				return Colorpicker
 			end  
@@ -1715,8 +1715,8 @@ function VyrosxCLib:MakeWindow(WindowConfig)
 	return TabFunction
 end   
 
-function VyrosxCLib:Destroy()
-	VyrosxC:Destroy()
+function VyrosLib:Destroy()
+	Vyros:Destroy()
 end
 
-return VyrosxCLib
+return VyrosLib
