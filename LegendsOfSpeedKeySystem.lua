@@ -1,4 +1,4 @@
-hgfyylocal OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/ionlyusegithubformcmods/1-Line-Scripts/main/Mobile%20Friendly%20Orion')))() --This Will Load The Script Code
+hgfyylocal OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/VyrosHubUI.lua')))() --This Will Load The Script Code
 local Player = game.Players.LocalPlayer --This Will Reveal The Player Name
   local Window = OrionLib:MakeWindow({
 		Name = "Vyros Hub | Key System",
@@ -9,7 +9,7 @@ local Player = game.Players.LocalPlayer --This Will Reveal The Player Name
 }) --This Will Load The Script Hub
 
 function MakeScriptHub()
-         loadstring(game:HttpGet('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/HubLoader.lua'))() --Put The Script That Will Load If The Key Is Correct Here
+         loadstring(game:HttpGet('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/VyrosxCLegendsOfSpeed.lua'))() --Put The Script That Will Load If The Key Is Correct Here
 end
 
 OrionLib:MakeNotification({
