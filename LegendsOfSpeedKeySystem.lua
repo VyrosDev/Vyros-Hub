@@ -1,4 +1,4 @@
-hgfyylocal OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/VyrosHubUI.lua')))() --This Will Load The Script Code
+OrionLib Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/main/VyrosHubUI.lua')))() --This Will Load The Script Code
 local Player = game.Players.LocalPlayer --This Will Reveal The Player Name
   local Window = OrionLib:MakeWindow({
 		Name = "Vyros Hub | Key System",
