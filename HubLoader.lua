@@ -146,5 +146,42 @@ else
     })
 end
 
+local Tab = Window:MakeTab({
+	Name = "Credits",
+	Icon = "rbxassetid://96062201354965",
+	PremiumOnly = false
+})
+
+local Section = Tab:AddSection({
+	Name = "Information"
+})
+
+Tab:AddParagraph("VYROS HUB","Script Made By Ck_Vyros (@Alexg78909). Join Our Discord Server:")
+
+Tab:AddButton({
+    Name = "Copy Discord Link",
+    Callback = function()
+        setclipboard("discord.gg/uydz6pZWMk") -- Link para obter a key
+        linkCopied = true -- Define o sinalizador como verdadeiro
+        OrionLib:MakeNotification({
+            Name = "Link Copied",
+            Content = "Paste the link into your browser to get your key.",
+            Image = "rbxassetid://71378523145158",
+            Time = 10
+        })
+    end
+})
+
+local Section = Tab:AddSection({
+	Name = "Collaborators"
+})
+
+Tab:AddParagraph("MY HONEY!","Collaboration By Clarkyy (@zClarkyy)")
+
+local Section = Tab:AddSection({
+	Name = "V - 1.5"
+})
+
+
 -- Finaliza a UI
 OrionLib:Init()
