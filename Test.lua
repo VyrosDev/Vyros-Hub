@@ -498,27 +498,16 @@ local function UpdatePlayerStats()
     KeyLabel:Set("Key: " .. playerKey)
 end
 
--- Função para formatar a hora com base no usuário (AM/PM)
+-- Função para pegar a hora atual em formato 24 horas
 local function getCurrentTimeFormatted()
     local time = os.date("*t")  -- Obtém a data e hora atual
     local hour = time.hour
     local minute = time.min
-    local ampm = "AM"
-
-    -- Converte para formato 12 horas
-    if hour >= 12 then
-        ampm = "PM"
-        if hour > 12 then
-            hour = hour - 12
-        end
-    elseif hour == 0 then
-        hour = 12
-    end
 
     -- Ajusta para minutos com dois dígitos
     minute = string.format("%02d", minute)
 
-    return string.format("%02d:%s %s", hour, minute, ampm)
+    return string.format("%02d:%s", hour, minute)  -- Exibe no formato 24h
 end
 
 -- Adicionar o Label para exibir o horário
