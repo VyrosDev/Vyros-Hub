@@ -27,7 +27,7 @@ Section:NewTextBox("Enter Key", "Key", function(Value)
 		getgenv().KeyInput = Value
 end) 
 
-Section:NewButton("Check Key", "This Will Check The Key You Enter", function()
+Section:NewButton("Submit", "This Will Check The Key You Enter", function()
             if getgenv().KeyInput == getgenv().Key then
             OrionLib:MakeNotification({
                 Name = "Checking Key",
@@ -61,7 +61,7 @@ Section:NewButton("Check Key", "This Will Check The Key You Enter", function()
         end
 end)  
 
-Section:NewButton("Copy Link", "ButtonInfo", function()
+Section:NewButton("Get Key", "ButtonInfo", function()
           		setclipboard("Link here") --Put The Link Here
           OrionLib:MakeNotification({
                 Name = "Copied Link!",
