@@ -1,16 +1,40 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub-UI/refs/heads/main/KeySystemUI.lua')))() -- Load The Script Code
+-- Load necessary libraries
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub-UI/refs/heads/main/KeySystemUI.lua')))()
+local DataStoreService = game:GetService("DataStoreService") -- Service for saving data
+local PlayerData = DataStoreService:GetDataStore("KeyValidationData") -- Create a DataStore
+
 local Player = game.Players.LocalPlayer -- Get the player's name
 local Window = OrionLib:MakeWindow({
     Name = "Vyros Hub | Key System",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "OrionTest",
-    IntroText = "Loading Script..."       
-}) -- Create the script hub
+    IntroText = "Vyros Hub | Key System"       
+})
 
 -- Function to load the main script if the key is correct
 function MakeScriptHub()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/refs/heads/main/Test.lua'))() -- Put your main script here
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/refs/heads/main/Test.lua'))() -- Main script here
+end
+
+-- Check if the key has already been validated
+local function HasValidatedKey()
+    local success, result = pcall(function()
+        return PlayerData:GetAsync(Player.UserId) -- Retrieve saved data for the player's UserId
+    end)
+
+    if success and result then
+        return result -- Return true if key was previously validated
+    end
+
+    return false
+end
+
+-- Save that the key has been validated
+local function SaveValidatedKey()
+    pcall(function()
+        PlayerData:SetAsync(Player.UserId, true) -- Save validation status
+    end)
 end
 
 -- Notification for login
@@ -25,10 +49,23 @@ getgenv().Key = "ClarkyyxVyros" -- Set the correct key here
 getgenv().KeyInput = "string" -- Initialize KeyInput
 local linkCopied = false -- Flag to track if the link has been copied
 
+-- Automatically load the main script if key was already validated
+if HasValidatedKey() then
+    OrionLib:MakeNotification({
+        Name = "Key Found!",
+        Content = "Key validated! Loading script...",
+        Image = "rbxassetid://71378523145158",
+        Time = 5
+    })
+    wait(1)
+    MakeScriptHub() -- Load the main script
+    return -- Exit this script since the key system isn't needed
+end
+
 -- Create a tab for the key system
 local Tab = Window:MakeTab({
     Name = "Key System",
-    Icon = "rbxassetid://4483345998",
+    Icon = "rbxassetid://101023107339989",
     PremiumOnly = false
 })
 
@@ -70,6 +107,7 @@ Tab:AddButton({
                 Image = "rbxassetid://71378523145158",
                 Time = 5
             })
+            SaveValidatedKey() -- Save that the key was validated
             wait(1)
             OrionLib:Destroy() -- Destroy the key system UI
             wait(0.3)
