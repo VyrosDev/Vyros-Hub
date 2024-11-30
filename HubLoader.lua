@@ -1,148 +1,130 @@
--- Load necessary libraries
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/CkVyros/Vyros-Hub-UI/refs/heads/main/KeySystemUI.lua')))()
-local DataStoreService = game:GetService("DataStoreService") -- Service for saving data
-local PlayerData = DataStoreService:GetDataStore("KeyValidationData") -- Create a DataStore
+local Window = OrionLib:MakeWindow({Name = "Vyros Hub | Key System", HidePremium = false, SaveConfig = true, ConfigFolder = "KeySystemConfig"})
 
-local Player = game.Players.LocalPlayer -- Get the player's name
-local Window = OrionLib:MakeWindow({
-    Name = "Vyros Hub | Key System",
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "OrionTest",
-    IntroText = "Vyros Hub | Key System"       
-})
+local CONFIG_FILE = "VyrosHub_KeyConfig.json" -- Nome do arquivo para salvar a key
+local linkCopied = false -- Flag para verificar se o link foi copiado
 
--- Function to load the main script if the key is correct
-function MakeScriptHub()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/CkVyros/Vyros-Hub/refs/heads/main/Test.lua'))() -- Main script here
-end
-
--- Check if the key has already been validated
-local function HasValidatedKey()
-    local success, result = pcall(function()
-        return PlayerData:GetAsync(Player.UserId) -- Retrieve saved data for the player's UserId
-    end)
-
-    if success and result then
-        return result -- Return true if key was previously validated
+-- Função para carregar a key salva
+local function LoadSavedKey()
+    if isfile(CONFIG_FILE) then
+        local savedData = game:GetService("HttpService"):JSONDecode(readfile(CONFIG_FILE))
+        return savedData.key
     end
-
-    return false
+    return nil
 end
 
--- Save that the key has been validated
-local function SaveValidatedKey()
-    pcall(function()
-        PlayerData:SetAsync(Player.UserId, true) -- Save validation status
-    end)
+-- Função para salvar a key localmente
+local function SaveKeyLocally(key)
+    local data = { key = key }
+    writefile(CONFIG_FILE, game:GetService("HttpService"):JSONEncode(data))
+    print("Key saved locally:", key)
 end
 
--- Notification for login
-OrionLib:MakeNotification({
-    Name = "Logged In!",
-    Content = "Welcome "..Player.Name..".",
-    Image = "rbxassetid://96062201354965",
-    Time = 5
-})
-
-getgenv().Key = "ClarkyyxVyros" -- Set the correct key here
-getgenv().KeyInput = "string" -- Initialize KeyInput
-local linkCopied = false -- Flag to track if the link has been copied
-
--- Automatically load the main script if key was already validated
-if HasValidatedKey() then
-    OrionLib:MakeNotification({
-        Name = "Key Found!",
-        Content = "Key validated! Loading script...",
-        Image = "rbxassetid://71378523145158",
-        Time = 5
-    })
-    wait(1)
-    MakeScriptHub() -- Load the main script
-    return -- Exit this script since the key system isn't needed
+-- Função para validar key
+local function IsKeyValid(key)
+    return key == "ClarkyyxVyros" -- Verifica se a key é igual à correta
 end
 
--- Create a tab for the key system
+-- Carregar o script principal
+local function LoadMainScript()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/CkVyros/Vyros-Hub/refs/heads/main/Test.lua"))()
+end
+
+-- Criar interface para validação de key
 local Tab = Window:MakeTab({
     Name = "Key System",
     Icon = "rbxassetid://101023107339989",
     PremiumOnly = false
 })
 
--- Textbox for key input
-Tab:AddTextbox({
-    Name = "Key",
-    Default = "Enter Key",
-    TextDisappear = true,
-    Callback = function(Value)
-        getgenv().KeyInput = Value
-    end	  
-})
-
--- Button to check the key
-Tab:AddButton({
-    Name = "Submit",
-    Callback = function()
-        if not linkCopied then
-            OrionLib:MakeNotification({
-                Name = "Error",
-                Content = "Your key is invalid.",
-                Image = "rbxassetid://89375684433942",
-                Time = 5
-            })
-            return
-        end
-
-        if getgenv().KeyInput == getgenv().Key then
-            OrionLib:MakeNotification({
-                Name = "Checking Key",
-                Content = "Checking the key you entered...",
-                Image = "rbxassetid://101023107339989",
-                Time = 5
-            })
-            wait(2)
-            OrionLib:MakeNotification({
-                Name = "Correct Key!",
-                Content = "The key you entered is correct.",
-                Image = "rbxassetid://71378523145158",
-                Time = 5
-            })
-            SaveValidatedKey() -- Save that the key was validated
-            wait(1)
-            OrionLib:Destroy() -- Destroy the key system UI
-            wait(0.3)
-            MakeScriptHub() -- Load the main script
-        else
-            OrionLib:MakeNotification({
-                Name = "Checking Key",
-                Content = "Checking the key you entered...",
-                Image = "rbxassetid://101023107339989",
-                Time = 5
-            })
-            wait(2)
-            OrionLib:MakeNotification({
-                Name = "Incorrect Key!",
-                Content = "The key you entered is incorrect.",
-                Image = "rbxassetid://89375684433942",
-                Time = 5
-            })
-        end
+-- Função para validar e carregar o script
+local function ValidateKey(Value)
+    if not linkCopied then
+        OrionLib:MakeNotification({
+            Name = "Error",
+            Content = "Your key is invalid.",
+            Image = "rbxassetid://89375684433942",
+            Time = 5
+        })
+        return
     end
+
+    if IsKeyValid(Value) then
+        OrionLib:MakeNotification({
+            Name = "Valid Key",
+            Content = "Key validated successfully!",
+            Image = "rbxassetid://71378523145158",
+            Time = 5
+        })
+        SaveKeyLocally(Value) -- Salva a key localmente
+        wait(1)
+        OrionLib:Destroy() -- Fecha a interface
+        wait(0.5)
+        LoadMainScript() -- Carrega o script principal
+    else
+        OrionLib:MakeNotification({
+            Name = "Invalid Key",
+            Content = "Your key is invalid.",
+            Image = "rbxassetid://89375684433942",
+            Time = 5
+        })
+    end
+end
+
+-- Adicionar Textbox para entrada da key
+Tab:AddTextbox({
+    Name = "Enter Your Key",
+    Default = "",
+    TextDisappear = true,
+    Callback = ValidateKey
 })
 
--- Button to copy the key link
+-- Adicionar botão "Get Key"
 Tab:AddButton({
     Name = "Get Key",
     Callback = function()
-        setclipboard("Put The Link Here") -- Set the link for the key
-        linkCopied = true -- Set the flag to true
+        setclipboard("get-key") -- Link para obter a key
+        linkCopied = true -- Define o sinalizador como verdadeiro
         OrionLib:MakeNotification({
-            Name = "Link Copied!",
-            Content = "Paste the link into your browser.",
+            Name = "Link Copied",
+            Content = "Paste the link into your browser to get your key.",
             Image = "rbxassetid://101023107339989",
             Time = 5
         })
-    end    
+    end
 })
 
-OrionLib:Init() -- Initialize the UI
+-- Verificar se há uma key salva localmente e validá-la automaticamente
+local savedKey = LoadSavedKey()
+
+if savedKey then
+    if IsKeyValid(savedKey) then
+        OrionLib:MakeNotification({
+            Name = "Key Found",
+            Content = "Key loaded and validated automatically!",
+            Image = "rbxassetid://71378523145158",
+            Time = 5
+        })
+        wait(1)
+        OrionLib:Destroy() -- Fecha a interface
+        wait(0.5)
+        LoadMainScript() -- Carrega o script principal
+    else
+        OrionLib:MakeNotification({
+            Name = "Invalid Saved Key",
+            Content = "Please enter the key.",
+            Image = "rbxassetid://89375684433942",
+            Time = 5
+        })
+    end
+else
+    OrionLib:MakeNotification({
+        Name = "No Saved Key",
+        Content = "Please enter your key manually.",
+        Image = "rbxassetid://89375684433942",
+        Time = 5
+    })
+end
+
+-- Finaliza a UI
+OrionLib:Init()
