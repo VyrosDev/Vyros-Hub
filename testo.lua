@@ -536,22 +536,21 @@ local StatusLabel = Tab:AddLabel("Status: Online")
 local KeyLabel = Tab:AddLabel("Key: Valid ✅")
 
 -- Variáveis para o contador de tempo no jogo
-local timeInGame = 0  -- Tempo inicial (segundos)
-local TimeInGameLabel = Tab:AddLabel("Time in Game: 0s")
+local timeInGame = 0  -- Tempo inicial em minutos
+local TimeInGameLabel = Tab:AddLabel("Time in Game: 0d 00h 00m")
 
--- Função para formatar o tempo em dias, horas, minutos e segundos
-local function formatTime(seconds)
-    local days = math.floor(seconds / 86400)
-    local hours = math.floor((seconds % 86400) / 3600)
-    local minutes = math.floor((seconds % 3600) / 60)
-    local secs = seconds % 60
+-- Função para formatar o tempo em dias, horas e minutos
+local function formatTime(minutes)
+    local days = math.floor(minutes / 1440)  -- 1440 minutos em um dia
+    local hours = math.floor((minutes % 1440) / 60)
+    local mins = minutes % 60
 
-    return string.format("%dd %02dh %02dm %02ds", days, hours, minutes, secs)
+    return string.format("%dd %02dh %02dm", days, hours, mins)
 end
 
 -- Função para atualizar o tempo de jogo
 local function updateTimeInGame()
-    timeInGame += 1  -- Incrementa o contador de segundos
+    timeInGame += 1  -- Incrementa o contador em 1 minuto
     TimeInGameLabel:Set("Time in Game: " .. formatTime(timeInGame))
 end
 
@@ -583,20 +582,22 @@ end
 -- Adicionar o Label para exibir o horário
 local TimeLabel = Tab:AddLabel("Time: " .. getCurrentTimeFormatted())
 
--- Função para atualizar a hora a cada segundo
+-- Função para atualizar a hora a cada minuto
 local function UpdateTime()
     TimeLabel:Set("Time: " .. getCurrentTimeFormatted())
 end
 
--- Conectar atualizações ao evento de `Heartbeat`
+-- Atualiza o contador de tempo de jogo a cada minuto
+task.spawn(function()
+    while task.wait(60) do  -- Atualiza a cada 60 segundos (1 minuto)
+        updateTimeInGame()
+    end
+end)
+
+-- Atualiza as estatísticas e horário continuamente
 game:GetService("RunService").Heartbeat:Connect(function()
     UpdatePlayerStats()
     UpdateTime()  -- Atualiza o horário
-end)
-
--- Incrementa o contador de tempo de jogo a cada segundo
-game:GetService("RunService").Stepped:Connect(function(_, deltaTime)
-    updateTimeInGame()
 end)
 
 local Section = Tab:AddSection({
