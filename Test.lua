@@ -1164,7 +1164,7 @@ Tab:AddToggle({
 })
 
 Tab:AddButton({
-    Name = "Toggle Infinite Jump",
+    Name = "Infinite Jump",
     Callback = function()
         local infiniteJumpEnabled = false  -- Estado inicial desativado
 
