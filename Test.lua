@@ -523,43 +523,6 @@ local function UpdatePlayerStats()
     KeyLabel:Set("Key: " .. playerKey)
 end
 
--- Função para formatar a hora com base no usuário (AM/PM)
-local function getCurrentTimeFormatted()
-    local time = os.date("*t")  -- Obtém a data e hora atual
-    local hour = time.hour
-    local minute = time.min
-    local ampm = "AM"
-
-    -- Converte para formato 12 horas
-    if hour >= 12 then
-        ampm = "PM"
-        if hour > 12 then
-            hour = hour - 12
-        end
-    elseif hour == 0 then
-        hour = 12
-    end
-
-    -- Ajusta para minutos com dois dígitos
-    minute = string.format("%02d", minute)
-
-    return string.format("%02d:%s %s", hour, minute, ampm)
-end
-
--- Adicionar o Label para exibir o horário
-local TimeLabel = Tab:AddLabel("Time: " .. getCurrentTimeFormatted())
-
--- Função para atualizar a hora a cada segundo
-local function UpdateTime()
-    TimeLabel:Set("Time: " .. getCurrentTimeFormatted())
-end
-
--- Atualiza as estatísticas a cada 5 segundos
-game:GetService("RunService").Heartbeat:Connect(function()
-    UpdatePlayerStats()
-    UpdateTime()  -- Atualiza o horário também
-end)
-
 local Section = Tab:AddSection({
     Name = "Main"
 })
