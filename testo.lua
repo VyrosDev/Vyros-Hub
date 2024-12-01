@@ -535,6 +535,26 @@ local UserIDLabel = Tab:AddLabel("UserID: " .. game.Players.LocalPlayer.UserId)
 local StatusLabel = Tab:AddLabel("Status: Online")
 local KeyLabel = Tab:AddLabel("Key: Valid ✅")
 
+-- Variáveis para o contador de tempo no jogo
+local timeInGame = 0  -- Tempo inicial (segundos)
+local TimeInGameLabel = Tab:AddLabel("Time in Game: 0s")
+
+-- Função para formatar o tempo em dias, horas, minutos e segundos
+local function formatTime(seconds)
+    local days = math.floor(seconds / 86400)
+    local hours = math.floor((seconds % 86400) / 3600)
+    local minutes = math.floor((seconds % 3600) / 60)
+    local secs = seconds % 60
+
+    return string.format("%dd %02dh %02dm %02ds", days, hours, minutes, secs)
+end
+
+-- Função para atualizar o tempo de jogo
+local function updateTimeInGame()
+    timeInGame += 1  -- Incrementa o contador de segundos
+    TimeInGameLabel:Set("Time in Game: " .. formatTime(timeInGame))
+end
+
 -- Função para atualizar os valores das estatísticas
 local function UpdatePlayerStats()
     local player = game.Players.LocalPlayer
@@ -568,10 +588,15 @@ local function UpdateTime()
     TimeLabel:Set("Time: " .. getCurrentTimeFormatted())
 end
 
--- Atualiza as estatísticas a cada 5 segundos
+-- Conectar atualizações ao evento de `Heartbeat`
 game:GetService("RunService").Heartbeat:Connect(function()
     UpdatePlayerStats()
-    UpdateTime()  -- Atualiza o horário também
+    UpdateTime()  -- Atualiza o horário
+end)
+
+-- Incrementa o contador de tempo de jogo a cada segundo
+game:GetService("RunService").Stepped:Connect(function(_, deltaTime)
+    updateTimeInGame()
 end)
 
 local Section = Tab:AddSection({
