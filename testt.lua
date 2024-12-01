@@ -537,9 +537,24 @@ local KeyLabel = Tab:AddLabel("Key: Valid ✅")
 
 -- Variáveis para o contador de tempo no jogo
 local timeInGame = 0  -- Tempo inicial em minutos
-local TimeInGameLabel = Tab:AddLabel("Time in Game: 0d 00h 00m")
 
--- Função para formatar o tempo em dias, horas e minutos
+-- Função para pegar a hora atual em formato 24 horas
+local function getCurrentTimeFormatted()
+    local time = os.date("*t")  -- Obtém a data e hora atual
+    local hour = time.hour
+    local minute = time.min
+
+    -- Ajusta para minutos com dois dígitos
+    minute = string.format("%02d", minute)
+
+    return string.format("%02d:%s", hour, minute)  -- Exibe no formato 24h
+end
+
+-- Adicionar os Labels para exibir o horário e o tempo no jogo
+local TimeLabel = Tab:AddLabel("Time: " .. getCurrentTimeFormatted())
+local TimeInGameLabel = Tab:AddLabel("In Game: 0d 00h 00m")  -- Adicionado depois, para ficar abaixo
+
+-- Função para atualizar o tempo de jogo
 local function formatTime(minutes)
     local days = math.floor(minutes / 1440)  -- 1440 minutos em um dia
     local hours = math.floor((minutes % 1440) / 60)
@@ -548,10 +563,9 @@ local function formatTime(minutes)
     return string.format("%dd %02dh %02dm", days, hours, mins)
 end
 
--- Função para atualizar o tempo de jogo
 local function updateTimeInGame()
     timeInGame += 1  -- Incrementa o contador em 1 minuto
-    TimeInGameLabel:Set("Time in Game: " .. formatTime(timeInGame))
+    TimeInGameLabel:Set("In Game: " .. formatTime(timeInGame))
 end
 
 -- Função para atualizar os valores das estatísticas
@@ -567,22 +581,7 @@ local function UpdatePlayerStats()
     KeyLabel:Set("Key: " .. playerKey)
 end
 
--- Função para pegar a hora atual em formato 24 horas
-local function getCurrentTimeFormatted()
-    local time = os.date("*t")  -- Obtém a data e hora atual
-    local hour = time.hour
-    local minute = time.min
-
-    -- Ajusta para minutos com dois dígitos
-    minute = string.format("%02d", minute)
-
-    return string.format("%02d:%s", hour, minute)  -- Exibe no formato 24h
-end
-
--- Adicionar o Label para exibir o horário
-local TimeLabel = Tab:AddLabel("Time: " .. getCurrentTimeFormatted())
-
--- Função para atualizar a hora a cada minuto
+-- Função para atualizar o horário
 local function UpdateTime()
     TimeLabel:Set("Time: " .. getCurrentTimeFormatted())
 end
