@@ -532,7 +532,7 @@ end
 
 -- Adicionar os Labels para exibir o horário e o tempo no jogo
 local TimeLabel = Tab:AddLabel("Time: " .. getCurrentTimeFormatted())
-local TimeInGameLabel = Tab:AddLabel("In Game: 0d 00h 00m")  -- Adicionado depois, para ficar abaixo
+local TimeInGameLabel = Tab:AddLabel("Playing: 0d 00h 00m")  -- Adicionado depois, para ficar abaixo
 
 -- Função para atualizar o tempo de jogo
 local function formatTime(minutes)
