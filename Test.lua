@@ -489,6 +489,31 @@ local function toggleInfiniteJump()
     end
 end
 
+-- Function Infinite Jump
+local infiniteJumpEnabled = false  -- Flag que indica se o Infinite Jump está ativado
+
+local function toggleInfiniteJump()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if not character then return end
+    
+    local humanoid = character:FindFirstChild("Humanoid")
+    if humanoid then
+        -- Ativa ou desativa o Infinite Jump
+        if infiniteJumpEnabled then
+            -- Desativa o Infinite Jump (restaurando o comportamento normal do salto)
+            humanoid.JumpPower = 50  -- Valor normal de JumpPower
+            infiniteJumpEnabled = false
+            print("Infinite Jump Disabled")
+        else
+            -- Ativa o Infinite Jump (aumentando o JumpPower)
+            humanoid.JumpPower = 200  -- Valor alto para o salto infinito
+            infiniteJumpEnabled = true
+            print("Infinite Jump Enabled")
+        end
+    end
+end
+
 
 
 --// Vyros Hub \\--
@@ -522,6 +547,34 @@ local function UpdatePlayerStats()
     StatusLabel:Set("Status: " .. playerStatus)
     KeyLabel:Set("Key: " .. playerKey)
 end
+
+-- Função para pegar a hora atual em formato 24 horas, incluindo os segundos
+local function getCurrentTimeFormatted()
+    local time = os.date("*t")  -- Obtém a data e hora atual
+    local hour = time.hour
+    local minute = time.min
+    local second = time.sec  -- Obtém os segundos
+
+    -- Ajusta para minutos e segundos com dois dígitos
+    minute = string.format("%02d", minute)
+    second = string.format("%02d", second)
+
+    return string.format("%02d:%s:%s", hour, minute, second)  -- Exibe no formato HH:MM:SS
+end
+
+-- Adicionar o Label para exibir o horário
+local TimeLabel = Tab:AddLabel("Time: " .. getCurrentTimeFormatted())
+
+-- Função para atualizar a hora a cada segundo
+local function UpdateTime()
+    TimeLabel:Set("Time: " .. getCurrentTimeFormatted())
+end
+
+-- Atualiza as estatísticas e o horário a cada segundo
+game:GetService("RunService").Heartbeat:Connect(function()
+    UpdatePlayerStats()
+    UpdateTime()  -- Atualiza o horário também
+end)
 
 local Section = Tab:AddSection({
     Name = "Main"
