@@ -511,18 +511,12 @@ local UserIDLabel = Tab:AddLabel("UserID: " .. game.Players.LocalPlayer.UserId)
 local StatusLabel = Tab:AddLabel("Status: Online")
 local KeyLabel = Tab:AddLabel("Key: Valid ✅")
 
--- Função para atualizar os valores das estatísticas
-local function UpdatePlayerStats()
-    local player = game.Players.LocalPlayer
-    local userID = player.UserId
-    local playerStatus = "Online"  -- Status sempre online
-    local playerKey = "Valid ✅"  -- Chave sempre válida
+local StatsSection = Tab:AddSection({
+    Name = "Player Time"
+})
 
-    -- Atualizar os Labels com os valores
-    UserIDLabel:Set("UserID: " .. userID)
-    StatusLabel:Set("Status: " .. playerStatus)
-    KeyLabel:Set("Key: " .. playerKey)
-end
+-- Variáveis para o contador de tempo no jogo
+local timeInGame = 0  -- Tempo inicial em minutos
 
 -- Função para pegar a hora atual em formato 24 horas
 local function getCurrentTimeFormatted()
@@ -536,18 +530,53 @@ local function getCurrentTimeFormatted()
     return string.format("%02d:%s", hour, minute)  -- Exibe no formato 24h
 end
 
--- Adicionar o Label para exibir o horário
+-- Adicionar os Labels para exibir o horário e o tempo no jogo
 local TimeLabel = Tab:AddLabel("Time: " .. getCurrentTimeFormatted())
+local TimeInGameLabel = Tab:AddLabel("In Game: 0d 00h 00m")  -- Adicionado depois, para ficar abaixo
 
--- Função para atualizar a hora a cada segundo
+-- Função para atualizar o tempo de jogo
+local function formatTime(minutes)
+    local days = math.floor(minutes / 1440)  -- 1440 minutos em um dia
+    local hours = math.floor((minutes % 1440) / 60)
+    local mins = minutes % 60
+
+    return string.format("%dd %02dh %02dm", days, hours, mins)
+end
+
+local function updateTimeInGame()
+    timeInGame += 1  -- Incrementa o contador em 1 minuto
+    TimeInGameLabel:Set("Playing: " .. formatTime(timeInGame))
+end
+
+-- Função para atualizar os valores das estatísticas
+local function UpdatePlayerStats()
+    local player = game.Players.LocalPlayer
+    local userID = player.UserId
+    local playerStatus = "Online"  -- Status sempre online
+    local playerKey = "Valid ✅"  -- Chave sempre válida
+
+    -- Atualizar os Labels com os valores
+    UserIDLabel:Set("UserID: " .. userID)
+    StatusLabel:Set("Status: " .. playerStatus)
+    KeyLabel:Set("Key: " .. playerKey)
+end
+
+-- Função para atualizar o horário
 local function UpdateTime()
     TimeLabel:Set("Time: " .. getCurrentTimeFormatted())
 end
 
--- Atualiza as estatísticas a cada 5 segundos
+-- Atualiza o contador de tempo de jogo a cada minuto
+task.spawn(function()
+    while task.wait(60) do  -- Atualiza a cada 60 segundos (1 minuto)
+        updateTimeInGame()
+    end
+end)
+
+-- Atualiza as estatísticas e horário continuamente
 game:GetService("RunService").Heartbeat:Connect(function()
     UpdatePlayerStats()
-    UpdateTime()  -- Atualiza o horário também
+    UpdateTime()  -- Atualiza o horário
 end)
 
 local Section = Tab:AddSection({
@@ -1248,8 +1277,8 @@ local Section = Tab:AddSection({
 })
 
 OrionLib:MakeNotification({
-	Name = "Welcome to Vyros Hub",
-	Content = "Your Key Is Validated!",
+	Name = "Vyros Hub Freemium",
+	Content = "Your Key Freemium Is Validated!",
 	Image = "rbxassetid://101023107339989",
 	Time = 15
 })
