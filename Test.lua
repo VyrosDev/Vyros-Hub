@@ -523,44 +523,40 @@ local function UpdatePlayerStats()
     KeyLabel:Set("Key: " .. playerKey)
 end
 
-local StatsSection = Tab:AddSection({
-    Name = "Player Time"
-})
-
--- Função para pegar a hora atual em formato 24 horas, incluindo os segundos
+-- Função para pegar a hora atual em formato 24 horas
 local function getCurrentTimeFormatted()
     local time = os.date("*t")  -- Obtém a data e hora atual
     local hour = time.hour
     local minute = time.min
-    local second = time.sec  -- Obtém os segundos
 
-    -- Ajusta para minutos e segundos com dois dígitos
+    -- Ajusta para minutos com dois dígitos
     minute = string.format("%02d", minute)
-    second = string.format("%02d", second)
 
-    return string.format("%02d:%s:%s", hour, minute, second)  -- Exibe no formato HH:MM:SS
+    return string.format("%02d:%s", hour, minute)  -- Exibe no formato 24h
 end
 
--- Função para calcular o tempo jogado no jogo
-local function getTimeInGame()
-    local timePlayed = game:GetService("Stats"):GetPlayerData(game.Players.LocalPlayer).TimePlayed
-    local seconds = math.floor(timePlayed % 60)
-    local minutes = math.floor((timePlayed / 60) % 60)
-    local hours = math.floor((timePlayed / 3600) % 24)
-    local days = math.floor(timePlayed / 86400)
+-- Função para calcular o tempo no jogo desde a execução do script
+local startTime = tick()  -- Marca o tempo de início
 
-    -- Formata o tempo de forma legível
+local function getTimeInGame()
+    local elapsedTime = tick() - startTime  -- Calcula o tempo passado desde que o script foi iniciado
+    local seconds = math.floor(elapsedTime % 60)
+    local minutes = math.floor((elapsedTime / 60) % 60)
+    local hours = math.floor((elapsedTime / 3600) % 24)
+    local days = math.floor(elapsedTime / 86400)
+
+    -- Retorna o tempo formatado
     return string.format("%d days %02d:%02d:%02d", days, hours, minutes, seconds)
 end
 
--- Adicionar o Label para exibir o horário
+-- Adicionar o Label para exibir o tempo no jogo
 local TimeLabel = Tab:AddLabel("Time: " .. getCurrentTimeFormatted())
-local TimeInGameLabel = Tab:AddLabel("Time in Game: " .. getTimeInGame())
+local TimeInGameLabel = Tab:AddLabel("Time in Game: 00 days 00:00:00")  -- Tempo de jogo inicializado
 
--- Função para atualizar o horário e o tempo de jogo
+-- Função para atualizar a hora e o tempo no jogo a cada segundo
 local function UpdateTime()
-    TimeLabel:Set("Time: " .. getCurrentTimeFormatted())
-    TimeInGameLabel:Set("Time in Game: " .. getTimeInGame())  -- Atualiza o tempo de jogo
+    TimeLabel:Set("Time: " .. getCurrentTimeFormatted())  -- Atualiza a hora atual
+    TimeInGameLabel:Set("Time in Game: " .. getTimeInGame())  -- Atualiza o tempo no jogo
 end
 
 -- Atualiza as estatísticas e o horário a cada segundo
