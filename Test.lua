@@ -450,7 +450,7 @@ local function toggleNoclip(state)
     end
 end
 
--- Ativa o noclip no personagem
+-- Function noclip
 game:GetService("RunService").Stepped:Connect(function()
     if noclipEnabled then
         local character = game.Players.LocalPlayer.Character
@@ -463,6 +463,31 @@ game:GetService("RunService").Stepped:Connect(function()
         end
     end
 end)
+
+-- Function Infinite Jump
+local infiniteJumpEnabled = false  -- Flag que indica se o Infinite Jump está ativado
+
+local function toggleInfiniteJump()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if not character then return end
+    
+    local humanoid = character:FindFirstChild("Humanoid")
+    if humanoid then
+        -- Ativa ou desativa o Infinite Jump
+        if infiniteJumpEnabled then
+            -- Desativa o Infinite Jump (restaurando o comportamento normal do salto)
+            humanoid.JumpPower = 50  -- Valor normal de JumpPower
+            infiniteJumpEnabled = false
+            print("Infinite Jump Disabled")
+        else
+            -- Ativa o Infinite Jump (aumentando o JumpPower)
+            humanoid.JumpPower = 200  -- Valor alto para o salto infinito
+            infiniteJumpEnabled = true
+            print("Infinite Jump Enabled")
+        end
+    end
+end
 
 
 
@@ -498,30 +523,50 @@ local function UpdatePlayerStats()
     KeyLabel:Set("Key: " .. playerKey)
 end
 
--- Função para pegar a hora atual em formato 24 horas
+local StatsSection = Tab:AddSection({
+    Name = "Player Time"
+})
+
+-- Função para pegar a hora atual em formato 24 horas, incluindo os segundos
 local function getCurrentTimeFormatted()
     local time = os.date("*t")  -- Obtém a data e hora atual
     local hour = time.hour
     local minute = time.min
+    local second = time.sec  -- Obtém os segundos
 
-    -- Ajusta para minutos com dois dígitos
+    -- Ajusta para minutos e segundos com dois dígitos
     minute = string.format("%02d", minute)
+    second = string.format("%02d", second)
 
-    return string.format("%02d:%s", hour, minute)  -- Exibe no formato 24h
+    return string.format("%02d:%s:%s", hour, minute, second)  -- Exibe no formato HH:MM:SS
+end
+
+-- Função para calcular o tempo jogado no jogo
+local function getTimeInGame()
+    local timePlayed = game:GetService("Stats"):GetPlayerData(game.Players.LocalPlayer).TimePlayed
+    local seconds = math.floor(timePlayed % 60)
+    local minutes = math.floor((timePlayed / 60) % 60)
+    local hours = math.floor((timePlayed / 3600) % 24)
+    local days = math.floor(timePlayed / 86400)
+
+    -- Formata o tempo de forma legível
+    return string.format("%d days %02d:%02d:%02d", days, hours, minutes, seconds)
 end
 
 -- Adicionar o Label para exibir o horário
 local TimeLabel = Tab:AddLabel("Time: " .. getCurrentTimeFormatted())
+local TimeInGameLabel = Tab:AddLabel("Time in Game: " .. getTimeInGame())
 
--- Função para atualizar a hora a cada segundo
+-- Função para atualizar o horário e o tempo de jogo
 local function UpdateTime()
     TimeLabel:Set("Time: " .. getCurrentTimeFormatted())
+    TimeInGameLabel:Set("Time in Game: " .. getTimeInGame())  -- Atualiza o tempo de jogo
 end
 
--- Atualiza as estatísticas a cada 5 segundos
+-- Atualiza as estatísticas e o horário a cada segundo
 game:GetService("RunService").Heartbeat:Connect(function()
     UpdatePlayerStats()
-    UpdateTime()  -- Atualiza o horário também
+    UpdateTime()  -- Atualiza o horário e o tempo de jogo
 end)
 
 local Section = Tab:AddSection({
@@ -749,10 +794,10 @@ Tab:AddToggle({
 
 Tab:AddToggle({
     Name = "No Ping",
-    Default = false,
+    Default = true,
     Callback = function(state)
         noPingEnabled = state  -- Atualiza o estado de noPing
-        print("No Ping " .. (noPingEnabled and "Ativado" or "Desativado"))
+        print("No Ping " .. (noPingEnabled and "Enabled" or "Disabled"))
         
         -- Inicia o NoPing ou para dependendo do toggle
         if noPingEnabled then
@@ -855,7 +900,7 @@ local Section = Tab:AddSection({
 })
 
 Tab:AddTextbox({
-    Name = "Put Rebirth",
+    Name = "Rebirth",
     Default = "0",  -- valor padrão
     TextDisappear = true,
     Callback = function(value)
@@ -936,7 +981,7 @@ Tab:AddToggle({
 })
 
 local Section = Tab:AddSection({
-	Name = "Fast Races"
+	Name = "Extremely Fast Races"
 })
 
 Tab:AddToggle({
@@ -979,7 +1024,7 @@ local Section = Tab:AddSection({
 	Name = "Note"
 })
 
-Tab:AddParagraph("READ","The above scripts are fully compatible with mob, but are PC specific.")
+Tab:AddParagraph("READ","The Above Scripts Are Fully Compatible With Mob, But Are PC Specific.")
 
 local Section = Tab:AddSection({
 	Name = "Auto Race"
@@ -989,7 +1034,7 @@ Tab:AddButton({
     Name = "Auto Race - Script",  -- Nome do botão
     Callback = function() 
         -- Quando o botão for pressionado, o script será executado
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/AutoRacePC.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/CkVyros/Vyros-Hub/refs/heads/main/AutoRacePC.lua"))()
     end    
 })
 
@@ -1001,7 +1046,7 @@ Tab:AddButton({
     Name = "Auto Farm - Script",  -- Nome do botão
     Callback = function() 
         -- Quando o botão for pressionado, o script será executado
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/VyrosxC-Hub/VyrosxC/refs/heads/main/AutoFarmPC.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/CkVyros/Vyros-Hub/refs/heads/main/AutoFarmPC.lua"))()
     end    
 })
 
@@ -1054,15 +1099,15 @@ Tab:AddToggle({
 })
 
 local Section = Tab:AddSection({
-	Name = "VyrosxC Hub Spam"
+	Name = "Vyros Hub Spam"
 })
 
 Tab:AddButton({
-    Name = "Click Here To Help Us!",
+    Name = "Click Here To Help Us",
     Callback = function()
         spawn(function()
             for i = 1, 5 do
-                sendChatMessage("VyrosxC The Best Hub!")  -- Envia a mensagem desejada
+                sendChatMessage("Vyros The Best Hub!")  -- Envia a mensagem desejada
                 wait(0.2)  -- Aguarda 0.2 segundos antes de enviar a próxima mensagem
             end
         end)
@@ -1137,6 +1182,18 @@ Tab:AddToggle({
     end
 })
 
+Tab:AddToggle({
+    Name = "Infinite Jump",  -- Nome do toggle
+    Default = false,  -- Desativado por padrão
+    Callback = function(Value)
+        if Value then
+            toggleInfiniteJump()  -- Ativa o Infinite Jump
+        else
+            toggleInfiniteJump()  -- Desativa o Infinite Jump
+        end
+    end    
+})
+
 local GravityTextbox = Tab:AddTextbox({
     Name = "Gravity",
     Default = "196.2",  -- Valor padrão da gravidade
@@ -1178,7 +1235,7 @@ Tab:AddButton({
         linkCopied = true -- Define o sinalizador como verdadeiro
         OrionLib:MakeNotification({
             Name = "Link Copied",
-            Content = "Paste the link into your browser to get your key.",
+            Content = "Paste the link into your browser.",
             Image = "rbxassetid://71378523145158",
             Time = 5
         })
