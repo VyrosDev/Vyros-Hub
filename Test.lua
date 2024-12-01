@@ -489,30 +489,6 @@ local function toggleInfiniteJump()
     end
 end
 
--- Function Infinite Jump
-local infiniteJumpEnabled = false  -- Flag que indica se o Infinite Jump está ativado
-
-local function toggleInfiniteJump()
-    local player = game.Players.LocalPlayer
-    local character = player.Character
-    if not character then return end
-    
-    local humanoid = character:FindFirstChild("Humanoid")
-    if humanoid then
-        -- Ativa ou desativa o Infinite Jump
-        if infiniteJumpEnabled then
-            -- Desativa o Infinite Jump (restaurando o comportamento normal do salto)
-            humanoid.JumpPower = 50  -- Valor normal de JumpPower
-            infiniteJumpEnabled = false
-            print("Infinite Jump Disabled")
-        else
-            -- Ativa o Infinite Jump (aumentando o JumpPower)
-            humanoid.JumpPower = 200  -- Valor alto para o salto infinito
-            infiniteJumpEnabled = true
-            print("Infinite Jump Enabled")
-        end
-    end
-end
 
 
 
@@ -1187,14 +1163,27 @@ Tab:AddToggle({
     end
 })
 
-Tab:AddToggle({
-    Name = "Infinite Jump",  -- Nome do toggle
-    Default = false,  -- Desativado por padrão
-    Callback = function(Value)
-        if Value then
-            toggleInfiniteJump()  -- Ativa o Infinite Jump
+Tab:AddButton({
+    Name = "Toggle Infinite Jump",
+    Callback = function()
+        local infiniteJumpEnabled = false  -- Estado inicial desativado
+
+        -- Alterna o estado do Infinite Jump
+        infiniteJumpEnabled = not infiniteJumpEnabled
+
+        if infiniteJumpEnabled then
+            print("Infinite Jump Activated")
+            -- Habilita o Infinite Jump
+            game:GetService("UserInputService").JumpRequest:Connect(function()
+                if infiniteJumpEnabled then
+                    local player = game.Players.LocalPlayer
+                    if player and player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
+                        player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                    end
+                end
+            end)
         else
-            toggleInfiniteJump()  -- Desativa o Infinite Jump
+            print("Infinite Jump Deactivated")
         end
     end    
 })
