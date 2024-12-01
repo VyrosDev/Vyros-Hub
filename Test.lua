@@ -548,18 +548,16 @@ local function UpdatePlayerStats()
     KeyLabel:Set("Key: " .. playerKey)
 end
 
--- Função para pegar a hora atual em formato 24 horas, incluindo os segundos
+-- Função para pegar a hora atual em formato 24 horas
 local function getCurrentTimeFormatted()
     local time = os.date("*t")  -- Obtém a data e hora atual
     local hour = time.hour
     local minute = time.min
-    local second = time.sec  -- Obtém os segundos
 
-    -- Ajusta para minutos e segundos com dois dígitos
+    -- Ajusta para minutos com dois dígitos
     minute = string.format("%02d", minute)
-    second = string.format("%02d", second)
 
-    return string.format("%02d:%s:%s", hour, minute, second)  -- Exibe no formato HH:MM:SS
+    return string.format("%02d:%s", hour, minute)  -- Exibe no formato 24h
 end
 
 -- Adicionar o Label para exibir o horário
@@ -570,7 +568,7 @@ local function UpdateTime()
     TimeLabel:Set("Time: " .. getCurrentTimeFormatted())
 end
 
--- Atualiza as estatísticas e o horário a cada segundo
+-- Atualiza as estatísticas a cada 5 segundos
 game:GetService("RunService").Heartbeat:Connect(function()
     UpdatePlayerStats()
     UpdateTime()  -- Atualiza o horário também
@@ -801,7 +799,7 @@ Tab:AddToggle({
 
 Tab:AddToggle({
     Name = "No Ping",
-    Default = true,
+    Default = false,
     Callback = function(state)
         noPingEnabled = state  -- Atualiza o estado de noPing
         print("No Ping " .. (noPingEnabled and "Enabled" or "Disabled"))
