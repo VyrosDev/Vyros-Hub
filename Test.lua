@@ -535,34 +535,18 @@ local function getCurrentTimeFormatted()
     return string.format("%02d:%s", hour, minute)  -- Exibe no formato 24h
 end
 
--- Função para calcular o tempo no jogo desde a execução do script
-local startTime = tick()  -- Marca o tempo de início
-
-local function getTimeInGame()
-    local elapsedTime = tick() - startTime  -- Calcula o tempo passado desde que o script foi iniciado
-    local seconds = math.floor(elapsedTime % 60)
-    local minutes = math.floor((elapsedTime / 60) % 60)
-    local hours = math.floor((elapsedTime / 3600) % 24)
-    local days = math.floor(elapsedTime / 86400)
-
-    -- Retorna o tempo formatado
-    return string.format("%d days %02d:%02d:%02d", days, hours, minutes, seconds)
-end
-
--- Adicionar o Label para exibir o tempo no jogo
+-- Adicionar o Label para exibir o horário
 local TimeLabel = Tab:AddLabel("Time: " .. getCurrentTimeFormatted())
-local TimeInGameLabel = Tab:AddLabel("Time in Game: 00 days 00:00:00")  -- Tempo de jogo inicializado
 
--- Função para atualizar a hora e o tempo no jogo a cada segundo
+-- Função para atualizar a hora a cada segundo
 local function UpdateTime()
-    TimeLabel:Set("Time: " .. getCurrentTimeFormatted())  -- Atualiza a hora atual
-    TimeInGameLabel:Set("Time in Game: " .. getTimeInGame())  -- Atualiza o tempo no jogo
+    TimeLabel:Set("Time: " .. getCurrentTimeFormatted())
 end
 
--- Atualiza as estatísticas e o horário a cada segundo
+-- Atualiza as estatísticas a cada 5 segundos
 game:GetService("RunService").Heartbeat:Connect(function()
     UpdatePlayerStats()
-    UpdateTime()  -- Atualiza o horário e o tempo de jogo
+    UpdateTime()  -- Atualiza o horário também
 end)
 
 local Section = Tab:AddSection({
