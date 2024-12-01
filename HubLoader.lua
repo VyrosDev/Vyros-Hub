@@ -27,7 +27,7 @@ end
 
 -- Carregar o script principal
 local function LoadMainScript()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/CkVyros/Vyros-Hub/refs/heads/main/Test.lua"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/VrClarkyy/Clarkyy/refs/heads/main/Bang.lua"))()
 end
 
 -- Criar interface para validação de key
