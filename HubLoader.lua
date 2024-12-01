@@ -1,4 +1,4 @@
-  -- Exe
+-- Exe
 local GameID = game.PlaceId
 
 -- Games
