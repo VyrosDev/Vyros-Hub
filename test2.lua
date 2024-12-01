@@ -464,31 +464,6 @@ game:GetService("RunService").Stepped:Connect(function()
     end
 end)
 
--- Function Infinite Jump
-local infiniteJumpEnabled = false  -- Flag que indica se o Infinite Jump está ativado
-
-local function toggleInfiniteJump()
-    local player = game.Players.LocalPlayer
-    local character = player.Character
-    if not character then return end
-    
-    local humanoid = character:FindFirstChild("Humanoid")
-    if humanoid then
-        -- Ativa ou desativa o Infinite Jump
-        if infiniteJumpEnabled then
-            -- Desativa o Infinite Jump (restaurando o comportamento normal do salto)
-            humanoid.JumpPower = 50  -- Valor normal de JumpPower
-            infiniteJumpEnabled = false
-            print("Infinite Jump Disabled")
-        else
-            -- Ativa o Infinite Jump (aumentando o JumpPower)
-            humanoid.JumpPower = 200  -- Valor alto para o salto infinito
-            infiniteJumpEnabled = true
-            print("Infinite Jump Enabled")
-        end
-    end
-end
-
 
 
 --// Vyros Hub \\--
@@ -1175,18 +1150,6 @@ Tab:AddToggle({
     Callback = function(Value)
         toggleNoclip(Value)
     end
-})
-
-Tab:AddToggle({
-    Name = "Infinite Jump",  -- Nome do toggle
-    Default = false,  -- Desativado por padrão
-    Callback = function(Value)
-        if Value then
-            toggleInfiniteJump()  -- Ativa o Infinite Jump
-        else
-            toggleInfiniteJump()  -- Desativa o Infinite Jump
-        end
-    end    
 })
 
 local GravityTextbox = Tab:AddTextbox({
