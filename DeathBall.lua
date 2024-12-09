@@ -1,5 +1,98 @@
 --// Functions \\--
 
+-- Function Reset Character --
+local function ResetCharacter()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+
+    -- Destrói a estrutura atual do personagem (quebrando os joints)
+    character:BreakJoints()
+
+    -- O Roblox vai automaticamente gerar um novo personagem, retornando ao seu estado inicial
+    print("The character has been reset to its original state!")
+end
+
+-- Function WalkSpeed e JumpPower --
+local function setPlayerStats(walkSpeed, jumpPower)
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    
+    -- Ajusta a velocidade
+    humanoid.WalkSpeed = walkSpeed
+    print("Speed ​​adjusted to: " .. walkSpeed)
+    
+    -- Ajusta o poder de pulo
+    humanoid.JumpPower = jumpPower
+    print("Jump power adjusted to: " .. jumpPower)
+end
+
+-- Function Hip Height --
+local function setHipHeight(value)
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    humanoid.HipHeight = value
+end
+
+-- Function Anti-Kick --
+local function AntiKick()
+    local vu = game:GetService("VirtualUser")
+    game:GetService("Players").LocalPlayer.Idled:Connect(function()
+        vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+        wait(1)
+        vu:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+    end)
+end
+
+-- Function Low Graphics --
+local function optimizeFpsPing()
+    for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+        if v:IsA("BasePart") then
+            -- Ajusta materiais para SmoothPlastic para todos os objetos
+            v.Material = Enum.Material.SmoothPlastic
+            
+            -- Remove texturas aplicadas a partes
+            if v:FindFirstChildWhichIsA("Texture") then
+                for _, tex in pairs(v:GetChildren()) do
+                    if tex:IsA("Texture") or tex:IsA("Decal") then
+                        tex:Destroy()
+                    end
+                end
+            end
+            
+            -- Remove sombras
+            v.CastShadow = false
+        elseif v:IsA("ParticleEmitter") or v:IsA("Beam") or v:IsA("Trail") then
+            -- Remove efeitos de partículas, feixes e trilhas
+            v:Destroy()
+        end
+    end
+    
+    -- Remove iluminação volumétrica
+    local Lighting = game:GetService("Lighting")
+    Lighting.GlobalShadows = false
+    Lighting.FogEnd = 1e10
+    Lighting.Brightness = 2
+end
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+
+local lobbyPosition = Vector3.new(0, 10, 0) -- Substitua pelos valores reais da posição do lobby.
+
+-- Função para teleportar o jogador para o lobby
+local function teleportToLobby()
+    local player = game.Players.LocalPlayer -- Obtém o jogador local
+    if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(lobbyPosition)
+        print("Teleported to the lobby.")
+    else
+        warn("Error teleporting!")
+    end
+end
+
 
 --// Vyros Hub \\--
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/VyrosDev/Vyros-Hub-UI/refs/heads/main/VyrosHubUI.lua')))()
@@ -215,3 +308,45 @@ Tab:AddButton({
         print("Trying to get into the game...")  -- Mensagem para confirmar que a ação foi executada
     end
 })
+
+local Tab = Window:MakeTab({
+	Name = "Teleports",
+	Icon = "rbxassetid://103168823763561",
+	PremiumOnly = false
+})
+
+local Section = Tab:AddSection({
+	Name = "Teleports"
+})
+
+Tab:AddButton({
+    Name = "Teleport to Lobby",
+    Callback = function()
+        teleportToLobby()
+    end
+})
+
+OrionLib:MakeNotification({
+	Name = "Welcome to Vyros Hub",
+	Content = "Your Freemium Key is Validated!",
+	Image = "rbxassetid://101023107339989",
+	Time = 15
+})
+
+OrionLib:MakeNotification({
+	Name = "Vyros Hub",
+	Content = "discord.gg/xSb7q2rwUQ",
+	Image = "rbxassetid://101951842185056",
+	Time = 20
+})
+
+OrionLib:MakeNotification({
+	Name = "Script Version",
+	Content = "V - 1.0",
+	Image = "rbxassetid://83863323756908",
+	Time = 10
+})
+
+
+
+OrionLib:Init()
