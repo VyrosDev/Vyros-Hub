@@ -80,9 +80,9 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
-local lobbyPosition = Vector3.new(0, 10, 0) -- Substitua pelos valores reais da posição do lobby.
+local lobbyPosition = Vector3.new(655.641479, 224.764984, -501.4552, 0.970567107, -0.0643646419, -0.232070446, -9.31322575e-06, 0.963614225, -0.267297029, 0.240830839, 0.259431839, 0.935251653) -- Substitua pelos valores reais da posição do lobby.
 
--- Função para teleportar o jogador para o lobby
+-- Function Teleport to Lobby
 local function teleportToLobby()
     local player = game.Players.LocalPlayer -- Obtém o jogador local
     if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
